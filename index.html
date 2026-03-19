@@ -203,6 +203,7 @@
       line-height:1.45;
       word-break:break-word;
       align-self:center;
+      position:relative;
     }
     .bubble.me{
       background:var(--bubble2);
@@ -215,10 +216,33 @@
       margin-bottom:6px;
       font-size:12px;
       color:var(--muted);
+      align-items:center;
     }
     .text{
       white-space:pre-wrap;
       font-size:15px;
+      padding-right:84px;
+    }
+    .copy-btn{
+      position:absolute;
+      top:12px;
+      right:12px;
+      border:none;
+      cursor:pointer;
+      border-radius:10px;
+      padding:8px 10px;
+      background:#151b29;
+      color:#dbe5ff;
+      font-size:12px;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .copy-btn:hover{
+      filter:brightness(1.08);
+    }
+    .copy-btn.done{
+      background:#18311f;
+      color:#d7ffe0;
+      border-color:#2e6b40;
     }
 
     .composer{
@@ -299,6 +323,11 @@
       .composer-top{grid-template-columns:1fr}
       .send-btn{min-height:56px; width:100%}
       .messages{padding:14px}
+      .text{padding-right:0}
+      .copy-btn{
+        position:static;
+        margin-top:10px;
+      }
     }
   </style>
 </head>
@@ -522,16 +551,35 @@
       messagesEl.innerHTML = `<div class="empty">${escapeHtml(text)}</div>`;
     }
 
+    async function copyText(text, button) {
+      try {
+        await navigator.clipboard.writeText(text || "");
+        if (button) {
+          const old = button.textContent;
+          button.textContent = "Kopyalandı";
+          button.classList.add("done");
+          setTimeout(() => {
+            button.textContent = old;
+            button.classList.remove("done");
+          }, 1200);
+        }
+      } catch (e) {
+        console.error(e);
+        alert("Kopyalanamadı.");
+      }
+    }
+
     function renderMessage(docData) {
       const mine = docData.sender === currentUser;
-
+      const textValue = docData.text || "";
       return `
         <div class="bubble ${mine ? "me" : ""}">
           <div class="meta">
             <span>${escapeHtml(docData.sender || "")}</span>
             <span>${formatTime(docData.createdAt)}</span>
           </div>
-          ${docData.text ? `<div class="text">${escapeHtml(docData.text)}</div>` : ""}
+          ${textValue ? `<div class="text">${escapeHtml(textValue)}</div>` : ""}
+          <button class="copy-btn" data-copy="${encodeURIComponent(textValue)}">Kopyala</button>
         </div>
       `;
     }
@@ -560,6 +608,13 @@
 
         messagesEl.innerHTML = items.map(renderMessage).join("");
         messagesEl.scrollTop = messagesEl.scrollHeight;
+
+        messagesEl.querySelectorAll(".copy-btn").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const text = decodeURIComponent(btn.dataset.copy || "");
+            await copyText(text, btn);
+          });
+        });
       }, () => {
         renderEmpty("Mesajlar yüklenemedi.");
       });
