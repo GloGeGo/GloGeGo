@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GloGeGo</title>
+  <style>
+    :root{
+      --bg:#0f1115;
+      --panel:#171a21;
+      --panel2:#1d2230;
+      --line:#2a3141;
+      --text:#e8ecf5;
+      --muted:#9aa6bd;
+      --accent:#6ea8fe;
+      --accent2:#8b5cf6;
+      --bubble:#202636;
+      --bubble2:#26304a;
+      --shadow:0 16px 50px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:radial-gradient(circle at top, #1b2140 0, var(--bg) 45%);
+      color:var(--text);
+      min-height:100vh;
+    }
+    .wrap{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:20px;
+    }
+    .card{
+      width:min(1280px,100%);
+      background:rgba(17,20,29,.92);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      backdrop-filter:blur(12px);
+    }
+
+    .login{
+      max-width:520px;
+      padding:28px;
+      margin:auto;
+    }
+    .title{
+      font-size:34px;
+      margin:0 0 8px;
+      letter-spacing:.2px;
+      text-align:center;
+    }
+    .subtitle{
+      color:var(--muted);
+      margin:0 0 24px;
+      line-height:1.5;
+      text-align:center;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-bottom:16px;
+    }
+    .field label{
+      color:#cfd7e8;
+      font-size:14px;
+    }
+    .field input, .field textarea, .field button{
+      width:100%;
+      border:1px solid var(--line);
+      background:#101521;
+      color:var(--text);
+      border-radius:14px;
+      padding:14px 16px;
+      font-size:15px;
+      outline:none;
+    }
+    .field input:focus, .field textarea:focus{
+      border-color:#5165a7;
+      box-shadow:0 0 0 3px rgba(110,168,254,.12);
+    }
+    .btn{
+      border:none;
+      cursor:pointer;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:white;
+      font-weight:700;
+      transition:transform .15s ease, filter .15s ease;
+    }
+    .btn:hover{transform:translateY(-1px); filter:brightness(1.04)}
+    .btn.secondary{
+      background:#121725;
+      border:1px solid var(--line);
+      font-weight:600;
+    }
+    .msg{
+      margin-top:12px;
+      min-height:22px;
+      color:#ffb4b4;
+      font-size:14px;
+      text-align:center;
+    }
+
+    .app{
+      display:none;
+      min-height:100vh;
+      grid-template-columns:360px 1fr;
+    }
+    .sidebar{
+      background:#121620;
+      border-right:1px solid var(--line);
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+    }
+    .sidebar h2{
+      margin:0;
+      padding:18px 18px 10px;
+      font-size:18px;
+    }
+    .sidebar .small{
+      color:var(--muted);
+      padding:0 18px 14px;
+      font-size:13px;
+      line-height:1.4;
+    }
+    .thread-list{
+      overflow:auto;
+      padding:10px;
+      flex:1;
+    }
+    .thread{
+      padding:16px 16px;
+      margin-bottom:10px;
+      border-radius:16px;
+      background:#151a26;
+      border:1px solid transparent;
+      cursor:pointer;
+      transition:.15s ease;
+    }
+    .thread:hover{border-color:#2f3750}
+    .thread.active{
+      border-color:#5472d6;
+      background:#182038;
+    }
+    .thread .name{font-weight:700; font-size:15px}
+    .thread .last{color:var(--muted); font-size:13px; margin-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+
+    .chat{
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), transparent);
+    }
+    .chat-head{
+      padding:18px 20px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      background:rgba(18,22,32,.75);
+      backdrop-filter:blur(8px);
+    }
+    .chat-head .who{
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:.3px;
+    }
+    .top-actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .pill{
+      font-size:12px;
+      color:#dbe5ff;
+      background:#18223b;
+      border:1px solid #2c3560;
+      padding:6px 10px;
+      border-radius:999px;
+    }
+
+    .messages{
+      flex:1;
+      overflow:auto;
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      align-items:center;
+    }
+    .bubble{
+      width:min(920px, 96%);
+      background:var(--bubble);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:18px;
+      padding:14px 16px;
+      line-height:1.45;
+      word-break:break-word;
+      align-self:center;
+    }
+    .bubble.me{
+      background:var(--bubble2);
+      border-color:rgba(110,168,254,.22);
+    }
+    .meta{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:6px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .text{
+      white-space:pre-wrap;
+      font-size:15px;
+    }
+
+    .composer{
+      border-top:1px solid var(--line);
+      padding:16px;
+      background:#121620;
+    }
+    .composer-box{
+      max-width:980px;
+      width:100%;
+      margin:0 auto;
+      background:#101521;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:14px;
+      display:grid;
+      gap:12px;
+    }
+    .composer-top{
+      display:grid;
+      grid-template-columns:1fr 150px;
+      gap:12px;
+      align-items:stretch;
+    }
+    textarea{
+      resize:none;
+      min-height:110px;
+      max-height:240px;
+      width:100%;
+      border:1px solid transparent;
+      background:#0f1420;
+      color:var(--text);
+      border-radius:16px;
+      padding:14px 16px;
+      font-size:15px;
+      outline:none;
+      line-height:1.45;
+    }
+    textarea:focus{
+      border-color:#5165a7;
+      box-shadow:0 0 0 3px rgba(110,168,254,.12);
+    }
+    .send-btn{
+      min-width:150px;
+      min-height:110px;
+      border:none;
+      border-radius:16px;
+      cursor:pointer;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;
+      font-size:16px;
+      font-weight:800;
+    }
+    .composer-bottom{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .counter{
+      color:var(--muted);
+      font-size:13px;
+    }
+    .hidden{display:none !important}
+    .empty{
+      color:var(--muted);
+      margin:auto;
+      text-align:center;
+      padding:30px;
+    }
+
+    @media (max-width: 900px){
+      .app{grid-template-columns:1fr}
+      .sidebar{min-height:auto; border-right:none; border-bottom:1px solid var(--line)}
+      .chat{min-height:auto}
+      .bubble{width:96%}
+      .composer-top{grid-template-columns:1fr}
+      .send-btn{min-height:56px; width:100%}
+      .messages{padding:14px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div id="loginScreen" class="login">
+        <h1 class="title">GloGeGo</h1>
+        <p class="subtitle">Giriş yap ve mesajlaşmaya başla.</p>
+
+        <div class="field">
+          <label for="username">Kullanıcı adı</label>
+          <input id="username" autocomplete="username" placeholder="Kullanıcı adın" />
+        </div>
+
+        <div class="field">
+          <label for="password">Şifre</label>
+          <input id="password" type="password" autocomplete="current-password" placeholder="Şifren" />
+        </div>
+
+        <button class="btn" id="loginBtn">Giriş Yap</button>
+        <div class="msg" id="loginMsg"></div>
+      </div>
+
+      <div id="appScreen" class="app">
+        <aside id="sidebar" class="sidebar hidden">
+          <h2>Mesaj atanlar</h2>
+          <div class="small">Solda son mesaj atan kullanıcılar görünür.</div>
+          <div id="threadList" class="thread-list"></div>
+        </aside>
+
+        <main class="chat">
+          <div class="chat-head">
+            <div class="who">GloGeGo</div>
+            <div class="top-actions">
+              <span id="userPill" class="pill"></span>
+              <button id="logoutBtn" class="btn secondary" style="width:auto;padding:10px 14px;">Çıkış</button>
+            </div>
+          </div>
+
+          <div id="messages" class="messages">
+            <div class="empty">Bir mesaj seç ya da yaz.</div>
+          </div>
+
+          <div class="composer">
+            <div class="composer-box">
+              <div class="composer-top">
+                <textarea id="messageInput" maxlength="500000" placeholder="Mesaj yaz..."></textarea>
+                <button id="sendBtn" class="send-btn">Gönder</button>
+              </div>
+
+              <div class="composer-bottom">
+                <span class="counter"><span id="charCount">0</span> / 500000</span>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      query,
+      where,
+      orderBy,
+      onSnapshot,
+      doc,
+      getDocs,
+      serverTimestamp,
+      Timestamp,
+      deleteDoc
+    } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBjRWkAyRNGDvTgvd5ovfhIR_nZJn5dxVg",
+      authDomain: "glogego.firebaseapp.com",
+      projectId: "glogego",
+      storageBucket: "glogego.firebasestorage.app",
+      messagingSenderId: "461333037491",
+      appId: "1:461333037491:web:60a57736a91812200dcbc6",
+      measurementId: "G-1NQ1BQLX0V"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const ADMIN_USER = "GloGeGo";
+    const ADMIN_PASS = "9119";
+    const DAY_MS = 24 * 60 * 60 * 1000;
+    const MAX_TEXT = 500000;
+
+    const loginScreen = document.getElementById("loginScreen");
+    const appScreen = document.getElementById("appScreen");
+    const sidebar = document.getElementById("sidebar");
+    const threadList = document.getElementById("threadList");
+    const messagesEl = document.getElementById("messages");
+    const userPill = document.getElementById("userPill");
+
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginMsg = document.getElementById("loginMsg");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const charCount = document.getElementById("charCount");
+
+    const sessionKey = "glogego_session";
+    let currentUser = null;
+    let isAdmin = false;
+    let selectedThread = null;
+    let unsubscribeMessages = null;
+    let unsubscribeThreads = null;
+
+    function escapeHtml(str = "") {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function formatTime(value) {
+      try {
+        const d = value?.toDate ? value.toDate() : (value ? new Date(value) : null);
+        if (!d || isNaN(d.getTime())) return "";
+        return d.toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" });
+      } catch {
+        return "";
+      }
+    }
+
+    function setLoginError(text) {
+      loginMsg.textContent = text;
+    }
+
+    function saveSession() {
+      sessionStorage.setItem(sessionKey, JSON.stringify({ currentUser, isAdmin }));
+    }
+
+    function loadSession() {
+      try {
+        const raw = sessionStorage.getItem(sessionKey);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (!data?.currentUser) return false;
+        currentUser = data.currentUser;
+        isAdmin = !!data.isAdmin;
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    function clearSession() {
+      sessionStorage.removeItem(sessionKey);
+    }
+
+    function showApp() {
+      loginScreen.style.display = "none";
+      appScreen.style.display = "grid";
+      sidebar.classList.toggle("hidden", !isAdmin);
+      userPill.textContent = isAdmin ? "Admin" : currentUser;
+
+      if (!isAdmin) selectedThread = currentUser;
+
+      listenMessages();
+      if (isAdmin) listenThreads();
+
+      cleanupExpiredMessages();
+      setInterval(cleanupExpiredMessages, 10 * 60 * 1000);
+    }
+
+    function showLogin() {
+      loginScreen.style.display = "block";
+      appScreen.style.display = "none";
+    }
+
+    async function login() {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!username || !password) {
+        setLoginError("Kullanıcı adı ve şifre yaz.");
+        return;
+      }
+
+      if (username === ADMIN_USER && password === ADMIN_PASS) {
+        currentUser = ADMIN_USER;
+        isAdmin = true;
+      } else {
+        currentUser = username;
+        isAdmin = false;
+      }
+
+      saveSession();
+      setLoginError("");
+      showApp();
+    }
+
+    function logout() {
+      if (unsubscribeMessages) unsubscribeMessages();
+      if (unsubscribeThreads) unsubscribeThreads();
+      currentUser = null;
+      isAdmin = false;
+      selectedThread = null;
+      messageInput.value = "";
+      charCount.textContent = "0";
+      clearSession();
+      showLogin();
+    }
+
+    function renderEmpty(text) {
+      messagesEl.innerHTML = `<div class="empty">${escapeHtml(text)}</div>`;
+    }
+
+    function renderMessage(docData) {
+      const mine = docData.sender === currentUser;
+
+      return `
+        <div class="bubble ${mine ? "me" : ""}">
+          <div class="meta">
+            <span>${escapeHtml(docData.sender || "")}</span>
+            <span>${formatTime(docData.createdAt)}</span>
+          </div>
+          ${docData.text ? `<div class="text">${escapeHtml(docData.text)}</div>` : ""}
+        </div>
+      `;
+    }
+
+    function listenMessages() {
+      if (unsubscribeMessages) unsubscribeMessages();
+      messagesEl.innerHTML = `<div class="empty">Yükleniyor...</div>`;
+
+      const threadId = isAdmin ? selectedThread : currentUser;
+      if (!threadId) {
+        renderEmpty("Bir sohbet seç.");
+        return;
+      }
+
+      const q = query(collection(db, "messages"), where("threadId", "==", threadId));
+
+      unsubscribeMessages = onSnapshot(q, (snap) => {
+        const items = [];
+        snap.forEach((d) => items.push({ id: d.id, ...d.data() }));
+        items.sort((a, b) => (a.createdAtClient || 0) - (b.createdAtClient || 0));
+
+        if (!items.length) {
+          renderEmpty("Henüz mesaj yok.");
+          return;
+        }
+
+        messagesEl.innerHTML = items.map(renderMessage).join("");
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }, () => {
+        renderEmpty("Mesajlar yüklenemedi.");
+      });
+    }
+
+    function listenThreads() {
+      if (unsubscribeThreads) unsubscribeThreads();
+
+      const q = query(collection(db, "messages"), orderBy("createdAtClient", "desc"));
+      unsubscribeThreads = onSnapshot(q, (snap) => {
+        const latestByUser = new Map();
+
+        snap.forEach((d) => {
+          const data = d.data();
+          if (!data.threadId) return;
+          if (data.sender === ADMIN_USER) return;
+          if (!latestByUser.has(data.threadId)) {
+            latestByUser.set(data.threadId, data);
+          }
+        });
+
+        const list = Array.from(latestByUser.entries());
+        if (!list.length) {
+          threadList.innerHTML = `<div class="empty" style="padding:18px;">Henüz mesaj yok.</div>`;
+          return;
+        }
+
+        threadList.innerHTML = list.map(([thread, data]) => `
+          <div class="thread ${selectedThread === thread ? "active" : ""}" data-thread="${escapeHtml(thread)}">
+            <div class="name">${escapeHtml(thread)}</div>
+            <div class="last">${escapeHtml(data.text || "")}</div>
+          </div>
+        `).join("");
+
+        threadList.querySelectorAll(".thread").forEach((el) => {
+          el.addEventListener("click", () => {
+            selectedThread = el.dataset.thread;
+            listenMessages();
+            listenThreads();
+          });
+        });
+
+        if (!selectedThread && list.length) {
+          selectedThread = list[0][0];
+          listenMessages();
+          listenThreads();
+        }
+      });
+    }
+
+    async function sendMessage() {
+      const text = messageInput.value.trim();
+      const threadId = isAdmin ? selectedThread : currentUser;
+
+      if (!threadId) {
+        alert("Önce bir sohbet seç.");
+        return;
+      }
+
+      if (!text) return;
+
+      if (text.length > MAX_TEXT) {
+        alert("Mesaj çok uzun.");
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = "Gönderiliyor...";
+
+      try {
+        await addDoc(collection(db, "messages"), {
+          threadId,
+          sender: currentUser,
+          recipient: isAdmin ? threadId : ADMIN_USER,
+          text,
+          createdAt: serverTimestamp(),
+          createdAtClient: Date.now(),
+          expiresAt: Timestamp.fromDate(new Date(Date.now() + DAY_MS))
+        });
+
+        messageInput.value = "";
+        charCount.textContent = "0";
+      } catch (err) {
+        console.error(err);
+        alert("Mesaj gönderilemedi.");
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Gönder";
+      }
+    }
+
+    async function cleanupExpiredMessages() {
+      try {
+        const now = Timestamp.now();
+        const q = query(collection(db, "messages"), where("expiresAt", "<=", now));
+        const snap = await getDocs(q);
+
+        for (const d of snap.docs) {
+          await deleteDoc(doc(db, "messages", d.id));
+        }
+      } catch (err) {
+        console.warn("Cleanup skipped:", err);
+      }
+    }
+
+    loginBtn.addEventListener("click", login);
+    passwordInput.addEventListener("keydown", (e) => { if (e.key === "Enter") login(); });
+    usernameInput.addEventListener("keydown", (e) => { if (e.key === "Enter") login(); });
+    logoutBtn.addEventListener("click", logout);
+
+    sendBtn.addEventListener("click", sendMessage);
+    messageInput.addEventListener("input", () => {
+      charCount.textContent = String(messageInput.value.length);
+    });
+
+    messageInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+        sendMessage();
+      }
+    });
+
+    if (loadSession()) {
+      showApp();
+    } else {
+      showLogin();
+    }
+  </script>
+</body>
+</html>
