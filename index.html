@@ -372,8 +372,7 @@
       gap:10px;
     }
 
-    .message-image,
-    .message-video{
+    .message-image{
       display:block;
       width:100%;
       max-width:100%;
@@ -602,8 +601,7 @@
       flex-shrink:0;
     }
 
-    .image-modal-image,
-    .image-modal-video{
+    .image-modal-image{
       width:100%;
       max-height:calc(92vh - 120px);
       object-fit:contain;
@@ -649,8 +647,7 @@
         width:100%;
         max-height:94vh;
       }
-      .image-modal-image,
-      .image-modal-video{
+      .image-modal-image{
         max-height:calc(94vh - 130px);
       }
     }
@@ -708,12 +705,10 @@
                 <div class="button-stack">
                   <button id="sendBtn" class="send-btn">Gönder</button>
                   <button id="imageBtn" class="send-btn small">Resim</button>
-                  <button id="videoBtn" class="send-btn small">Video</button>
                 </div>
               </div>
 
               <input id="imageInput" type="file" accept="image/*" hidden />
-              <input id="videoInput" type="file" accept="video/*" hidden />
 
               <div class="composer-bottom">
                 <span class="counter"><span id="charCount">0</span> / 500000</span>
@@ -729,19 +724,17 @@
   <div id="imageModal" class="image-modal hidden" aria-hidden="true">
     <div id="imageModalBackdrop" class="image-modal-backdrop"></div>
 
-    <div class="image-modal-panel" role="dialog" aria-modal="true" aria-label="Medya görüntüleyici">
+    <div class="image-modal-panel" role="dialog" aria-modal="true" aria-label="Resim görüntüleyici">
       <div class="image-modal-top">
-        <div id="imageModalTitle" class="image-modal-title">Medya</div>
+        <div id="imageModalTitle" class="image-modal-title">Resim</div>
         <button id="imageModalClose" class="image-modal-close" type="button">×</button>
       </div>
 
-      <img id="imageModalImg" class="image-modal-image hidden" alt="Büyütülmüş resim" />
-      <video id="imageModalVideo" class="image-modal-video hidden" controls playsinline></video>
+      <img id="imageModalImg" class="image-modal-image" alt="Büyütülmüş resim" />
 
       <div class="image-modal-actions">
         <button id="imageModalOpenNewTab" class="img-action-btn" type="button">Yeni Sekmede Aç</button>
         <button id="imageModalDownload" class="img-action-btn" type="button">İndir</button>
-        <button id="imageModalFullscreen" class="img-action-btn" type="button">Tam Ekran</button>
       </div>
     </div>
   </div>
@@ -781,17 +774,11 @@
     const ADMIN_PASS = "9119";
     const DAY_MS = 24 * 60 * 60 * 1000;
     const IMAGE_EXPIRE_MS = 12 * 60 * 60 * 1000;
-    const VIDEO_EXPIRE_MS = 1 * 60 * 60 * 1000;
     const MAX_TEXT = 500000;
 
     const MAX_IMAGE_SIDE = 1400;
     const START_JPEG_QUALITY = 0.82;
     const MAX_DATAURL_LENGTH = 850000;
-
-    const MAX_VIDEO_SECONDS = 30;
-    const MAX_VIDEO_FILE_SIZE = 180 * 1024 * 1024;
-    const VIDEO_CHUNK_LENGTH = 700000;
-
     const PRESENCE_ONLINE_MS = 20 * 1000;
     const PRESENCE_HEARTBEAT_MS = 10 * 1000;
 
@@ -815,20 +802,16 @@
     const messageInput = document.getElementById("messageInput");
     const sendBtn = document.getElementById("sendBtn");
     const imageBtn = document.getElementById("imageBtn");
-    const videoBtn = document.getElementById("videoBtn");
     const imageInput = document.getElementById("imageInput");
-    const videoInput = document.getElementById("videoInput");
     const charCount = document.getElementById("charCount");
 
     const imageModal = document.getElementById("imageModal");
     const imageModalBackdrop = document.getElementById("imageModalBackdrop");
     const imageModalClose = document.getElementById("imageModalClose");
     const imageModalImg = document.getElementById("imageModalImg");
-    const imageModalVideo = document.getElementById("imageModalVideo");
     const imageModalTitle = document.getElementById("imageModalTitle");
     const imageModalOpenNewTab = document.getElementById("imageModalOpenNewTab");
     const imageModalDownload = document.getElementById("imageModalDownload");
-    const imageModalFullscreen = document.getElementById("imageModalFullscreen");
 
     const sessionKey = "glogego_session";
     const statusDocRef = doc(db, "settings", "chatStatus");
@@ -846,9 +829,8 @@
     let presencePingTimer = null;
     let lastThreadsCache = [];
     let presenceMap = new Map();
-    let currentModalMediaUrl = "";
-    let currentModalMediaName = "";
-    let currentModalMediaType = "";
+    let currentModalImageUrl = "";
+    let currentModalImageName = "";
 
     function escapeHtml(str = "") {
       return String(str)
@@ -940,29 +922,23 @@
         messageInput.placeholder = "Mesaj yaz...";
         sendBtn.disabled = false;
         imageBtn.disabled = false;
-        videoBtn.disabled = false;
         sendBtn.textContent = "Gönder";
         imageBtn.textContent = "Resim";
-        videoBtn.textContent = "Video";
         statusLine.textContent = chatOpen ? "Sohbet açık." : "Sohbet kapalı.";
       } else {
         if (chatOpen) {
           messageInput.placeholder = "Mesaj yaz...";
           sendBtn.disabled = false;
           imageBtn.disabled = false;
-          videoBtn.disabled = false;
           sendBtn.textContent = "Gönder";
           imageBtn.textContent = "Resim";
-          videoBtn.textContent = "Video";
           statusLine.textContent = "";
         } else {
           messageInput.placeholder = "GloGeGo müsait değil";
           sendBtn.disabled = true;
           imageBtn.disabled = true;
-          videoBtn.disabled = true;
           sendBtn.textContent = "Kapalı";
           imageBtn.textContent = "Kapalı";
-          videoBtn.textContent = "Kapalı";
           statusLine.textContent = "GloGeGo müsait değil";
         }
       }
@@ -1005,10 +981,7 @@
         const p = getPresenceData(thread);
         const online = isUserOnline(p);
         const statusText = online ? "Aktif" : formatRelativeSeen(p);
-        const lastMsg = data.mediaKind === "videoMeta"
-          ? "Video"
-          : data.text || (data.imageDataUrl ? "Resim" : "");
-
+        const lastMsg = data.text || (data.imageDataUrl ? "Resim" : "");
         return `
           <div class="thread ${selectedThread === thread ? "active" : ""}" data-thread="${escapeHtml(thread)}">
             <div class="name">${escapeHtml(thread)}</div>
@@ -1182,47 +1155,25 @@
       }
     }
 
-    function openMediaModal(url, name = "medya", type = "image") {
+    function openImageModal(url, name = "resim") {
       if (!url) return;
 
-      currentModalMediaUrl = url;
-      currentModalMediaName = name || "medya";
-      currentModalMediaType = type || "image";
+      currentModalImageUrl = url;
+      currentModalImageName = name || "resim";
 
-      imageModalTitle.textContent = name || (type === "video" ? "Video" : "Resim");
-
-      if (currentModalMediaType === "video") {
-        imageModalImg.classList.add("hidden");
-        imageModalVideo.classList.remove("hidden");
-        imageModalVideo.src = url;
-        imageModalVideo.load();
-      } else {
-        imageModalVideo.pause();
-        imageModalVideo.removeAttribute("src");
-        imageModalVideo.load();
-        imageModalVideo.classList.add("hidden");
-        imageModalImg.classList.remove("hidden");
-        imageModalImg.src = url;
-      }
-
+      imageModalImg.src = url;
+      imageModalTitle.textContent = name || "Resim";
       imageModal.classList.remove("hidden");
       imageModal.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
     }
 
-    function closeMediaModal() {
+    function closeImageModal() {
       imageModal.classList.add("hidden");
       imageModal.setAttribute("aria-hidden", "true");
-
-      imageModalVideo.pause();
-      imageModalVideo.removeAttribute("src");
-      imageModalVideo.load();
-
       imageModalImg.src = "";
-      currentModalMediaUrl = "";
-      currentModalMediaName = "";
-      currentModalMediaType = "";
-
+      currentModalImageUrl = "";
+      currentModalImageName = "";
       document.body.style.overflow = "";
     }
 
@@ -1230,13 +1181,13 @@
       try {
         const a = document.createElement("a");
         a.href = dataUrl;
-        a.download = filename || `medya_${Date.now()}`;
+        a.download = filename || `resim_${Date.now()}.jpg`;
         document.body.appendChild(a);
         a.click();
         a.remove();
       } catch (err) {
         console.error(err);
-        alert("İndirilemedi.");
+        alert("Resim indirilemedi.");
       }
     }
 
@@ -1308,12 +1259,9 @@
       const mine = docData.sender === currentUser;
       const textValue = docData.text || "";
       const imageDataUrl = docData.imageDataUrl || "";
-      const videoDataUrl = docData.videoDataUrl || "";
-      const videoLoading = !!docData.videoLoading;
-      const mediaName = docData.imageName || docData.videoName || "medya";
-      const safeName = escapeHtml(mediaName);
-      const safeImageUrl = escapeHtml(imageDataUrl);
-      const safeVideoUrl = escapeHtml(videoDataUrl);
+      const imageName = docData.imageName || "resim";
+      const safeName = escapeHtml(imageName);
+      const safeUrl = escapeHtml(imageDataUrl);
 
       return `
         <div class="bubble ${mine ? "me" : ""}">
@@ -1327,68 +1275,26 @@
           ${imageDataUrl ? `
             <div class="media-wrap">
               <img
-                src="${safeImageUrl}"
+                src="${safeUrl}"
                 class="message-image"
                 alt="${safeName}"
                 title="Resmi açmak için tıkla"
-                data-image-url="${safeImageUrl}"
+                data-image-url="${safeUrl}"
                 data-image-name="${safeName}"
               />
               <div class="image-actions">
                 <button
                   class="img-action-btn"
                   type="button"
-                  data-open-media="${safeImageUrl}"
-                  data-media-type="image"
-                  data-media-name="${safeName}"
+                  data-open-image="${safeUrl}"
+                  data-image-name="${safeName}"
                 >Aç</button>
                 <button
                   class="img-action-btn"
                   type="button"
-                  data-download-media="${safeImageUrl}"
-                  data-media-name="${safeName}"
+                  data-download-image="${safeUrl}"
+                  data-image-name="${safeName}"
                 >İndir</button>
-              </div>
-            </div>
-          ` : ""}
-
-          ${videoLoading ? `
-            <div class="media-wrap">
-              <div class="empty" style="margin:0;padding:10px;">Video yükleniyor...</div>
-            </div>
-          ` : ""}
-
-          ${videoDataUrl ? `
-            <div class="media-wrap">
-              <video
-                src="${safeVideoUrl}"
-                class="message-video"
-                controls
-                playsinline
-                data-video-url="${safeVideoUrl}"
-                data-media-name="${safeName}"
-              ></video>
-              <div class="image-actions">
-                <button
-                  class="img-action-btn"
-                  type="button"
-                  data-open-media="${safeVideoUrl}"
-                  data-media-type="video"
-                  data-media-name="${safeName}"
-                >Aç</button>
-                <button
-                  class="img-action-btn"
-                  type="button"
-                  data-download-media="${safeVideoUrl}"
-                  data-media-name="${safeName}"
-                >İndir</button>
-                <button
-                  class="img-action-btn"
-                  type="button"
-                  data-fullscreen-media="${safeVideoUrl}"
-                  data-media-type="video"
-                  data-media-name="${safeName}"
-                >Tam Ekran</button>
               </div>
             </div>
           ` : ""}
@@ -1396,74 +1302,6 @@
           ${textValue ? `<button class="copy-btn" data-copy="${encodeURIComponent(textValue)}">Kopyala</button>` : ""}
         </div>
       `;
-    }
-
-    function mergeMediaMessages(items) {
-      const output = [];
-      const videoGroups = new Map();
-
-      for (const item of items) {
-        const kind = item.mediaKind || "";
-
-        if (kind === "videoChunk") {
-          const groupId = item.mediaGroupId || "";
-          if (!groupId) continue;
-
-          if (!videoGroups.has(groupId)) {
-            videoGroups.set(groupId, {
-              meta: null,
-              chunks: [],
-              firstClient: item.createdAtClient || 0
-            });
-          }
-
-          const group = videoGroups.get(groupId);
-          group.chunks[Number(item.videoChunkIndex || 0)] = item.videoChunkData || "";
-          group.firstClient = Math.min(group.firstClient || Infinity, item.createdAtClient || 0);
-          continue;
-        }
-
-        if (kind === "videoMeta") {
-          const groupId = item.mediaGroupId || "";
-          if (!groupId) continue;
-
-          if (!videoGroups.has(groupId)) {
-            videoGroups.set(groupId, {
-              meta: null,
-              chunks: [],
-              firstClient: item.createdAtClient || 0
-            });
-          }
-
-          const group = videoGroups.get(groupId);
-          group.meta = item;
-          group.firstClient = Math.min(group.firstClient || Infinity, item.createdAtClient || 0);
-          continue;
-        }
-
-        output.push(item);
-      }
-
-      for (const [groupId, group] of videoGroups.entries()) {
-        const meta = group.meta;
-        if (!meta) continue;
-
-        const expected = Number(meta.videoChunkCount || 0);
-        const chunkList = group.chunks.filter(Boolean);
-        const complete = expected > 0 && chunkList.length === expected;
-
-        output.push({
-          ...meta,
-          id: meta.id || groupId,
-          mediaKind: "video",
-          videoDataUrl: complete ? chunkList.join("") : "",
-          videoLoading: !complete,
-          createdAtClient: meta.createdAtClient || group.firstClient || 0
-        });
-      }
-
-      output.sort((a, b) => (a.createdAtClient || 0) - (b.createdAtClient || 0));
-      return output;
     }
 
     function listenMessages() {
@@ -1481,15 +1319,14 @@
       unsubscribeMessages = onSnapshot(q, (snap) => {
         const items = [];
         snap.forEach((d) => items.push({ id: d.id, ...d.data() }));
+        items.sort((a, b) => (a.createdAtClient || 0) - (b.createdAtClient || 0));
 
-        const merged = mergeMediaMessages(items);
-
-        if (!merged.length) {
+        if (!items.length) {
           renderEmpty("Henüz mesaj yok.");
           return;
         }
 
-        messagesEl.innerHTML = merged.map(renderMessage).join("");
+        messagesEl.innerHTML = items.map(renderMessage).join("");
 
         messagesEl.querySelectorAll(".copy-btn").forEach((btn) => {
           btn.addEventListener("click", async () => {
@@ -1498,31 +1335,21 @@
           });
         });
 
-        messagesEl.querySelectorAll("[data-open-media]").forEach((btn) => {
+        messagesEl.querySelectorAll("[data-open-image]").forEach((btn) => {
           btn.addEventListener("click", () => {
-            openMediaModal(
-              btn.dataset.openMedia || "",
-              btn.dataset.mediaName || "Medya",
-              btn.dataset.mediaType || (btn.dataset.openMedia?.startsWith("data:video") ? "video" : "image")
-            );
+            openImageModal(btn.dataset.openImage || "", btn.dataset.imageName || "Resim");
           });
         });
 
-        messagesEl.querySelectorAll("[data-download-media]").forEach((btn) => {
+        messagesEl.querySelectorAll("[data-download-image]").forEach((btn) => {
           btn.addEventListener("click", async () => {
-            await downloadDataUrl(btn.dataset.downloadMedia || "", btn.dataset.mediaName || "medya");
+            await downloadDataUrl(btn.dataset.downloadImage || "", btn.dataset.imageName || "resim.jpg");
           });
         });
 
         messagesEl.querySelectorAll(".message-image").forEach((img) => {
           img.addEventListener("click", () => {
-            openMediaModal(img.dataset.imageUrl || "", img.dataset.imageName || "Resim", "image");
-          });
-        });
-
-        messagesEl.querySelectorAll(".message-video").forEach((video) => {
-          video.addEventListener("click", () => {
-            openMediaModal(video.dataset.videoUrl || "", video.dataset.mediaName || "Video", "video");
+            openImageModal(img.dataset.imageUrl || "", img.dataset.imageName || "Resim");
           });
         });
 
@@ -1543,8 +1370,6 @@
           const data = d.data();
           if (!data.threadId) return;
           if (data.sender === ADMIN_USER) return;
-          if (data.mediaKind === "videoChunk") return;
-
           if (!latestByUser.has(data.threadId)) {
             latestByUser.set(data.threadId, data);
           }
@@ -1653,15 +1478,6 @@
           imageType: "",
           imageWidth: 0,
           imageHeight: 0,
-          mediaKind: "text",
-          mediaGroupId: "",
-          videoDataUrl: "",
-          videoName: "",
-          videoType: "",
-          videoDuration: 0,
-          videoChunkCount: 0,
-          videoChunkIndex: 0,
-          videoChunkData: "",
           createdAt: serverTimestamp(),
           createdAtClient: Date.now(),
           expiresAt: Timestamp.fromDate(new Date(Date.now() + DAY_MS))
@@ -1722,172 +1538,17 @@
           imageType: compressed.mime,
           imageWidth: compressed.width,
           imageHeight: compressed.height,
-          mediaKind: "image",
-          mediaGroupId: "",
-          videoDataUrl: "",
-          videoName: "",
-          videoType: "",
-          videoDuration: 0,
-          videoChunkCount: 0,
-          videoChunkIndex: 0,
-          videoChunkData: "",
           createdAt: serverTimestamp(),
           createdAtClient: Date.now(),
           expiresAt: Timestamp.fromDate(new Date(Date.now() + IMAGE_EXPIRE_MS))
         });
       } catch (err) {
         console.error(err);
-        alert(err?.message || "Resim yüklenemedi.");
+        alert(err?.message || "Fotoğraf yüklenemedi.");
       } finally {
         imageBtn.disabled = false;
         imageBtn.textContent = "Resim";
         imageInput.value = "";
-        updateComposerState();
-      }
-    }
-
-    function readFileAsDataUrl(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result || ""));
-        reader.onerror = () => reject(new Error("Video okunamadı."));
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function getVideoDuration(file) {
-      return new Promise((resolve, reject) => {
-        const url = URL.createObjectURL(file);
-        const video = document.createElement("video");
-        video.preload = "metadata";
-        video.onloadedmetadata = () => {
-          const duration = Number(video.duration || 0);
-          URL.revokeObjectURL(url);
-          resolve(duration);
-        };
-        video.onerror = () => {
-          URL.revokeObjectURL(url);
-          reject(new Error("Video bilgisi okunamadı."));
-        };
-        video.src = url;
-      });
-    }
-
-    async function sendVideo(file) {
-      const threadId = isAdmin ? selectedThread : currentUser;
-
-      if (!threadId) {
-        alert("Önce bir sohbet seç.");
-        return;
-      }
-
-      if (!isAdmin && !chatOpen) {
-        alert("GloGeGo müsait değil.");
-        return;
-      }
-
-      if (!file) return;
-
-      if (!file.type.startsWith("video/")) {
-        alert("Sadece video yükleyebilirsin.");
-        return;
-      }
-
-      if (file.size > MAX_VIDEO_FILE_SIZE) {
-        alert("Video çok büyük. En fazla 180 MB yükleyebilirsin.");
-        return;
-      }
-
-      videoBtn.disabled = true;
-      videoBtn.textContent = "Kontrol ediliyor...";
-      statusLine.textContent = "Video analiz ediliyor...";
-
-      try {
-        const duration = await getVideoDuration(file);
-
-        if (!Number.isFinite(duration) || duration <= 0) {
-          throw new Error("Video süresi okunamadı.");
-        }
-
-        if (duration > MAX_VIDEO_SECONDS) {
-          throw new Error("Video 30 saniyeden uzun olamaz.");
-        }
-
-        videoBtn.textContent = "Yükleniyor...";
-        statusLine.textContent = "Video dönüştürülüyor...";
-
-        const dataUrl = await readFileAsDataUrl(file);
-        const chunkCount = Math.max(1, Math.ceil(dataUrl.length / VIDEO_CHUNK_LENGTH));
-        const groupId = `video_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
-        const expiresAt = Timestamp.fromDate(new Date(Date.now() + VIDEO_EXPIRE_MS));
-        const createdAtClient = Date.now();
-
-        await addDoc(collection(db, "messages"), {
-          threadId,
-          sender: currentUser,
-          recipient: isAdmin ? threadId : ADMIN_USER,
-          text: "",
-          imageDataUrl: "",
-          imageName: "",
-          imageType: "",
-          imageWidth: 0,
-          imageHeight: 0,
-          mediaKind: "videoMeta",
-          mediaGroupId: groupId,
-          videoDataUrl: "",
-          videoName: file.name,
-          videoType: file.type,
-          videoDuration: duration,
-          videoChunkCount: chunkCount,
-          videoChunkIndex: 0,
-          videoChunkData: "",
-          createdAt: serverTimestamp(),
-          createdAtClient,
-          expiresAt
-        });
-
-        for (let i = 0; i < chunkCount; i++) {
-          const chunkData = dataUrl.slice(i * VIDEO_CHUNK_LENGTH, (i + 1) * VIDEO_CHUNK_LENGTH);
-
-          await addDoc(collection(db, "messages"), {
-            threadId,
-            sender: currentUser,
-            recipient: isAdmin ? threadId : ADMIN_USER,
-            text: "",
-            imageDataUrl: "",
-            imageName: "",
-            imageType: "",
-            imageWidth: 0,
-            imageHeight: 0,
-            mediaKind: "videoChunk",
-            mediaGroupId: groupId,
-            videoDataUrl: "",
-            videoName: file.name,
-            videoType: file.type,
-            videoDuration: duration,
-            videoChunkCount: chunkCount,
-            videoChunkIndex: i,
-            videoChunkData: chunkData,
-            createdAt: serverTimestamp(),
-            createdAtClient,
-            expiresAt
-          });
-
-          statusLine.textContent = `Video yükleniyor... ${i + 1}/${chunkCount}`;
-        }
-
-        statusLine.textContent = "Video gönderildi.";
-        setTimeout(() => {
-          if (statusLine.textContent === "Video gönderildi.") statusLine.textContent = "";
-        }, 2000);
-      } catch (err) {
-        console.error(err);
-        alert(err?.message || "Video yüklenemedi.");
-        statusLine.textContent = "";
-      } finally {
-        videoBtn.disabled = false;
-        videoBtn.textContent = "Video";
-        videoInput.value = "";
         updateComposerState();
       }
     }
@@ -1920,19 +1581,9 @@
       imageInput.click();
     });
 
-    videoBtn.addEventListener("click", () => {
-      if (videoBtn.disabled) return;
-      videoInput.click();
-    });
-
     imageInput.addEventListener("change", () => {
       const file = imageInput.files && imageInput.files[0];
       if (file) sendImage(file);
-    });
-
-    videoInput.addEventListener("change", () => {
-      const file = videoInput.files && videoInput.files[0];
-      if (file) sendVideo(file);
     });
 
     messageInput.addEventListener("input", () => {
@@ -1945,36 +1596,24 @@
       }
     });
 
-    imageModalBackdrop.addEventListener("click", closeMediaModal);
-    imageModalClose.addEventListener("click", closeMediaModal);
+    imageModalBackdrop.addEventListener("click", closeImageModal);
+    imageModalClose.addEventListener("click", closeImageModal);
 
     imageModalOpenNewTab.addEventListener("click", () => {
-      if (currentModalMediaUrl) {
-        window.open(currentModalMediaUrl, "_blank", "noopener,noreferrer");
+      if (currentModalImageUrl) {
+        window.open(currentModalImageUrl, "_blank", "noopener,noreferrer");
       }
     });
 
     imageModalDownload.addEventListener("click", async () => {
-      if (currentModalMediaUrl) {
-        await downloadDataUrl(currentModalMediaUrl, currentModalMediaName || "medya");
-      }
-    });
-
-    imageModalFullscreen.addEventListener("click", async () => {
-      try {
-        if (currentModalMediaType === "video" && imageModalVideo.requestFullscreen) {
-          await imageModalVideo.requestFullscreen();
-        } else if (imageModal.requestFullscreen) {
-          await imageModal.requestFullscreen();
-        }
-      } catch (err) {
-        console.warn(err);
+      if (currentModalImageUrl) {
+        await downloadDataUrl(currentModalImageUrl, currentModalImageName || "resim.jpg");
       }
     });
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !imageModal.classList.contains("hidden")) {
-        closeMediaModal();
+        closeImageModal();
       }
     });
 
