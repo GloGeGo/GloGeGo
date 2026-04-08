@@ -289,6 +289,29 @@
       color:#ffd7d7;
     }
 
+    .voice-toggle-btn{
+      border:none;
+      cursor:pointer;
+      border:1px solid #2c3560;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:13px;
+      font-weight:800;
+      color:#dbe5ff;
+      background:#18223b;
+      white-space:nowrap;
+    }
+    .voice-toggle-btn.on{
+      background:#16341f;
+      border-color:#2b6a3e;
+      color:#d7ffe0;
+    }
+    .voice-toggle-btn.off{
+      background:#3a1a1a;
+      border-color:#7b3434;
+      color:#ffd7d7;
+    }
+
     .scroll-bottom-btn:hover, .status-btn:hover, .img-action-btn:hover, .live-btn:hover{
       filter:brightness(1.08);
     }
@@ -818,14 +841,7 @@
             <div class="top-actions">
               <span id="userPill" class="pill"></span>
               <span id="threadStatusPill" class="pill hidden"></span>
-              <span id="modePill" class="mode-pill hidden"></span>
-              <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-label="Menü">⋮</button>
-              <div id="modeMenu" class="mode-menu hidden" role="menu" aria-label="Mesaj modu menüsü">
-                <button id="modeSearchBtn" type="button" role="menuitem">Web'de arama</button>
-                <button id="modeThinkBtn" type="button" role="menuitem">Düşünme modu</button>
-                <button id="modeNormalBtn" type="button" role="menuitem">Normal moda dön</button>
-                <button id="modeCancelBtn" type="button" class="danger" role="menuitem">İptal et</button>
-              </div>
+              <button id="voiceToggleBtn" class="voice-toggle-btn hidden" type="button">Ses: Açık</button>
               <span id="livePill" class="pill hidden"></span>
               <button id="liveBtn" class="live-btn hidden">Live</button>
               <button id="liveAcceptBtn" class="live-btn hidden">Kabul</button>
@@ -952,13 +968,10 @@
     const messagesEl = document.getElementById("messages");
     const userPill = document.getElementById("userPill");
     const threadStatusPill = document.getElementById("threadStatusPill");
-    const modePill = document.getElementById("modePill");
-    const menuBtn = document.getElementById("menuBtn");
-    const modeMenu = document.getElementById("modeMenu");
-    const modeSearchBtn = document.getElementById("modeSearchBtn");
-    const modeThinkBtn = document.getElementById("modeThinkBtn");
-    const modeNormalBtn = document.getElementById("modeNormalBtn");
-    const modeCancelBtn = document.getElementById("modeCancelBtn");
+    const modePill = null;
+    const menuBtn = null;
+    const modeMenu = null;
+    const voiceToggleBtn = document.getElementById("voiceToggleBtn");
     const livePill = document.getElementById("livePill");
     const livePanel = document.getElementById("livePanel");
     const liveInfo = document.getElementById("liveInfo");
@@ -1031,6 +1044,8 @@
     let utteranceVoice = null;
     let voiceReady = false;
     let voiceWarmupTimer = null;
+    let voiceEnabled = true;
+    const voiceSettingKey = "glogego_voice_enabled";
     let composeMode = "normal"; // normal | search | thinking
     let pendingModeRequest = null;
     let modeMenuOpen = false;
@@ -1111,6 +1126,19 @@
       sessionStorage.removeItem(sessionKey);
     }
 
+    function loadVoiceSetting() {
+      try {
+        const raw = sessionStorage.getItem(voiceSettingKey);
+        if (raw !== null) voiceEnabled = raw !== "0";
+      } catch {}
+    }
+
+    function saveVoiceSetting() {
+      try {
+        sessionStorage.setItem(voiceSettingKey, voiceEnabled ? "1" : "0");
+      } catch {}
+    }
+
     function scrollToBottomFast() {
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
@@ -1125,25 +1153,17 @@
       liveControlHint.textContent = "";
     }
 
+    function updateVoiceToggleUI() {
+      if (!voiceToggleBtn) return;
+      voiceToggleBtn.classList.toggle("hidden", isAdmin);
+      voiceToggleBtn.textContent = voiceEnabled ? "Ses: Açık" : "Ses: Kapalı";
+      voiceToggleBtn.classList.toggle("on", voiceEnabled);
+      voiceToggleBtn.classList.toggle("off", !voiceEnabled);
+    }
+
     function updateComposerState() {
       statusToggleBtn.classList.toggle("hidden", !isAdmin);
-
-      const hasPending = !!pendingModeRequest;
-      const modeText = hasPending ? getModeStatus(pendingModeRequest.mode) : getModeLabel(composeMode);
-
-      menuBtn.classList.toggle("hidden", isAdmin ? false : false);
-      modeSearchBtn.disabled = isAdmin || !chatOpen;
-      modeThinkBtn.disabled = isAdmin || !chatOpen;
-      modeNormalBtn.disabled = isAdmin;
-      modeCancelBtn.disabled = !hasPending || isAdmin;
-
-      if (composeMode === "normal" && !hasPending) {
-        modePill.classList.add("hidden");
-        modePill.textContent = "";
-      } else {
-        modePill.textContent = hasPending ? modeText : getModeLabel(composeMode);
-        modePill.classList.remove("hidden");
-      }
+      updateVoiceToggleUI();
 
       if (isAdmin) {
         statusToggleBtn.classList.remove("open", "closed");
@@ -1159,25 +1179,14 @@
         statusLine.textContent = chatOpen ? "Sohbet açık." : "Sohbet kapalı.";
       } else {
         if (chatOpen) {
-          if (composeMode === "search") {
-            messageInput.placeholder = "Web'de aramak için yaz...";
-            sendBtn.textContent = hasPending ? "Arıyor..." : "Ara";
-            statusLine.textContent = hasPending ? "GloGeGo dinliyor..." : "Web'de arama modu açık.";
-          } else if (composeMode === "thinking") {
-            messageInput.placeholder = "Düşünme modu için yaz...";
-            sendBtn.textContent = hasPending ? "Düşünüyor..." : "Düşün";
-            statusLine.textContent = hasPending ? "GloGeGo dinliyor..." : "Düşünme modu açık.";
-          } else {
-            messageInput.placeholder = "Mesaj yaz...";
-            sendBtn.textContent = "Gönder";
-            statusLine.textContent = hasPending ? "GloGeGo dinliyor..." : "";
-          }
-
+          messageInput.placeholder = "Mesaj yaz...";
           sendBtn.disabled = false;
           imageBtn.disabled = false;
           videoBtn.disabled = false;
+          sendBtn.textContent = "Gönder";
           imageBtn.textContent = "Resim";
           videoBtn.textContent = "Video";
+          statusLine.textContent = "";
         } else {
           messageInput.placeholder = "GloGeGo müsait değil";
           sendBtn.disabled = true;
@@ -1454,12 +1463,13 @@
     }
 
     function speakRobot(text) {
-      if (isAdmin) return;
-      if (!text) return;
+      if (isAdmin || !voiceEnabled) return;
+      const value = String(text || "").trim();
+      if (!value || value.length > 500) return;
       try {
         initVoice();
         speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(text);
+        const utter = new SpeechSynthesisUtterance(value);
         utter.lang = "tr-TR";
         utter.voice = utteranceVoice || getVoice();
         utter.rate = 0.95;
@@ -1488,26 +1498,29 @@
     }
 
     function closeModeMenu() {
-      modeMenu.classList.add("hidden");
+      if (modeMenu) modeMenu.classList.add("hidden");
       modeMenuOpen = false;
-      menuBtn.setAttribute("aria-expanded", "false");
+      if (menuBtn) menuBtn.setAttribute("aria-expanded", "false");
     }
 
     function toggleModeMenu(force) {
+      if (!modeMenu) return;
       const next = typeof force === "boolean" ? force : modeMenu.classList.contains("hidden");
       modeMenu.classList.toggle("hidden", !next);
       modeMenuOpen = next;
-      menuBtn.setAttribute("aria-expanded", next ? "true" : "false");
+      if (menuBtn) menuBtn.setAttribute("aria-expanded", next ? "true" : "false");
     }
 
     function setComposeMode(nextMode) {
       composeMode = nextMode;
-      if (composeMode === "normal") {
-        modePill.classList.add("hidden");
-        modePill.textContent = "";
-      } else {
-        modePill.textContent = getModeLabel(composeMode);
-        modePill.classList.remove("hidden");
+      if (modePill) {
+        if (composeMode === "normal") {
+          modePill.classList.add("hidden");
+          modePill.textContent = "";
+        } else {
+          modePill.textContent = getModeLabel(composeMode);
+          modePill.classList.remove("hidden");
+        }
       }
       closeModeMenu();
       updateComposerState();
@@ -1515,7 +1528,7 @@
 
     function clearPendingModeRequest() {
       pendingModeRequest = null;
-      if (composeMode !== "normal") {
+      if (modePill && composeMode !== "normal") {
         modePill.textContent = getModeLabel(composeMode);
         modePill.classList.remove("hidden");
       }
@@ -1524,12 +1537,14 @@
 
     function setPendingModeRequest(data) {
       pendingModeRequest = data || null;
-      if (pendingModeRequest) {
-        modePill.textContent = getModeStatus(pendingModeRequest.mode) || getModeLabel(pendingModeRequest.mode);
-        modePill.classList.remove("hidden");
-      } else if (composeMode === "normal") {
-        modePill.classList.add("hidden");
-        modePill.textContent = "";
+      if (modePill) {
+        if (pendingModeRequest) {
+          modePill.textContent = getModeStatus(pendingModeRequest.mode) || getModeLabel(pendingModeRequest.mode);
+          modePill.classList.remove("hidden");
+        } else if (composeMode === "normal") {
+          modePill.classList.add("hidden");
+          modePill.textContent = "";
+        }
       }
       updateComposerState();
     }
@@ -2326,11 +2341,6 @@
         return;
       }
 
-      if (!isAdmin && composeMode !== "normal") {
-        await sendModeRequest(composeMode, text);
-        return;
-      }
-
       sendBtn.disabled = true;
       sendBtn.textContent = "Gönderiliyor...";
 
@@ -2467,7 +2477,7 @@
             const isNew = !seenMessageIds.has(item.id);
             if (isNew) {
               seenMessageIds.add(item.id);
-              if (item.sender === ADMIN_USER && item.kind !== "mode_request" && item.text) {
+              if (item.sender === ADMIN_USER && item.kind !== "mode_request" && item.text && String(item.text).trim().length <= 500) {
                 speakRobot(item.text);
               }
             }
@@ -2627,14 +2637,13 @@
     logoutBtn.addEventListener("click", logout);
 
     sendBtn.addEventListener("click", sendMessage);
-    menuBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleModeMenu();
-    });
-    modeSearchBtn.addEventListener("click", () => setComposeMode("search"));
-    modeThinkBtn.addEventListener("click", () => setComposeMode("thinking"));
-    modeNormalBtn.addEventListener("click", () => setComposeMode("normal"));
-    modeCancelBtn.addEventListener("click", cancelPendingModeRequest);
+    if (voiceToggleBtn) {
+      voiceToggleBtn.addEventListener("click", () => {
+        voiceEnabled = !voiceEnabled;
+        saveVoiceSetting();
+        updateVoiceToggleUI();
+      });
+    }
     scrollBottomBtn.addEventListener("click", scrollToBottomFast);
     statusToggleBtn.addEventListener("click", toggleChatStatus);
 
@@ -2702,15 +2711,13 @@
       }
     });
 
-    document.addEventListener("click", (e) => {
-      if (!modeMenu.contains(e.target) && e.target !== menuBtn) closeModeMenu();
-    });
-
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !imageModal.classList.contains("hidden")) {
         closeImageModal();
       }
     });
+
+    loadVoiceSetting();
 
     if (loadSession()) {
       showApp();
