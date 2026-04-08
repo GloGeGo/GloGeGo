@@ -324,7 +324,7 @@
 
     .live-grid{
       display:grid;
-      grid-template-columns:1fr;
+      grid-template-columns:1fr 320px;
       gap:12px;
     }
 
@@ -344,31 +344,6 @@
       color:#cfd7e8;
       border-bottom:1px solid rgba(255,255,255,.08);
       background:#111727;
-    }
-
-
-    .live-note{
-      padding:12px 14px 0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.5;
-    }
-
-    .live-event-log{
-      padding:12px 14px 0;
-      display:grid;
-      gap:8px;
-      color:#dbe5ff;
-      font-size:13px;
-    }
-
-    .live-event{
-      background:#121a2a;
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:14px;
-      padding:10px 12px;
-      color:#dbe5ff;
-      line-height:1.45;
     }
 
     video{
@@ -639,84 +614,6 @@
       justify-content:flex-end;
     }
 
-.live-room{
-  position:fixed;
-  inset:0;
-  z-index:9000;
-  display:grid;
-  place-items:center;
-  padding:18px;
-  background:radial-gradient(circle at top, #1b2140 0, var(--bg) 45%);
-}
-.live-room.hidden{display:none !important}
-.live-room-shell{
-  width:min(1400px,100%);
-  height:100vh;
-  background:rgba(17,20,29,.96);
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:24px;
-  box-shadow:var(--shadow);
-  overflow:hidden;
-  display:grid;
-  grid-template-rows:auto 1fr auto;
-  backdrop-filter:blur(12px);
-}
-.live-room-head{
-  padding:18px 20px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  background:rgba(18,22,32,.82);
-}
-.live-room-title{
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:.2px;
-  margin-bottom:4px;
-}
-.live-room-status{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.4;
-}
-.live-room-actions{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
-.live-room-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  padding:16px;
-  min-height:0;
-}
-.live-room-input{
-  border-top:1px solid var(--line);
-  background:#121620;
-  padding:16px;
-  display:grid;
-  grid-template-columns:1fr 180px;
-  gap:12px;
-  align-items:stretch;
-}
-.live-room-input textarea{
-  min-height:72px;
-  max-height:180px;
-}
-.live-room-input.hidden{display:none !important}
-.live-room .video-card{
-  min-height:0;
-}
-.live-room .video-card video{
-  max-height:calc(100vh - 300px);
-}
-
     @media (max-width: 900px){
       .app{grid-template-columns:1fr}
       .sidebar{
@@ -751,6 +648,140 @@
         max-height:calc(94vh - 130px);
       }
     }
+  
+    .top-actions{position:relative;}
+    .menu-btn{
+      border:none;
+      cursor:pointer;
+      border:1px solid #2c3560;
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:18px;
+      font-weight:900;
+      color:#dbe5ff;
+      background:#18223b;
+      line-height:1;
+      min-width:42px;
+      min-height:42px;
+    }
+
+    .mode-pill{
+      font-size:12px;
+      color:#dbe5ff;
+      background:#18223b;
+      border:1px solid #2c3560;
+      padding:6px 10px;
+      border-radius:999px;
+    }
+
+    .mode-menu{
+      position:absolute;
+      right:0;
+      top:54px;
+      z-index:40;
+      width:min(260px, calc(100vw - 32px));
+      background:#101521;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      box-shadow:0 18px 50px rgba(0,0,0,.4);
+      padding:8px;
+      display:grid;
+      gap:8px;
+    }
+    .mode-menu.hidden{display:none !important}
+    .mode-menu button{
+      width:100%;
+      border:none;
+      cursor:pointer;
+      text-align:left;
+      padding:12px 12px;
+      border-radius:12px;
+      background:#18223b;
+      color:#dbe5ff;
+      font-weight:800;
+      border:1px solid #2c3560;
+    }
+    .mode-menu button.danger{
+      background:#3a1a1a;
+      border-color:#7b3434;
+      color:#ffd7d7;
+    }
+    .mode-menu button:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+
+    .video-upload-card{
+      margin-top:10px;
+      display:grid;
+      gap:10px;
+    }
+    .video-upload-loading{
+      font-size:13px;
+      color:var(--muted);
+    }
+    .video-wrap{
+      width:100%;
+      aspect-ratio:16 / 9;
+      background:#05070c;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+    }
+    .video-wrap video{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      background:#05070c;
+    }
+    .video-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .video-actions .img-action-btn:disabled{
+      opacity:.6;
+    }
+
+    .request-bubble{
+      border-color:rgba(110,168,254,.22);
+      background:#182038;
+    }
+    .request-title{
+      font-size:16px;
+      font-weight:900;
+      margin-bottom:6px;
+    }
+    .request-status{
+      margin-top:8px;
+      font-size:13px;
+      color:#dbe5ff;
+      opacity:.9;
+    }
+    .request-status.pending{
+      color:#f3d37b;
+    }
+    .request-status.cancelled{
+      color:#ffb4b4;
+    }
+
+    .pending-banner{
+      margin:0 0 10px;
+      padding:10px 14px;
+      border-radius:14px;
+      background:#18223b;
+      border:1px solid #2c3560;
+      color:#dbe5ff;
+      font-size:13px;
+      font-weight:700;
+      width:100%;
+      max-width:1260px;
+    }
+
+    .hidden-menu-space{display:none !important;}
+
   </style>
 </head>
 <body>
@@ -787,6 +818,14 @@
             <div class="top-actions">
               <span id="userPill" class="pill"></span>
               <span id="threadStatusPill" class="pill hidden"></span>
+              <span id="modePill" class="mode-pill hidden"></span>
+              <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-label="Menü">⋮</button>
+              <div id="modeMenu" class="mode-menu hidden" role="menu" aria-label="Mesaj modu menüsü">
+                <button id="modeSearchBtn" type="button" role="menuitem">Web'de arama</button>
+                <button id="modeThinkBtn" type="button" role="menuitem">Düşünme modu</button>
+                <button id="modeNormalBtn" type="button" role="menuitem">Normal moda dön</button>
+                <button id="modeCancelBtn" type="button" class="danger" role="menuitem">İptal et</button>
+              </div>
               <span id="livePill" class="pill hidden"></span>
               <button id="liveBtn" class="live-btn hidden">Live</button>
               <button id="liveAcceptBtn" class="live-btn hidden">Kabul</button>
@@ -798,20 +837,24 @@
           </div>
 
           <section id="livePanel" class="live-panel hidden">
-  <div class="live-top">
-    <div>
-      <div class="live-title">Canlı bağlantı</div>
-      <div id="liveInfo" class="live-info">Hazır.</div>
-    </div>
-    <div id="liveControlHint" class="live-info"></div>
-  </div>
-  <div class="live-grid">
-    <div id="liveRemoteCard" class="video-card">
-      <div class="video-label">Canlı görüntü</div>
-      <video id="remoteVideo" autoplay playsinline></video>
-    </div>
-  </div>
-</section>
+            <div class="live-top">
+              <div>
+                <div class="live-title">Canlı bağlantı</div>
+                <div id="liveInfo" class="live-info">Hazır.</div>
+              </div>
+              <div id="liveControlHint" class="live-info"></div>
+            </div>
+            <div class="live-grid">
+              <div class="video-card">
+                <div class="video-label">Karşı taraf</div>
+                <video id="remoteVideo" autoplay playsinline></video>
+              </div>
+              <div class="video-card">
+                <div class="video-label">Benim kameram</div>
+                <video id="localVideo" autoplay playsinline muted></video>
+              </div>
+            </div>
+          </section>
 
           <div id="messages" class="messages">
             <div class="empty">Bir mesaj seç ya da yaz.</div>
@@ -824,10 +867,12 @@
                 <div class="button-stack">
                   <button id="sendBtn" class="send-btn">Gönder</button>
                   <button id="imageBtn" class="send-btn small">Resim</button>
+                  <button id="videoBtn" class="send-btn small">Video</button>
                 </div>
               </div>
 
               <input id="imageInput" type="file" accept="image/*" hidden />
+              <input id="videoInput" type="file" accept="video/*" hidden />
 
               <div class="composer-bottom">
                 <span class="counter"><span id="charCount">0</span> / 500000</span>
@@ -839,37 +884,6 @@
       </div>
     </div>
   </div>
-
-<div id="liveRoomScreen" class="live-room hidden">
-  <div class="live-room-shell">
-    <div class="live-room-head">
-      <div>
-        <div id="liveRoomTitle" class="live-room-title">Canlı oda</div>
-        <div id="liveRoomStatus" class="live-room-status">Hazırlanıyor...</div>
-      </div>
-      <div class="live-room-actions">
-        <span id="liveRoomRolePill" class="pill"></span>
-        <button id="liveRoomEndBtn" class="btn secondary" style="width:auto;padding:10px 14px;">Bitir</button>
-      </div>
-    </div>
-
-    <div class="live-room-grid">
-      <div id="liveRoomRemoteCard" class="video-card">
-        <div class="video-label">Karşı kamera</div>
-        <video id="liveRoomRemoteVideo" autoplay playsinline></video>
-      </div>
-      <div id="liveRoomLocalCard" class="video-card">
-        <div class="video-label">Benim görüntüm</div>
-        <video id="liveRoomLocalVideo" autoplay playsinline muted></video>
-      </div>
-    </div>
-
-    <div id="liveRoomAdminBar" class="live-room-input hidden">
-      <textarea id="liveRoomInput" placeholder="Yaz ve Enter ile gönder..."></textarea>
-      <button id="liveRoomSendBtn" class="send-btn small">Gönder</button>
-    </div>
-  </div>
-</div>
 
   <div id="imageModal" class="image-modal hidden" aria-hidden="true">
     <div id="imageModalBackdrop" class="image-modal-backdrop"></div>
@@ -924,7 +938,6 @@
     const DAY_MS = 24 * 60 * 60 * 1000;
     const IMAGE_EXPIRE_MS = 12 * 60 * 60 * 1000;
     const MAX_TEXT = 500000;
-    const LIVE_TEXT_MAX = 260;
     const MAX_IMAGE_SIDE = 1400;
     const START_JPEG_QUALITY = 0.82;
     const MAX_DATAURL_LENGTH = 850000;
@@ -939,12 +952,17 @@
     const messagesEl = document.getElementById("messages");
     const userPill = document.getElementById("userPill");
     const threadStatusPill = document.getElementById("threadStatusPill");
+    const modePill = document.getElementById("modePill");
+    const menuBtn = document.getElementById("menuBtn");
+    const modeMenu = document.getElementById("modeMenu");
+    const modeSearchBtn = document.getElementById("modeSearchBtn");
+    const modeThinkBtn = document.getElementById("modeThinkBtn");
+    const modeNormalBtn = document.getElementById("modeNormalBtn");
+    const modeCancelBtn = document.getElementById("modeCancelBtn");
     const livePill = document.getElementById("livePill");
     const livePanel = document.getElementById("livePanel");
     const liveInfo = document.getElementById("liveInfo");
     const liveControlHint = document.getElementById("liveControlHint");
-    const liveEventLog = document.getElementById("liveEventLog");
-    const liveRemoteCard = document.getElementById("liveRemoteCard");
     const liveBtn = document.getElementById("liveBtn");
     const liveAcceptBtn = document.getElementById("liveAcceptBtn");
     const liveEndBtn = document.getElementById("liveEndBtn");
@@ -961,10 +979,13 @@
     const messageInput = document.getElementById("messageInput");
     const sendBtn = document.getElementById("sendBtn");
     const imageBtn = document.getElementById("imageBtn");
+    const videoBtn = document.getElementById("videoBtn");
     const imageInput = document.getElementById("imageInput");
+    const videoInput = document.getElementById("videoInput");
     const charCount = document.getElementById("charCount");
 
     const remoteVideo = document.getElementById("remoteVideo");
+    const localVideo = document.getElementById("localVideo");
 
     const imageModal = document.getElementById("imageModal");
     const imageModalBackdrop = document.getElementById("imageModalBackdrop");
@@ -974,27 +995,8 @@
     const imageModalOpenNewTab = document.getElementById("imageModalOpenNewTab");
     const imageModalDownload = document.getElementById("imageModalDownload");
 
-    const liveRoomScreen = document.getElementById("liveRoomScreen");
-    const liveRoomTitle = document.getElementById("liveRoomTitle");
-    const liveRoomStatus = document.getElementById("liveRoomStatus");
-    const liveRoomRolePill = document.getElementById("liveRoomRolePill");
-    const liveRoomEndBtn = document.getElementById("liveRoomEndBtn");
-    const liveRoomRemoteCard = document.getElementById("liveRoomRemoteCard");
-    const liveRoomRemoteVideo = document.getElementById("liveRoomRemoteVideo");
-    const liveRoomLocalCard = document.getElementById("liveRoomLocalCard");
-    const liveRoomLocalVideo = document.getElementById("liveRoomLocalVideo");
-    const liveRoomAdminBar = document.getElementById("liveRoomAdminBar");
-    const liveRoomInput = document.getElementById("liveRoomInput");
-    const liveRoomSendBtn = document.getElementById("liveRoomSendBtn");
-
     const sessionKey = "glogego_session";
     const statusDocRef = doc(db, "settings", "chatStatus");
-    const urlParams = new URLSearchParams(window.location.search);
-    const isLiveRoomPage = urlParams.get("liveRoom") === "1";
-    const liveRoomSessionParam = urlParams.get("session") || "";
-    const liveRoomRoleParam = urlParams.get("role") || "user";
-    const liveRoomThreadParam = urlParams.get("thread") || "";
-    const liveRoomUserParam = urlParams.get("user") || "";
 
     let currentUser = null;
     let isAdmin = false;
@@ -1006,7 +1008,6 @@
     let unsubscribeStatus = null;
     let unsubscribePresence = null;
     let unsubscribeLiveDoc = null;
-    let unsubscribeLiveTexts = null;
     let unsubscribeCallerCandidates = null;
     let unsubscribeCalleeCandidates = null;
 
@@ -1019,32 +1020,21 @@
 
     let messagesHydrated = false;
     let seenMessageIds = new Set();
-    let seenLiveTextIds = new Set();
 
     let liveState = "idle"; // idle | requesting | active
     let liveSessionId = "";
     let pc = null;
     let localStream = null;
-    let liveRoomPC = null;
-    let liveRoomLocalStream = null;
-    let liveRoomStarted = false;
-    let liveRoomSessionId = "";
-    let liveRoomRole = "user";
-    let liveRoomThread = "";
-    let liveRoomUser = "";
-    let liveRoomUnsubSession = null;
-    let liveRoomUnsubCallerCandidates = null;
-    let liveRoomUnsubCalleeCandidates = null;
-    let liveRoomUnsubTexts = null;
-    let liveRoomSeenTextIds = new Set();
-    let liveRoomPendingRemoteCandidates = [];
-    let liveRoomPendingLocalCandidates = [];
     let pendingRemoteCandidates = [];
     let pendingLocalCandidates = [];
 
     let utteranceVoice = null;
     let voiceReady = false;
     let voiceWarmupTimer = null;
+    let composeMode = "normal"; // normal | search | thinking
+    let pendingModeRequest = null;
+    let modeMenuOpen = false;
+    let videoObjectUrls = new Map();
 
     function escapeHtml(str = "") {
       return String(str)
@@ -1125,510 +1115,83 @@
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-function canOpenCameraRequest() {
-  try {
-    if (!navigator.permissions?.query) return Promise.resolve(true);
-  } catch {
-    return Promise.resolve(true);
-  }
-  return Promise.allSettled([
-    navigator.permissions.query({ name: "camera" }),
-    navigator.permissions.query({ name: "microphone" })
-  ]).then((results) => {
-    for (const item of results) {
-      if (item.status === "fulfilled" && item.value?.state === "denied") return false;
+    function updateLiveUI() {
+      liveBtn.classList.add("hidden");
+      liveAcceptBtn.classList.add("hidden");
+      liveEndBtn.classList.add("hidden");
+      livePill.classList.add("hidden");
+      livePanel.classList.add("hidden");
+      liveInfo.textContent = "";
+      liveControlHint.textContent = "";
     }
-    return true;
-  }).catch(() => true);
-}
 
-function buildLiveRoomUrl(role, thread = selectedThread, sessionId = liveSessionId) {
-  const params = new URLSearchParams();
-  params.set("liveRoom", "1");
-  params.set("role", role || "user");
-  if (thread) params.set("thread", thread);
-  if (sessionId) params.set("session", sessionId);
-  if (currentUser) params.set("user", currentUser);
-  return `${location.pathname}?${params.toString()}`;
-}
+    function updateComposerState() {
+      statusToggleBtn.classList.toggle("hidden", !isAdmin);
 
-function openLiveRoomTab(role) {
-  const url = buildLiveRoomUrl(role);
-  try {
-    const w = window.open(url, "_blank", "noopener,noreferrer");
-    if (!w) alert("Yeni sekme açılmadı. Açılır pencere izni ver.");
-  } catch (err) {
-    console.warn("Live room açılamadı:", err);
-  }
-}
+      const hasPending = !!pendingModeRequest;
+      const modeText = hasPending ? getModeStatus(pendingModeRequest.mode) : getModeLabel(composeMode);
 
-function showLiveRoomScreen() {
-  if (!liveRoomScreen) return;
-  loginScreen.style.display = "none";
-  appScreen.style.display = "none";
-  liveRoomScreen.classList.remove("hidden");
-}
+      menuBtn.classList.toggle("hidden", isAdmin ? false : false);
+      modeSearchBtn.disabled = isAdmin || !chatOpen;
+      modeThinkBtn.disabled = isAdmin || !chatOpen;
+      modeNormalBtn.disabled = isAdmin;
+      modeCancelBtn.disabled = !hasPending || isAdmin;
 
-function updateLiveRoomUI(text = "") {
-  if (!liveRoomScreen) return;
-  liveRoomTitle.textContent = liveRoomRole === "admin" ? "GloGeGo canlı oda" : "Canlı oda";
-  liveRoomRolePill.textContent = liveRoomRole === "admin" ? "GloGeGo" : "Kullanıcı";
-  liveRoomRolePill.className = liveRoomRole === "admin" ? "pill online" : "pill";
-  if (text) liveRoomStatus.textContent = text;
-  if (liveRoomRemoteCard) liveRoomRemoteCard.classList.toggle("hidden", liveRoomRole !== "admin");
-  if (liveRoomLocalCard) liveRoomLocalCard.classList.toggle("hidden", liveRoomRole !== "user");
-  if (liveRoomAdminBar) liveRoomAdminBar.classList.toggle("hidden", liveRoomRole !== "admin");
-}
-
-function roomStopSpeech() {
-  try { speechSynthesis.cancel(); } catch {}
-}
-
-function roomSpeak(text) {
-  if (!text) return;
-  try {
-    initVoice();
-    speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "tr-TR";
-    utter.voice = utteranceVoice || getVoice();
-    utter.rate = 0.86;
-    utter.pitch = 0.58;
-    utter.volume = 1;
-    speechSynthesis.speak(utter);
-  } catch (err) {
-    console.warn("Room ses çalışmadı:", err);
-  }
-}
-
-function roomClearListeners() {
-  if (liveRoomUnsubSession) liveRoomUnsubSession();
-  if (liveRoomUnsubCallerCandidates) liveRoomUnsubCallerCandidates();
-  if (liveRoomUnsubCalleeCandidates) liveRoomUnsubCalleeCandidates();
-  if (liveRoomUnsubTexts) liveRoomUnsubTexts();
-  liveRoomUnsubSession = null;
-  liveRoomUnsubCallerCandidates = null;
-  liveRoomUnsubCalleeCandidates = null;
-  liveRoomUnsubTexts = null;
-}
-
-async function roomStop() {
-  roomClearListeners();
-
-  if (liveRoomPC) {
-    try { liveRoomPC.ontrack = null; liveRoomPC.onicecandidate = null; liveRoomPC.onconnectionstatechange = null; liveRoomPC.close(); } catch {}
-  }
-  liveRoomPC = null;
-
-  if (liveRoomLocalStream) {
-    liveRoomLocalStream.getTracks().forEach((t) => t.stop());
-  }
-  liveRoomLocalStream = null;
-
-  if (liveRoomRemoteVideo) liveRoomRemoteVideo.srcObject = null;
-  if (liveRoomLocalVideo) liveRoomLocalVideo.srcObject = null;
-  liveRoomStarted = false;
-}
-
-async function roomSendText() {
-  const text = (liveRoomInput?.value || "").trim();
-  if (!text || liveRoomRole !== "admin" || !liveRoomSessionId) return;
-  liveRoomSendBtn.disabled = true;
-  try {
-    await addDoc(collection(db, "liveSessions", liveRoomSessionId, "liveTexts"), {
-      sender: liveRoomUser || currentUser || ADMIN_USER,
-      text,
-      createdAt: serverTimestamp(),
-      createdAtClient: Date.now()
-    });
-    liveRoomInput.value = "";
-  } catch (err) {
-    console.error(err);
-    alert("Canlı metin gönderilemedi.");
-  } finally {
-    liveRoomSendBtn.disabled = false;
-  }
-}
-
-async function roomFlushCandidates() {
-  if (!liveRoomPC || !liveRoomPC.remoteDescription) return;
-  const queue = liveRoomPendingRemoteCandidates.splice(0);
-  for (const cand of queue) {
-    try {
-      await liveRoomPC.addIceCandidate(new RTCIceCandidate(cand));
-    } catch (err) {
-      console.warn("ICE eklenemedi:", err);
-    }
-  }
-}
-
-async function roomPreparePeer(isCaller) {
-  liveRoomPC = new RTCPeerConnection({ iceServers: STUN_SERVERS });
-  liveRoomPendingRemoteCandidates = [];
-  liveRoomPendingLocalCandidates = [];
-
-  liveRoomPC.ontrack = (event) => {
-    const [stream] = event.streams;
-    if (stream && liveRoomRemoteVideo) liveRoomRemoteVideo.srcObject = stream;
-  };
-
-  liveRoomPC.onconnectionstatechange = async () => {
-    const state = liveRoomPC?.connectionState || "";
-    if (state === "failed" || state === "disconnected" || state === "closed") {
-      await roomStop();
-    }
-  };
-
-  liveRoomPC.onicecandidate = async (event) => {
-    if (!event.candidate || !liveRoomSessionId) return;
-    try {
-      const candidateData = event.candidate.toJSON();
-      const collectionName = isCaller ? "callerCandidates" : "calleeCandidates";
-      await addDoc(collection(db, "liveSessions", liveRoomSessionId, collectionName), candidateData);
-    } catch (err) {
-      console.warn("ICE kaydedilemedi:", err);
-    }
-  };
-}
-
-async function roomStartCaller() {
-  if (liveRoomStarted || liveRoomRole !== "user") return;
-  liveRoomStarted = true;
-  updateLiveRoomUI("GloGeGo dinliyor...");
-  try {
-    liveRoomLocalStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    if (liveRoomLocalVideo) liveRoomLocalVideo.srcObject = liveRoomLocalStream;
-
-    await roomPreparePeer(true);
-    liveRoomLocalStream.getTracks().forEach((track) => liveRoomPC.addTrack(track, liveRoomLocalStream));
-
-    const sessionRef = doc(db, "liveSessions", liveRoomSessionId);
-    const calleeCandidatesRef = collection(db, "liveSessions", liveRoomSessionId, "calleeCandidates");
-
-    const offer = await liveRoomPC.createOffer();
-    await liveRoomPC.setLocalDescription(offer);
-
-    await setDoc(sessionRef, {
-      threadId: liveRoomThread || liveRoomUser || currentUser,
-      caller: liveRoomUser || currentUser,
-      callee: ADMIN_USER,
-      status: "active",
-      offer: { type: offer.type, sdp: offer.sdp },
-      updatedAt: serverTimestamp()
-    }, { merge: true });
-
-    if (liveRoomUnsubSession) liveRoomUnsubSession();
-    liveRoomUnsubSession = onSnapshot(sessionRef, async (snap) => {
-      if (!snap.exists()) return;
-      const data = snap.data() || {};
-      if (data.answer && liveRoomPC && !liveRoomPC.currentRemoteDescription) {
-        try {
-          await liveRoomPC.setRemoteDescription(new RTCSessionDescription(data.answer));
-          await roomFlushCandidates();
-        } catch (err) {
-          console.warn("Answer işlenemedi:", err);
-        }
+      if (composeMode === "normal" && !hasPending) {
+        modePill.classList.add("hidden");
+        modePill.textContent = "";
+      } else {
+        modePill.textContent = hasPending ? modeText : getModeLabel(composeMode);
+        modePill.classList.remove("hidden");
       }
-      if (data.status === "ended") {
-        await roomStop();
-        updateLiveRoomUI("Canlı kapatıldı.");
-      }
-    });
 
-    if (liveRoomUnsubCalleeCandidates) liveRoomUnsubCalleeCandidates();
-    liveRoomUnsubCalleeCandidates = onSnapshot(calleeCandidatesRef, async (snap) => {
-      snap.docChanges().forEach(async (change) => {
-        if (change.type === "added") {
-          const data = change.doc.data();
-          if (!liveRoomPC || !liveRoomPC.remoteDescription) {
-            liveRoomPendingRemoteCandidates.push(data);
+      if (isAdmin) {
+        statusToggleBtn.classList.remove("open", "closed");
+        statusToggleBtn.textContent = chatOpen ? "Sohbet Açık" : "Sohbet Kapalı";
+        statusToggleBtn.classList.add(chatOpen ? "open" : "closed");
+        messageInput.placeholder = "Mesaj yaz...";
+        sendBtn.disabled = false;
+        imageBtn.disabled = false;
+        videoBtn.disabled = false;
+        sendBtn.textContent = "Gönder";
+        imageBtn.textContent = "Resim";
+        videoBtn.textContent = "Video";
+        statusLine.textContent = chatOpen ? "Sohbet açık." : "Sohbet kapalı.";
+      } else {
+        if (chatOpen) {
+          if (composeMode === "search") {
+            messageInput.placeholder = "Web'de aramak için yaz...";
+            sendBtn.textContent = hasPending ? "Arıyor..." : "Ara";
+            statusLine.textContent = hasPending ? "GloGeGo dinliyor..." : "Web'de arama modu açık.";
+          } else if (composeMode === "thinking") {
+            messageInput.placeholder = "Düşünme modu için yaz...";
+            sendBtn.textContent = hasPending ? "Düşünüyor..." : "Düşün";
+            statusLine.textContent = hasPending ? "GloGeGo dinliyor..." : "Düşünme modu açık.";
           } else {
-            try {
-              await liveRoomPC.addIceCandidate(new RTCIceCandidate(data));
-            } catch (err) {
-              console.warn("ICE eklenemedi:", err);
-            }
+            messageInput.placeholder = "Mesaj yaz...";
+            sendBtn.textContent = "Gönder";
+            statusLine.textContent = hasPending ? "GloGeGo dinliyor..." : "";
           }
-        }
-      });
-      await roomFlushCandidates();
-    });
 
-    updateLiveRoomUI("GloGeGo dinliyor...");
-  } catch (err) {
-    console.error(err);
-    updateLiveRoomUI(err?.message || "Canlı başlatılamadı.");
-    await roomStop();
-  }
-}
-
-async function roomStartAdmin() {
-  if (liveRoomStarted || liveRoomRole !== "admin") return;
-  liveRoomStarted = true;
-  updateLiveRoomUI("Karşı kamerayı bekliyor...");
-  try {
-    await roomPreparePeer(false);
-
-    const sessionRef = doc(db, "liveSessions", liveRoomSessionId);
-    const callerCandidatesRef = collection(db, "liveSessions", liveRoomSessionId, "callerCandidates");
-    const calleeCandidatesRef = collection(db, "liveSessions", liveRoomSessionId, "calleeCandidates");
-
-    if (liveRoomUnsubCallerCandidates) liveRoomUnsubCallerCandidates();
-    liveRoomUnsubCallerCandidates = onSnapshot(callerCandidatesRef, async (snap) => {
-      snap.docChanges().forEach(async (change) => {
-        if (change.type === "added") {
-          const data = change.doc.data();
-          if (!liveRoomPC || !liveRoomPC.remoteDescription) {
-            liveRoomPendingRemoteCandidates.push(data);
-          } else {
-            try {
-              await liveRoomPC.addIceCandidate(new RTCIceCandidate(data));
-            } catch (err) {
-              console.warn("ICE eklenemedi:", err);
-            }
-          }
-        }
-      });
-      await roomFlushCandidates();
-    });
-
-    if (liveRoomUnsubCalleeCandidates) liveRoomUnsubCalleeCandidates();
-    liveRoomUnsubCalleeCandidates = onSnapshot(calleeCandidatesRef, async (snap) => {
-      snap.docChanges().forEach(async (change) => {
-        if (change.type === "added") {
-          const data = change.doc.data();
-          if (!liveRoomPC || !liveRoomPC.remoteDescription) {
-            liveRoomPendingLocalCandidates.push(data);
-          } else {
-            try {
-              await liveRoomPC.addIceCandidate(new RTCIceCandidate(data));
-            } catch (err) {
-              console.warn("ICE eklenemedi:", err);
-            }
-          }
-        }
-      });
-      await roomFlushCandidates();
-    });
-
-    if (liveRoomUnsubTexts) liveRoomUnsubTexts();
-    liveRoomUnsubTexts = onSnapshot(query(collection(db, "liveSessions", liveRoomSessionId, "liveTexts"), orderBy("createdAtClient", "asc")), (snap) => {
-      const items = [];
-      snap.forEach((d) => items.push({ id: d.id, ...d.data() }));
-      items.sort((a, b) => (a.createdAtClient || 0) - (b.createdAtClient || 0));
-      for (const item of items) {
-        if (!item?.id || liveRoomSeenTextIds.has(item.id)) continue;
-        liveRoomSeenTextIds.add(item.id);
-        const text = String(item.text || "").trim();
-        if (!text) continue;
-        roomSpeak(text);
-      }
-    });
-
-    liveRoomUnsubSession = onSnapshot(sessionRef, async (snap) => {
-      if (!snap.exists()) return;
-      const data = snap.data() || {};
-      if (data.offer && liveRoomPC && !liveRoomPC.currentRemoteDescription) {
-        try {
-          await liveRoomPC.setRemoteDescription(new RTCSessionDescription(data.offer));
-          const answer = await liveRoomPC.createAnswer();
-          await liveRoomPC.setLocalDescription(answer);
-          await setDoc(sessionRef, {
-            answer: { type: answer.type, sdp: answer.sdp },
-            status: "active",
-            updatedAt: serverTimestamp()
-          }, { merge: true });
-          await roomFlushCandidates();
-          updateLiveRoomUI("Karşı kamera açık.");
-        } catch (err) {
-          console.warn("Offer işlenemedi:", err);
+          sendBtn.disabled = false;
+          imageBtn.disabled = false;
+          videoBtn.disabled = false;
+          imageBtn.textContent = "Resim";
+          videoBtn.textContent = "Video";
+        } else {
+          messageInput.placeholder = "GloGeGo müsait değil";
+          sendBtn.disabled = true;
+          imageBtn.disabled = true;
+          videoBtn.disabled = true;
+          sendBtn.textContent = "Kapalı";
+          imageBtn.textContent = "Kapalı";
+          videoBtn.textContent = "Kapalı";
+          statusLine.textContent = "GloGeGo müsait değil";
         }
       }
-      if (data.status === "ended") {
-        await roomStop();
-        updateLiveRoomUI("Canlı kapatıldı.");
-      }
-    });
-  } catch (err) {
-    console.error(err);
-    updateLiveRoomUI(err?.message || "Canlı açılamadı.");
-    await roomStop();
-  }
-}
 
-async function initLiveRoomMode() {
-  showLiveRoomScreen();
-  liveRoomSessionId = liveRoomSessionParam || safeDocId(`live_${liveRoomThreadParam || liveRoomUserParam || "room"}`);
-  liveRoomRole = liveRoomRoleParam === "admin" ? "admin" : "user";
-  liveRoomThread = liveRoomThreadParam || "";
-  liveRoomUser = liveRoomUserParam || liveRoomThreadParam || currentUser || "";
-
-  currentUser = liveRoomUser || currentUser || (liveRoomRole === "admin" ? ADMIN_USER : "");
-  isAdmin = liveRoomRole === "admin";
-
-  if (liveRoomEndBtn) {
-    liveRoomEndBtn.addEventListener("click", async () => {
-      await roomStop();
-      try {
-        await updateDoc(doc(db, "liveSessions", liveRoomSessionId), {
-          status: "ended",
-          endedAt: serverTimestamp(),
-          endedBy: currentUser || "system",
-          updatedAt: serverTimestamp()
-        });
-      } catch {}
-      updateLiveRoomUI("Canlı kapatıldı.");
-    });
-  }
-
-  if (liveRoomSendBtn) {
-    liveRoomSendBtn.addEventListener("click", roomSendText);
-  }
-  if (liveRoomInput) {
-    liveRoomInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        roomSendText();
-      }
-    });
-  }
-
-  updateLiveRoomUI(liveRoomRole === "admin" ? "Karşı kamerayı bekliyor..." : "GloGeGo dinliyor...");
-
-  const sessionRef = doc(db, "liveSessions", liveRoomSessionId);
-  liveRoomUnsubSession = onSnapshot(sessionRef, async (snap) => {
-    if (!snap.exists()) {
-      updateLiveRoomUI("İstek bekleniyor...");
-      return;
+      updateLiveUI();
     }
-    const data = snap.data() || {};
-    if (liveRoomRole === "user") {
-      if (data.status === "requesting") {
-        updateLiveRoomUI("GloGeGo onayı bekleniyor...");
-      } else if (data.status === "active") {
-        updateLiveRoomUI("GloGeGo dinliyor...");
-        if (!liveRoomStarted) {
-          await roomStartCaller();
-        }
-      } else if (data.status === "ended") {
-        await roomStop();
-        updateLiveRoomUI("Canlı kapatıldı.");
-      }
-    } else {
-      if (data.status === "requesting") {
-        updateLiveRoomUI("Onay verildiğinde kamera açılacak.");
-      } else if (data.status === "active") {
-        if (!liveRoomStarted) {
-          await roomStartAdmin();
-        }
-      } else if (data.status === "ended") {
-        await roomStop();
-        updateLiveRoomUI("Canlı kapatıldı.");
-      }
-    }
-  });
-}
-
-function updateLiveUI() {
-  const hasThread = !!selectedThread;
-  const userMode = !isAdmin;
-
-  liveBtn.classList.toggle("hidden", !userMode);
-  liveAcceptBtn.classList.toggle("hidden", !(isAdmin && liveState === "requesting"));
-  liveEndBtn.classList.toggle("hidden", liveState === "idle");
-
-  if (userMode) {
-    liveBtn.textContent = liveState === "idle" ? "Live" : "Live Kapat";
-    liveBtn.classList.toggle("open", liveState !== "idle");
-    liveBtn.classList.toggle("closed", liveState === "idle");
-  } else {
-    liveBtn.classList.remove("open", "closed");
-  }
-
-  livePill.classList.toggle("hidden", liveState === "idle");
-  if (liveState === "requesting") {
-    livePill.textContent = "Canlı istek";
-    livePill.className = "pill";
-    livePill.classList.remove("hidden");
-  } else if (liveState === "active") {
-    livePill.textContent = "Canlı açık";
-    livePill.className = "pill online";
-    livePill.classList.remove("hidden");
-  }
-
-  livePanel.classList.toggle("hidden", liveState === "idle");
-  if (liveRemoteCard) liveRemoteCard.classList.toggle("hidden", !isAdmin);
-
-  if (liveState === "requesting") {
-    liveInfo.textContent = isAdmin
-      ? `İstek geldi: ${selectedThread || "seçili sohbet"}`
-      : "İstek gönderildi. GloGeGo kabul edince yeni canlı sekmesi açılır.";
-    liveControlHint.textContent = isAdmin ? "Kabul edebilirsin." : "Kamera izni açık olmalı.";
-  } else if (liveState === "active") {
-    liveInfo.textContent = "Canlı bağlantı aktif.";
-    liveControlHint.textContent = isAdmin ? "Görüntü açık, kamera kapalı." : "Görüntü ve ses gidiyor.";
-  } else {
-    liveInfo.textContent = "Hazır.";
-    liveControlHint.textContent = "";
-  }
-
-  if (!hasThread && isAdmin) {
-    liveInfo.textContent = "Bir kullanıcı seç.";
-  }
-}
-
-function updateComposerState() {
-  statusToggleBtn.classList.toggle("hidden", !isAdmin);
-
-  if (liveState !== "idle") {
-    if (isAdmin) {
-      statusToggleBtn.classList.remove("open", "closed");
-      statusToggleBtn.textContent = chatOpen ? "Sohbet Açık" : "Sohbet Kapalı";
-      statusToggleBtn.classList.add(chatOpen ? "open" : "closed");
-      messageInput.placeholder = "Canlıda yaz; GloGeGo bunu ses olarak duyar.";
-      sendBtn.disabled = false;
-      imageBtn.disabled = true;
-      sendBtn.textContent = "Ses Gönder";
-      imageBtn.textContent = "Kapalı";
-      statusLine.textContent = "Canlı açık. Yazdığın metin kullanıcıya gizli robot ses olarak gider.";
-    } else {
-      messageInput.placeholder = "Mesaj yaz...";
-      sendBtn.disabled = false;
-      imageBtn.disabled = false;
-      sendBtn.textContent = "Gönder";
-      imageBtn.textContent = "Resim";
-      statusLine.textContent = "";
-    }
-  } else if (isAdmin) {
-    statusToggleBtn.classList.remove("open", "closed");
-    statusToggleBtn.textContent = chatOpen ? "Sohbet Açık" : "Sohbet Kapalı";
-    statusToggleBtn.classList.add(chatOpen ? "open" : "closed");
-    messageInput.placeholder = "Mesaj yaz...";
-    sendBtn.disabled = false;
-    imageBtn.disabled = false;
-    sendBtn.textContent = "Gönder";
-    imageBtn.textContent = "Resim";
-    statusLine.textContent = chatOpen ? "Sohbet açık." : "Sohbet kapalı.";
-  } else {
-    if (chatOpen) {
-      messageInput.placeholder = "Mesaj yaz...";
-      sendBtn.disabled = false;
-      imageBtn.disabled = false;
-      sendBtn.textContent = "Gönder";
-      imageBtn.textContent = "Resim";
-      statusLine.textContent = "";
-    } else {
-      messageInput.placeholder = "GloGeGo müsait değil";
-      sendBtn.disabled = true;
-      imageBtn.disabled = true;
-      sendBtn.textContent = "Kapalı";
-      imageBtn.textContent = "Kapalı";
-      statusLine.textContent = "GloGeGo müsait değil";
-    }
-  }
-
-  updateLiveUI();
-}
 
     function updateThreadStatusPill() {
       if (!isAdmin) {
@@ -1778,17 +1341,60 @@ function updateComposerState() {
 
     function renderMessage(docData) {
       const mine = docData.sender === currentUser;
+      const kind = docData.kind || (docData.videoStatus ? "video" : ((docData.imageDataUrl || docData.imageName) ? "image" : "text"));
       const textValue = docData.text || "";
       const imageDataUrl = docData.imageDataUrl || "";
       const imageName = docData.imageName || "resim";
       const safeName = escapeHtml(imageName);
       const safeUrl = escapeHtml(imageDataUrl);
+      const messageId = escapeHtml(docData.id || "");
+      const created = formatTime(docData.createdAt);
+      const modeText = docData.mode === "search" ? "Arıyor..." : docData.mode === "thinking" ? "Düşünüyor..." : "";
+      const cancelled = !!docData.cancelled;
+
+      if (kind === "mode_request") {
+        return `
+          <div class="bubble ${mine ? "me" : ""} request-bubble" data-message-id="${messageId}">
+            <div class="meta">
+              <span>${escapeHtml(docData.sender || "")}</span>
+              <span>${created}</span>
+            </div>
+            <div class="request-title">${escapeHtml(getModeLabel(docData.mode || "normal"))}</div>
+            <div class="text">${escapeHtml(textValue)}</div>
+            <div class="request-status ${cancelled ? "cancelled" : "pending"}">
+              ${cancelled ? "İptal edildi" : modeText || "Bekleniyor..."}
+            </div>
+          </div>
+        `;
+      }
+
+      if (kind === "video") {
+        const status = docData.videoStatus || "uploading";
+        return `
+          <div class="bubble ${mine ? "me" : ""}" data-video-message-id="${messageId}" data-video-name="${escapeHtml(docData.videoName || "video.mp4")}" data-video-mime="${escapeHtml(docData.videoMime || "video/mp4")}" data-video-status="${escapeHtml(status)}">
+            <div class="meta">
+              <span>${escapeHtml(docData.sender || "")}</span>
+              <span>${created}</span>
+            </div>
+            <div class="video-upload-card">
+              <div class="video-upload-loading" data-video-loading>Video ${status === "ready" ? "hazırlanıyor..." : "yükleniyor..."}</div>
+              <div class="video-wrap">
+                <video class="video-player" controls playsinline preload="metadata" data-video-player></video>
+              </div>
+              <div class="video-actions">
+                <button class="img-action-btn" type="button" data-fullscreen-video="${messageId}" disabled>Tam ekran</button>
+                <button class="img-action-btn" type="button" data-download-video="${messageId}" data-video-name="${safeName}" disabled>İndir</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
 
       return `
-        <div class="bubble ${mine ? "me" : ""}" data-message-id="${escapeHtml(docData.id || "")}">
+        <div class="bubble ${mine ? "me" : ""}" data-message-id="${messageId}">
           <div class="meta">
             <span>${escapeHtml(docData.sender || "")}</span>
-            <span>${formatTime(docData.createdAt)}</span>
+            <span>${created}</span>
           </div>
 
           ${textValue ? `<div class="text">${escapeHtml(textValue)}</div>` : ""}
@@ -1869,6 +1475,349 @@ function updateComposerState() {
       try { speechSynthesis.cancel(); } catch {}
     }
 
+    function getModeLabel(mode) {
+      if (mode === "search") return "Web'de arama";
+      if (mode === "thinking") return "Düşünme modu";
+      return "Normal";
+    }
+
+    function getModeStatus(mode) {
+      if (mode === "search") return "Arıyor...";
+      if (mode === "thinking") return "Düşünüyor...";
+      return "";
+    }
+
+    function closeModeMenu() {
+      modeMenu.classList.add("hidden");
+      modeMenuOpen = false;
+      menuBtn.setAttribute("aria-expanded", "false");
+    }
+
+    function toggleModeMenu(force) {
+      const next = typeof force === "boolean" ? force : modeMenu.classList.contains("hidden");
+      modeMenu.classList.toggle("hidden", !next);
+      modeMenuOpen = next;
+      menuBtn.setAttribute("aria-expanded", next ? "true" : "false");
+    }
+
+    function setComposeMode(nextMode) {
+      composeMode = nextMode;
+      if (composeMode === "normal") {
+        modePill.classList.add("hidden");
+        modePill.textContent = "";
+      } else {
+        modePill.textContent = getModeLabel(composeMode);
+        modePill.classList.remove("hidden");
+      }
+      closeModeMenu();
+      updateComposerState();
+    }
+
+    function clearPendingModeRequest() {
+      pendingModeRequest = null;
+      if (composeMode !== "normal") {
+        modePill.textContent = getModeLabel(composeMode);
+        modePill.classList.remove("hidden");
+      }
+      updateComposerState();
+    }
+
+    function setPendingModeRequest(data) {
+      pendingModeRequest = data || null;
+      if (pendingModeRequest) {
+        modePill.textContent = getModeStatus(pendingModeRequest.mode) || getModeLabel(pendingModeRequest.mode);
+        modePill.classList.remove("hidden");
+      } else if (composeMode === "normal") {
+        modePill.classList.add("hidden");
+        modePill.textContent = "";
+      }
+      updateComposerState();
+    }
+
+    function normalizeModeFromMessage(item) {
+      if (!item) return null;
+      if (item.kind === "mode_request") return item.mode || null;
+      return null;
+    }
+
+    function syncModeRequestState(items = []) {
+      if (isAdmin) return;
+
+      const requests = items
+        .filter((item) => item.sender === currentUser && item.kind === "mode_request" && !item.cancelled)
+        .sort((a, b) => (a.createdAtClient || 0) - (b.createdAtClient || 0));
+
+      const latest = requests[requests.length - 1];
+      if (!latest) {
+        if (pendingModeRequest) clearPendingModeRequest();
+        return;
+      }
+
+      const replied = items.some((item) =>
+        item.sender === ADMIN_USER &&
+        (item.createdAtClient || 0) > (latest.createdAtClient || 0) &&
+        item.kind !== "mode_request"
+      );
+
+      if (replied) {
+        clearPendingModeRequest();
+        return;
+      }
+
+      setPendingModeRequest({ id: latest.id, mode: latest.mode, text: latest.text || "" });
+    }
+
+    function uint8ToBase64(uint8) {
+      let binary = "";
+      const chunkSize = 0x8000;
+      for (let i = 0; i < uint8.length; i += chunkSize) {
+        binary += String.fromCharCode(...uint8.subarray(i, i + chunkSize));
+      }
+      return btoa(binary);
+    }
+
+    function base64ToUint8(base64) {
+      const binary = atob(base64);
+      const arr = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) arr[i] = binary.charCodeAt(i);
+      return arr;
+    }
+
+    function getVideoObjectUrl(messageId) {
+      return videoObjectUrls.get(messageId) || "";
+    }
+
+    async function loadVideoBlob(messageId, mimeType = "video/mp4") {
+      if (!messageId) return "";
+      const cached = videoObjectUrls.get(messageId);
+      if (cached) return cached;
+
+      const chunksRef = collection(db, "messages", messageId, "videoChunks");
+      const chunkSnap = await getDocs(query(chunksRef, orderBy("index")));
+      const parts = [];
+      chunkSnap.forEach((docSnap) => {
+        const data = docSnap.data() || {};
+        if (data.data) parts.push(base64ToUint8(data.data));
+      });
+
+      const blob = new Blob(parts, { type: mimeType || "video/mp4" });
+      const url = URL.createObjectURL(blob);
+      videoObjectUrls.set(messageId, url);
+      return url;
+    }
+
+    async function hydrateVideoMessages() {
+      const cards = Array.from(messagesEl.querySelectorAll("[data-video-message-id]"));
+      for (const card of cards) {
+        const messageId = card.dataset.videoMessageId;
+        const mimeType = card.dataset.videoMime || "video/mp4";
+        const loadingEl = card.querySelector("[data-video-loading]");
+        const videoEl = card.querySelector("[data-video-player]");
+        const fullBtn = card.querySelector("[data-fullscreen-video]");
+        const downloadBtn = card.querySelector("[data-download-video]");
+        if (!messageId || !videoEl || videoEl.dataset.loaded === "1") continue;
+
+        const messageStatus = card.dataset.videoStatus || "ready";
+        if (messageStatus !== "ready") {
+          if (loadingEl) loadingEl.textContent = "Video yükleniyor...";
+          continue;
+        }
+
+        if (loadingEl) loadingEl.textContent = "Video hazırlanıyor...";
+        try {
+          const url = await loadVideoBlob(messageId, mimeType);
+          videoEl.src = url;
+          videoEl.dataset.loaded = "1";
+          if (loadingEl) loadingEl.textContent = "Video hazır.";
+          if (fullBtn) fullBtn.disabled = false;
+          if (downloadBtn) downloadBtn.disabled = false;
+        } catch (err) {
+          console.warn("Video açılmadı:", err);
+          if (loadingEl) loadingEl.textContent = "Video yüklenemedi.";
+        }
+      }
+    }
+
+    function enterFullscreenForVideo(messageId) {
+      const safeId = String(messageId || "").replaceAll('"', '\\\"');
+      const card = messagesEl.querySelector(`[data-video-message-id="${safeId}"]`);
+      const videoEl = card?.querySelector("[data-video-player]");
+      if (videoEl?.requestFullscreen) {
+        videoEl.requestFullscreen().catch(() => {});
+      }
+    }
+
+    async function downloadVideoByMessageId(messageId, filename) {
+      const url = getVideoObjectUrl(messageId);
+      if (!url) {
+        const card = messagesEl.querySelector(`[data-video-message-id="${CSS.escape(messageId)}"]`);
+        const mimeType = card?.dataset.videoMime || "video/mp4";
+        const loadedUrl = await loadVideoBlob(messageId, mimeType);
+        await downloadDataUrl(loadedUrl, filename || "video.mp4");
+        return;
+      }
+      await downloadDataUrl(url, filename || "video.mp4");
+    }
+
+    async function deleteVideoChunks(messageId) {
+      const ref = collection(db, "messages", messageId, "videoChunks");
+      const snap = await getDocs(ref);
+      for (const d of snap.docs) {
+        await deleteDoc(doc(db, "messages", messageId, "videoChunks", d.id));
+      }
+    }
+
+    function cleanupVideoUrls() {
+      for (const url of videoObjectUrls.values()) {
+        try { URL.revokeObjectURL(url); } catch {}
+      }
+      videoObjectUrls = new Map();
+    }
+
+    async function sendModeRequest(mode, text) {
+      const threadId = isAdmin ? selectedThread : currentUser;
+      if (!threadId) {
+        alert("Önce bir sohbet seç.");
+        return;
+      }
+      if (!isAdmin && !chatOpen) {
+        alert("GloGeGo müsait değil.");
+        return;
+      }
+      const normalizedText = String(text || "").trim();
+      if (!normalizedText) {
+        alert("Bir şey yaz.");
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = "Gönderiliyor...";
+
+      try {
+        const ref = await addDoc(collection(db, "messages"), {
+          threadId,
+          sender: currentUser,
+          recipient: isAdmin ? threadId : ADMIN_USER,
+          kind: "mode_request",
+          mode,
+          text: normalizedText,
+          cancelled: false,
+          createdAt: serverTimestamp(),
+          createdAtClient: Date.now(),
+          expiresAt: Timestamp.fromDate(new Date(Date.now() + 6 * 60 * 60 * 1000))
+        });
+        pendingModeRequest = { id: ref.id, mode, text: normalizedText };
+        modePill.textContent = getModeStatus(mode) || getModeLabel(mode);
+        modePill.classList.remove("hidden");
+        messageInput.value = "";
+        charCount.textContent = "0";
+      } catch (err) {
+        console.error(err);
+        alert("İstek gönderilemedi.");
+      } finally {
+        updateComposerState();
+      }
+    }
+
+    async function cancelPendingModeRequest() {
+      if (!pendingModeRequest?.id) {
+        alert("İptal edilecek bekleyen istek yok.");
+        return;
+      }
+      try {
+        await updateDoc(doc(db, "messages", pendingModeRequest.id), {
+          cancelled: true,
+          cancelledAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+        pendingModeRequest = null;
+        if (composeMode === "normal") {
+          modePill.classList.add("hidden");
+          modePill.textContent = "";
+        } else {
+          modePill.textContent = getModeLabel(composeMode);
+          modePill.classList.remove("hidden");
+        }
+        updateComposerState();
+      } catch (err) {
+        console.error(err);
+        alert("İstek iptal edilemedi.");
+      }
+    }
+
+    async function sendVideo(file) {
+      const threadId = isAdmin ? selectedThread : currentUser;
+      if (!threadId) {
+        alert("Önce bir sohbet seç.");
+        return;
+      }
+      if (!isAdmin && !chatOpen) {
+        alert("GloGeGo müsait değil.");
+        return;
+      }
+      if (!file) return;
+      if (!file.type.startsWith("video/")) {
+        alert("Sadece video yükleyebilirsin.");
+        return;
+      }
+      if (file.size > 50 * 1024 * 1024) {
+        alert("Video 50 MB sınırını geçti.");
+        return;
+      }
+
+      const messageRef = doc(collection(db, "messages"));
+      const chunkSize = 260 * 1024;
+      const totalChunks = Math.max(1, Math.ceil(file.size / chunkSize));
+      videoBtn.disabled = true;
+      videoBtn.textContent = "Yükleniyor 0%";
+
+      try {
+        await setDoc(messageRef, {
+          threadId,
+          sender: currentUser,
+          recipient: isAdmin ? threadId : ADMIN_USER,
+          kind: "video",
+          text: file.name || "video",
+          videoName: file.name || "video.mp4",
+          videoMime: file.type || "video/mp4",
+          videoSize: file.size,
+          videoChunkCount: totalChunks,
+          videoStatus: "uploading",
+          createdAt: serverTimestamp(),
+          createdAtClient: Date.now(),
+          expiresAt: Timestamp.fromDate(new Date(Date.now() + 6 * 60 * 60 * 1000))
+        });
+
+        const bytes = new Uint8Array(await file.arrayBuffer());
+        const chunksRef = collection(db, "messages", messageRef.id, "videoChunks");
+
+        for (let i = 0; i < totalChunks; i++) {
+          const start = i * chunkSize;
+          const end = Math.min(bytes.length, start + chunkSize);
+          const slice = bytes.slice(start, end);
+          await setDoc(doc(chunksRef, String(i).padStart(5, "0")), {
+            index: i,
+            data: uint8ToBase64(slice)
+          });
+          const pct = Math.floor(((i + 1) / totalChunks) * 100);
+          videoBtn.textContent = `Yükleniyor ${pct}%`;
+        }
+
+        await updateDoc(messageRef, {
+          videoStatus: "ready",
+          updatedAt: serverTimestamp()
+        });
+      } catch (err) {
+        console.error(err);
+        alert(err?.message || "Video yüklenemedi.");
+      } finally {
+        videoBtn.disabled = false;
+        videoBtn.textContent = "Video";
+        videoInput.value = "";
+        updateComposerState();
+      }
+    }
+
     function showApp() {
       loginScreen.style.display = "none";
       appScreen.style.display = "grid";
@@ -1877,12 +1826,12 @@ function updateComposerState() {
 
       if (!isAdmin) {
         selectedThread = currentUser;
+        setComposeMode("normal");
       }
 
       listenStatus();
       listenMessages();
       listenPresence();
-      listenLiveSession();
       if (isAdmin) listenThreads();
 
       startPresenceTracking();
@@ -1934,6 +1883,12 @@ function updateComposerState() {
 
       stopPresenceTracking();
       stopSpeech();
+      cleanupVideoUrls();
+      closeModeMenu();
+      composeMode = "normal";
+      pendingModeRequest = null;
+      modePill.classList.add("hidden");
+      modePill.textContent = "";
 
       messageInput.value = "";
       charCount.textContent = "0";
@@ -1943,65 +1898,6 @@ function updateComposerState() {
 
     function renderEmpty(text) {
       messagesEl.innerHTML = `<div class="empty">${escapeHtml(text)}</div>`;
-    }
-
-    function appendLiveEvent(text) {
-      if (!isAdmin || !liveEventLog) return;
-      const div = document.createElement("div");
-      div.className = "live-event";
-      div.textContent = text;
-      liveEventLog.appendChild(div);
-      while (liveEventLog.children.length > 8) {
-        liveEventLog.removeChild(liveEventLog.firstElementChild);
-      }
-    }
-
-    function clearLiveEvents() {
-      if (liveEventLog) liveEventLog.innerHTML = "";
-      seenLiveTextIds = new Set();
-    }
-
-    function speakLiveText(text) {
-      if (!text || isAdmin) return;
-      try {
-        initVoice();
-        speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.lang = "tr-TR";
-        utter.voice = utteranceVoice || getVoice();
-        utter.rate = 0.95;
-        utter.pitch = 0.68;
-        utter.volume = 1;
-        speechSynthesis.speak(utter);
-      } catch (err) {
-        console.warn("Live ses çalışmadı:", err);
-      }
-    }
-
-    function listenLiveTexts() {
-      if (!liveSessionId) return;
-      if (unsubscribeLiveTexts) unsubscribeLiveTexts();
-
-      const liveTextsRef = query(collection(db, "liveSessions", liveSessionId, "liveTexts"), orderBy("createdAtClient", "asc"));
-      unsubscribeLiveTexts = onSnapshot(liveTextsRef, (snap) => {
-        const items = [];
-        snap.forEach((d) => items.push({ id: d.id, ...d.data() }));
-        items.sort((a, b) => (a.createdAtClient || 0) - (b.createdAtClient || 0));
-
-        for (const item of items) {
-          if (!item?.id || seenLiveTextIds.has(item.id)) continue;
-          seenLiveTextIds.add(item.id);
-          const sender = item.sender || "Biri";
-          const text = String(item.text || "").trim();
-          if (!text) continue;
-
-          if (isAdmin) {
-            appendLiveEvent(`${sender}: ${text}`);
-          } else if (sender !== currentUser) {
-            speakLiveText(text);
-          }
-        }
-      }, () => {});
     }
 
     async function markPresence(isOnline = true) {
@@ -2057,11 +1953,9 @@ function updateComposerState() {
 
     function stopLiveListenersOnly() {
       if (unsubscribeLiveDoc) unsubscribeLiveDoc();
-      if (unsubscribeLiveTexts) unsubscribeLiveTexts();
       if (unsubscribeCallerCandidates) unsubscribeCallerCandidates();
       if (unsubscribeCalleeCandidates) unsubscribeCalleeCandidates();
       unsubscribeLiveDoc = null;
-      unsubscribeLiveTexts = null;
       unsubscribeCallerCandidates = null;
       unsubscribeCalleeCandidates = null;
     }
@@ -2081,6 +1975,7 @@ function updateComposerState() {
         localStream = null;
 
         remoteVideo.srcObject = null;
+        localVideo.srcObject = null;
 
         if (liveSessionId) {
           try {
@@ -2096,7 +1991,6 @@ function updateComposerState() {
         liveSessionId = "";
         pendingRemoteCandidates = [];
         pendingLocalCandidates = [];
-        seenLiveTextIds = new Set();
         if (liveState !== "idle") setLiveState("idle");
         if (!silent) updateLiveUI();
       }
@@ -2143,115 +2037,264 @@ function updateComposerState() {
       }
     }
 
-async function startLiveAsCaller() {
-  if (!currentUser || isAdmin) return;
-  if (!selectedThread) selectedThread = currentUser;
+    async function startLiveAsCaller() {
+      if (!currentUser || isAdmin) return;
+      if (!selectedThread) selectedThread = currentUser;
 
-  const hasPermission = await canOpenCameraRequest();
-  if (!hasPermission) {
-    alert("Kamera veya mikrofon izni kapalı. Önce izin ver.");
-    return;
-  }
+      await endLiveSession(true);
+      liveSessionId = safeDocId(`live_${selectedThread}`);
+      setLiveState("requesting");
+      updateLiveUI();
 
-  await endLiveSession(true);
-  liveSessionId = safeDocId(`live_${selectedThread}`);
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localVideo.srcObject = localStream;
+        remoteVideo.srcObject = null;
 
-  openLiveRoomTab("user");
+        await preparePeer(true);
+        localStream.getTracks().forEach((track) => pc.addTrack(track, localStream));
 
-  try {
-    await setDoc(doc(db, "liveSessions", liveSessionId), {
-      threadId: selectedThread,
-      caller: currentUser,
-      callee: ADMIN_USER,
-      status: "requesting",
-      mode: "room-separate",
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
-    }, { merge: true });
+        const sessionRef = doc(db, "liveSessions", liveSessionId);
+        const callerCandidatesRef = collection(db, "liveSessions", liveSessionId, "callerCandidates");
+        const calleeCandidatesRef = collection(db, "liveSessions", liveSessionId, "calleeCandidates");
 
-    setLiveState("requesting");
-    updateLiveUI();
-  } catch (err) {
-    console.error(err);
-    alert(err?.message || "Live isteği gönderilemedi.");
-    await endLiveSession();
-  }
-}
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
 
-async function acceptLiveAsAdmin(sessionData) {
-  if (!isAdmin || !selectedThread) return;
+        await setDoc(sessionRef, {
+          threadId: selectedThread,
+          caller: currentUser,
+          callee: ADMIN_USER,
+          status: "requesting",
+          offer: {
+            type: offer.type,
+            sdp: offer.sdp
+          },
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        }, { merge: true });
 
-  await endLiveSession(true);
-  liveSessionId = safeDocId(`live_${selectedThread}`);
+        if (unsubscribeLiveDoc) unsubscribeLiveDoc();
+        unsubscribeLiveDoc = onSnapshot(sessionRef, async (snap) => {
+          if (!snap.exists()) {
+            return;
+          }
+          const data = snap.data() || {};
+          if (data.status === "active" && liveState !== "active") {
+            setLiveState("active");
+            liveInfo.textContent = "Canlı bağlantı aktif.";
+          }
+          if (data.answer && pc && !pc.currentRemoteDescription) {
+            try {
+              await pc.setRemoteDescription(new RTCSessionDescription(data.answer));
+              await flushQueuedCandidates();
+            } catch (err) {
+              console.warn("Answer işlenemedi:", err);
+            }
+          }
+          if (data.status === "ended") {
+            await endLiveSession();
+          }
+        });
 
-  openLiveRoomTab("admin");
-
-  try {
-    await setDoc(doc(db, "liveSessions", liveSessionId), {
-      threadId: selectedThread,
-      caller: sessionData?.caller || selectedThread,
-      callee: ADMIN_USER,
-      status: "active",
-      mode: "room-separate",
-      updatedAt: serverTimestamp()
-    }, { merge: true });
-
-    setLiveState("active");
-    updateLiveUI();
-  } catch (err) {
-    console.error(err);
-    alert(err?.message || "Canlı kabul edilemedi.");
-    await endLiveSession();
-  }
-}
-
-function listenLiveSession() {
-  stopLiveListenersOnly();
-
-  if (!selectedThread) {
-    setLiveState("idle");
-    updateLiveUI();
-    return;
-  }
-
-  const sessionRef = doc(db, "liveSessions", safeDocId(`live_${selectedThread}`));
-  unsubscribeLiveDoc = onSnapshot(sessionRef, async (snap) => {
-    if (!snap.exists()) {
-      if (liveState !== "idle") {
-        await endLiveSession(true);
-      } else {
+        if (unsubscribeCalleeCandidates) unsubscribeCalleeCandidates();
+        unsubscribeCalleeCandidates = onSnapshot(calleeCandidatesRef, async (snap) => {
+          snap.docChanges().forEach(async (change) => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              if (!pc || !pc.remoteDescription) {
+                pendingRemoteCandidates.push(data);
+              } else {
+                try {
+                  await pc.addIceCandidate(new RTCIceCandidate(data));
+                } catch (err) {
+                  console.warn("ICE eklenemedi:", err);
+                }
+              }
+            }
+          });
+          await flushQueuedCandidates();
+        });
+      } catch (err) {
+        console.error(err);
+        alert(err?.message || "Live başlatılamadı.");
+        await endLiveSession();
+      } finally {
         updateLiveUI();
       }
-      return;
     }
 
-    const data = snap.data() || {};
-    liveSessionId = safeDocId(`live_${selectedThread}`);
+    async function acceptLiveAsAdmin(sessionData) {
+      if (!isAdmin || !selectedThread) return;
+      if (!sessionData?.offer) return;
 
-    if (data.status === "requesting") {
-      setLiveState("requesting");
-      if (!isAdmin) {
-        liveInfo.textContent = "İstek gönderildi. GloGeGo onayı bekleniyor.";
-      } else {
-        liveInfo.textContent = `Canlı isteği: ${selectedThread}`;
-      }
-    } else if (data.status === "active") {
+      await endLiveSession(true);
+      liveSessionId = safeDocId(`live_${selectedThread}`);
       setLiveState("active");
-      if (isAdmin) {
-        liveInfo.textContent = "Canlı bağlantı aktif.";
-      } else {
-        liveInfo.textContent = "GloGeGo dinliyor...";
+      updateLiveUI();
+
+      try {
+        await preparePeer(false);
+
+        const sessionRef = doc(db, "liveSessions", liveSessionId);
+        const callerCandidatesRef = collection(db, "liveSessions", liveSessionId, "callerCandidates");
+        const calleeCandidatesRef = collection(db, "liveSessions", liveSessionId, "calleeCandidates");
+
+        if (unsubscribeCallerCandidates) unsubscribeCallerCandidates();
+        unsubscribeCallerCandidates = onSnapshot(callerCandidatesRef, async (snap) => {
+          snap.docChanges().forEach(async (change) => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              if (!pc || !pc.remoteDescription) {
+                pendingRemoteCandidates.push(data);
+              } else {
+                try {
+                  await pc.addIceCandidate(new RTCIceCandidate(data));
+                } catch (err) {
+                  console.warn("ICE eklenemedi:", err);
+                }
+              }
+            }
+          });
+          await flushQueuedCandidates();
+        });
+
+        if (unsubscribeCalleeCandidates) unsubscribeCalleeCandidates();
+        unsubscribeCalleeCandidates = onSnapshot(calleeCandidatesRef, async (snap) => {
+          snap.docChanges().forEach(async (change) => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              if (!pc || !pc.remoteDescription) {
+                pendingLocalCandidates.push(data);
+              } else {
+                try {
+                  await pc.addIceCandidate(new RTCIceCandidate(data));
+                } catch (err) {
+                  console.warn("ICE eklenemedi:", err);
+                }
+              }
+            }
+          });
+          if (pc?.remoteDescription) {
+            for (const c of pendingLocalCandidates.splice(0)) {
+              try { await pc.addIceCandidate(new RTCIceCandidate(c)); } catch {}
+            }
+          }
+        });
+
+        await pc.setRemoteDescription(new RTCSessionDescription(sessionData.offer));
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+
+        await setDoc(sessionRef, {
+          threadId: selectedThread,
+          caller: sessionData.caller || selectedThread,
+          callee: ADMIN_USER,
+          status: "active",
+          answer: {
+            type: answer.type,
+            sdp: answer.sdp
+          },
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+
+        if (unsubscribeLiveDoc) unsubscribeLiveDoc();
+        unsubscribeLiveDoc = onSnapshot(sessionRef, async (snap) => {
+          if (!snap.exists()) return;
+          const data = snap.data() || {};
+          if (data.status === "ended") {
+            await endLiveSession();
+          }
+        });
+
+        await flushQueuedCandidates();
+      } catch (err) {
+        console.error(err);
+        alert(err?.message || "Canlı kabul edilemedi.");
+        await endLiveSession();
+      } finally {
+        updateLiveUI();
       }
-    } else if (data.status === "ended") {
-      await endLiveSession();
     }
 
-    updateLiveUI();
-  });
-}
+    function listenLiveSession() {
+      stopLiveListenersOnly();
 
+      if (!selectedThread) {
+        setLiveState("idle");
+        updateLiveUI();
+        return;
+      }
 
-async function toggleChatStatus() {
+      const sessionRef = doc(db, "liveSessions", safeDocId(`live_${selectedThread}`));
+      unsubscribeLiveDoc = onSnapshot(sessionRef, async (snap) => {
+        if (!snap.exists()) {
+          if (liveState !== "idle") {
+            await endLiveSession(true);
+          } else {
+            updateLiveUI();
+          }
+          return;
+        }
+
+        const data = snap.data() || {};
+        liveSessionId = safeDocId(`live_${selectedThread}`);
+
+        if (!isAdmin) {
+          if (data.status === "requesting" && liveState !== "requesting") {
+            setLiveState("requesting");
+            liveInfo.textContent = "Bekleniyor...";
+          }
+          if (data.answer && pc && !pc.currentRemoteDescription) {
+            try {
+              await pc.setRemoteDescription(new RTCSessionDescription(data.answer));
+              setLiveState("active");
+              await flushQueuedCandidates();
+            } catch (err) {
+              console.warn("Remote answer alınamadı:", err);
+            }
+          }
+          if (data.status === "ended") {
+            await endLiveSession();
+          }
+        } else {
+          if (data.status === "requesting") {
+            setLiveState("requesting");
+            liveInfo.textContent = `Canlı isteği: ${selectedThread}`;
+          } else if (data.status === "active") {
+            setLiveState("active");
+            liveInfo.textContent = "Canlı bağlantı aktif.";
+          } else if (data.status === "ended") {
+            await endLiveSession();
+          }
+        }
+
+        updateLiveUI();
+      });
+
+      if (isAdmin) {
+        const callerCandidatesRef = collection(db, "liveSessions", safeDocId(`live_${selectedThread}`), "callerCandidates");
+        unsubscribeCallerCandidates = onSnapshot(callerCandidatesRef, async (snap) => {
+          snap.docChanges().forEach(async (change) => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              if (!pc || !pc.remoteDescription) {
+                pendingRemoteCandidates.push(data);
+              } else {
+                try {
+                  await pc.addIceCandidate(new RTCIceCandidate(data));
+                } catch (err) {
+                  console.warn("ICE eklenemedi:", err);
+                }
+              }
+            }
+          });
+          await flushQueuedCandidates();
+        });
+      }
+    }
+
+    async function toggleChatStatus() {
       if (!isAdmin) return;
       try {
         await setDoc(statusDocRef, {
@@ -2263,66 +2306,7 @@ async function toggleChatStatus() {
       }
     }
 
-    async function sendLiveText() {
-      if (!isAdmin || liveState !== "active") return;
-
-      const text = messageInput.value.trim();
-      const threadId = selectedThread;
-
-      if (!threadId) {
-        alert("Önce bir kullanıcı seç.");
-        return;
-      }
-
-      if (!text) return;
-      if (text.length > LIVE_TEXT_MAX) {
-        alert("Canlı metin çok uzun.");
-        return;
-      }
-
-      sendBtn.disabled = true;
-      sendBtn.textContent = "Gönderiliyor...";
-
-      try {
-        if (!liveSessionId) {
-          liveSessionId = safeDocId(`live_${threadId}`);
-        }
-
-        await setDoc(doc(db, "liveSessions", liveSessionId), {
-          threadId,
-          caller: threadId,
-          callee: ADMIN_USER,
-          status: "active",
-          mode: "video-audio-plus-voice",
-          updatedAt: serverTimestamp()
-        }, { merge: true });
-
-        await addDoc(collection(db, "liveSessions", liveSessionId, "liveTexts"), {
-          sender: currentUser,
-          recipient: threadId,
-          text,
-          createdAt: serverTimestamp(),
-          createdAtClient: Date.now(),
-          expiresAt: Timestamp.fromDate(new Date(Date.now() + DAY_MS))
-        });
-
-        appendLiveEvent(`Sen: ${text}`);
-        messageInput.value = "";
-        charCount.textContent = "0";
-      } catch (err) {
-        console.error(err);
-        alert("Canlı metin gönderilemedi.");
-      } finally {
-        updateComposerState();
-      }
-    }
-
     async function sendMessage() {
-      if (isAdmin && liveState === "active") {
-        await sendLiveText();
-        return;
-      }
-
       const text = messageInput.value.trim();
       const threadId = isAdmin ? selectedThread : currentUser;
 
@@ -2342,6 +2326,11 @@ async function toggleChatStatus() {
         return;
       }
 
+      if (!isAdmin && composeMode !== "normal") {
+        await sendModeRequest(composeMode, text);
+        return;
+      }
+
       sendBtn.disabled = true;
       sendBtn.textContent = "Gönderiliyor...";
 
@@ -2350,6 +2339,7 @@ async function toggleChatStatus() {
           threadId,
           sender: currentUser,
           recipient: isAdmin ? threadId : ADMIN_USER,
+          kind: "text",
           text,
           imageDataUrl: "",
           imageName: "",
@@ -2371,12 +2361,73 @@ async function toggleChatStatus() {
       }
     }
 
+    async function sendImage(file) {
+      const threadId = isAdmin ? selectedThread : currentUser;
+
+      if (!threadId) {
+        alert("Önce bir sohbet seç.");
+        return;
+      }
+
+      if (!isAdmin && !chatOpen) {
+        alert("GloGeGo müsait değil.");
+        return;
+      }
+
+      if (!file) return;
+      if (!file.type.startsWith("image/")) {
+        alert("Sadece resim yükleyebilirsin.");
+        return;
+      }
+      if (file.size > 15 * 1024 * 1024) {
+        alert("Resim çok büyük. Daha küçük bir resim seç.");
+        return;
+      }
+
+      imageBtn.disabled = true;
+      imageBtn.textContent = "Sıkıştırılıyor...";
+
+      try {
+        const compressed = await compressImageToDataUrl(file);
+        if (!dataUrlSizeOk(compressed.dataUrl)) {
+          throw new Error("Resim çok büyük. Daha küçük bir resim seç.");
+        }
+
+        await addDoc(collection(db, "messages"), {
+          threadId,
+          sender: currentUser,
+          recipient: isAdmin ? threadId : ADMIN_USER,
+          text: "",
+          imageDataUrl: compressed.dataUrl,
+          imageName: file.name,
+          imageType: compressed.mime,
+          imageWidth: compressed.width,
+          imageHeight: compressed.height,
+          createdAt: serverTimestamp(),
+          createdAtClient: Date.now(),
+          expiresAt: Timestamp.fromDate(new Date(Date.now() + IMAGE_EXPIRE_MS))
+        });
+      } catch (err) {
+        console.error(err);
+        alert(err?.message || "Fotoğraf yüklenemedi.");
+      } finally {
+        imageBtn.disabled = false;
+        imageBtn.textContent = "Resim";
+        imageInput.value = "";
+        updateComposerState();
+      }
+    }
+
     async function cleanupExpiredMessages() {
       try {
         const now = Timestamp.now();
         const q = query(collection(db, "messages"), where("expiresAt", "<=", now));
         const snap = await getDocs(q);
         for (const d of snap.docs) {
+          const data = d.data() || {};
+          if (data.kind === "video") {
+            try { await deleteVideoChunks(d.id); } catch {}
+          }
           await deleteDoc(doc(db, "messages", d.id));
         }
       } catch (err) {
@@ -2404,6 +2455,7 @@ async function toggleChatStatus() {
 
         if (!items.length) {
           renderEmpty("Henüz mesaj yok.");
+          clearPendingModeRequest();
           return;
         }
 
@@ -2415,8 +2467,15 @@ async function toggleChatStatus() {
             const isNew = !seenMessageIds.has(item.id);
             if (isNew) {
               seenMessageIds.add(item.id);
+              if (item.sender === ADMIN_USER && item.kind !== "mode_request" && item.text) {
+                speakRobot(item.text);
+              }
             }
           }
+        }
+
+        if (!isAdmin) {
+          syncModeRequestState(items);
         }
 
         messagesEl.innerHTML = items.map(renderMessage).join("");
@@ -2444,7 +2503,59 @@ async function toggleChatStatus() {
           });
         });
 
+        messagesEl.querySelectorAll("[data-video-message-id]").forEach((card) => {
+          const messageId = card.dataset.videoMessageId;
+          const mimeType = card.dataset.videoMime || "video/mp4";
+          const status = card.dataset.videoStatus || "uploading";
+          const loadingEl = card.querySelector("[data-video-loading]");
+          const videoEl = card.querySelector("[data-video-player]");
+          const fullBtn = card.querySelector("[data-fullscreen-video]");
+          const downloadBtn = card.querySelector("[data-download-video]");
+          if (!messageId || !videoEl) return;
+
+          if (status !== "ready") {
+            if (loadingEl) loadingEl.textContent = "Video yükleniyor...";
+            return;
+          }
+
+          const existing = videoObjectUrls.get(messageId);
+          const ready = () => {
+            videoEl.src = existing || "";
+            videoEl.controls = true;
+            if (loadingEl) loadingEl.textContent = "Video hazır.";
+            if (fullBtn) fullBtn.disabled = false;
+            if (downloadBtn) downloadBtn.disabled = false;
+          };
+
+          if (existing) {
+            ready();
+          } else {
+            loadVideoBlob(messageId, mimeType)
+              .then((url) => {
+                videoEl.src = url;
+                videoEl.controls = true;
+                if (loadingEl) loadingEl.textContent = "Video hazır.";
+                if (fullBtn) fullBtn.disabled = false;
+                if (downloadBtn) downloadBtn.disabled = false;
+              })
+              .catch((err) => {
+                console.warn("Video yüklenemedi:", err);
+                if (loadingEl) loadingEl.textContent = "Video yüklenemedi.";
+              });
+          }
+
+          if (fullBtn) {
+            fullBtn.addEventListener("click", () => enterFullscreenForVideo(messageId));
+          }
+          if (downloadBtn) {
+            downloadBtn.addEventListener("click", async () => {
+              await downloadVideoByMessageId(messageId, card.dataset.videoName || "video.mp4");
+            });
+          }
+        });
+
         requestAnimationFrame(scrollToBottomFast);
+        hydrateVideoMessages();
       }, () => {
         renderEmpty("Mesajlar yüklenemedi.");
       });
@@ -2516,6 +2627,14 @@ async function toggleChatStatus() {
     logoutBtn.addEventListener("click", logout);
 
     sendBtn.addEventListener("click", sendMessage);
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleModeMenu();
+    });
+    modeSearchBtn.addEventListener("click", () => setComposeMode("search"));
+    modeThinkBtn.addEventListener("click", () => setComposeMode("thinking"));
+    modeNormalBtn.addEventListener("click", () => setComposeMode("normal"));
+    modeCancelBtn.addEventListener("click", cancelPendingModeRequest);
     scrollBottomBtn.addEventListener("click", scrollToBottomFast);
     statusToggleBtn.addEventListener("click", toggleChatStatus);
 
@@ -2544,10 +2663,18 @@ async function toggleChatStatus() {
       if (imageBtn.disabled) return;
       imageInput.click();
     });
+    videoBtn.addEventListener("click", () => {
+      if (videoBtn.disabled) return;
+      videoInput.click();
+    });
 
     imageInput.addEventListener("change", () => {
       const file = imageInput.files && imageInput.files[0];
       if (file) sendImage(file);
+    });
+    videoInput.addEventListener("change", () => {
+      const file = videoInput.files && videoInput.files[0];
+      if (file) sendVideo(file);
     });
 
     messageInput.addEventListener("input", () => {
@@ -2575,25 +2702,24 @@ async function toggleChatStatus() {
       }
     });
 
+    document.addEventListener("click", (e) => {
+      if (!modeMenu.contains(e.target) && e.target !== menuBtn) closeModeMenu();
+    });
+
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !imageModal.classList.contains("hidden")) {
         closeImageModal();
       }
     });
 
+    if (loadSession()) {
+      showApp();
+    } else {
+      showLogin();
+    }
 
-if (isLiveRoomPage) {
-  initLiveRoomMode();
-} else if (loadSession()) {
-  showApp();
-} else {
-  showLogin();
-}
-
-// Make sure UI reflects selected role immediately.
-if (!isLiveRoomPage) {
-  updateComposerState();
-}
+    // Make sure UI reflects selected role immediately.
+    updateComposerState();
   </script>
 </body>
 </html>
