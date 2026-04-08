@@ -637,6 +637,211 @@
       justify-content:flex-end;
     }
 
+
+    .plus-panel{
+      position:fixed;
+      inset:0;
+      z-index:1200;
+      padding:18px;
+      background:rgba(16,21,33,.98);
+      backdrop-filter:blur(10px);
+      overflow-y:auto;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      scrollbar-gutter:stable;
+    }
+    .plus-card{
+      width:min(1500px, calc(100vw - 36px));
+      height:calc(100vh - 36px);
+      max-height:calc(100vh - 36px);
+      border:1px solid rgba(255,255,255,.08);
+      background:#0f1420;
+      border-radius:24px;
+      padding:18px;
+      box-shadow:0 18px 54px rgba(0,0,0,.28);
+      display:grid;
+      grid-template-rows:auto minmax(0,1fr) auto;
+      gap:14px;
+      overflow-y:auto;
+      overscroll-behavior:contain;
+      scrollbar-gutter:stable;
+      min-width:0;
+    }
+    .plus-head{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+    .plus-title{
+      font-size:22px;
+      font-weight:900;
+      margin-bottom:4px;
+    }
+    .plus-status{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.4;
+    }
+    .plus-close{
+      border:none;
+      cursor:pointer;
+      border-radius:12px;
+      padding:10px 14px;
+      background:#18223b;
+      color:#dbe5ff;
+      border:1px solid #2c3560;
+      font-weight:800;
+    }
+    .plus-grid{
+      display:grid;
+      grid-template-columns:minmax(320px, 0.95fr) minmax(320px, 1.05fr);
+      gap:14px;
+      align-items:start;
+      min-height:0;
+      min-width:0;
+      overflow:auto;
+      padding-right:4px;
+      overscroll-behavior:contain;
+    }
+    .plus-box{
+      border:1px solid rgba(255,255,255,.06);
+      background:#121826;
+      border-radius:18px;
+      padding:14px;
+      display:grid;
+      gap:10px;
+      height:fit-content;
+      min-width:0;
+      min-height:0;
+      overflow:auto;
+    }
+    .plus-box-title{
+      font-size:16px;
+      font-weight:900;
+      margin-bottom:2px;
+      line-height:1.25;
+      overflow-wrap:anywhere;
+    }
+    .plus-input{
+      width:100%;
+      border:1px solid var(--line);
+      background:#0c111c;
+      color:var(--text);
+      border-radius:14px;
+      padding:14px 16px;
+      font-size:15px;
+      outline:none;
+    }
+    .plus-input:focus{
+      border-color:#5165a7;
+      box-shadow:0 0 0 3px rgba(110,168,254,.12);
+    }
+    .plus-feature{
+      padding:10px 12px;
+      border-radius:14px;
+      background:#182038;
+      border:1px solid rgba(110,168,254,.18);
+      color:#dbe5ff;
+      font-weight:700;
+      font-size:13px;
+      line-height:1.35;
+      white-space:normal;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+    .plus-admin{
+      border-top:1px solid rgba(255,255,255,.08);
+      padding-top:12px;
+      display:grid;
+      gap:10px;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      align-content:start;
+      min-height:0;
+      overflow:auto;
+      padding-right:4px;
+      grid-auto-rows:min-content;
+    }
+    .plus-admin-title{
+      font-size:18px;
+      font-weight:900;
+      grid-column:1 / -1;
+    }
+    .plus-admin-note{
+      color:var(--muted);
+      font-size:13px;
+      grid-column:1 / -1;
+    }
+    .plus-admin-create{
+      display:grid;
+      gap:10px;
+      padding:12px;
+      border-radius:16px;
+      background:#101726;
+      border:1px solid rgba(255,255,255,.06);
+      grid-column:1 / -1;
+      min-width:0;
+    }
+    .plus-admin-subtitle{
+      font-size:14px;
+      font-weight:900;
+      color:#dbe5ff;
+      margin-top:2px;
+    }
+    .plus-admin-create-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(130px,.7fr) minmax(130px,.6fr);
+      gap:10px;
+      align-items:stretch;
+      min-width:0;
+    }
+    .plus-admin-create-grid .btn{
+      min-height:52px;
+      white-space:nowrap;
+    }
+    .plus-admin-list{
+      display:grid;
+      gap:10px;
+      min-width:0;
+      max-height:420px;
+      overflow:auto;
+      padding-right:4px;
+      align-content:start;
+    }
+    .plus-row{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:12px;
+      align-items:start;
+      padding:12px 14px;
+      border-radius:14px;
+      background:#182038;
+      border:1px solid rgba(110,168,254,.14);
+      font-size:14px;
+      min-width:0;
+    }
+    .plus-row strong{
+      font-size:15px;
+      overflow-wrap:anywhere;
+    }
+    .plus-row .muted{
+      color:var(--muted);
+      font-size:13px;
+      overflow-wrap:anywhere;
+    }
+    .plus-pill{
+      background:#2b2147;
+      border-color:#5f44a4;
+      color:#efe3ff;
+    }
+    .plus-active-tag{
+      background:#16341f;
+      border-color:#2b6a3e;
+      color:#d7ffe0;
+    }
+
     @media (max-width: 900px){
       .app{grid-template-columns:1fr}
       .sidebar{
@@ -669,6 +874,27 @@
       }
       .image-modal-image{
         max-height:calc(94vh - 130px);
+      }
+      .plus-panel{
+        padding:12px;
+      }
+      .plus-card{
+        width:100%;
+        height:calc(100vh - 24px);
+        max-height:calc(100vh - 24px);
+        padding:14px;
+      }
+      .plus-grid{
+        grid-template-columns:1fr;
+      }
+      .plus-admin{
+        grid-template-columns:1fr;
+      }
+      .plus-admin-create-grid{
+        grid-template-columns:1fr;
+      }
+      .plus-admin-list{
+        max-height:260px;
       }
     }
   
@@ -840,9 +1066,11 @@
             <div class="who">GloGeGo</div>
             <div class="top-actions">
               <span id="userPill" class="pill"></span>
+              <span id="plusPill" class="pill hidden"></span>
               <span id="threadStatusPill" class="pill hidden"></span>
               <button id="voiceToggleBtn" class="voice-toggle-btn hidden" type="button">Ses: Açık</button>
               <span id="livePill" class="pill hidden"></span>
+              <button id="plusBtn" class="live-btn">GloGeGo Plus</button>
               <button id="liveBtn" class="live-btn hidden">Live</button>
               <button id="liveAcceptBtn" class="live-btn hidden">Kabul</button>
               <button id="liveEndBtn" class="live-btn hidden">Bitir</button>
@@ -871,6 +1099,59 @@
               </div>
             </div>
           </section>
+
+          <section id="plusPanel" class="plus-panel hidden">
+            <div class="plus-card">
+              <div class="plus-head">
+                <div>
+                  <div class="plus-title">GloGeGo Plus</div>
+                  <div id="plusStatusText" class="plus-status">Plus durumunu burada görürsün.</div>
+                </div>
+                <button id="plusCloseBtn" class="plus-close" type="button">Kapat</button>
+              </div>
+
+              <div class="plus-grid">
+                <div class="plus-box">
+                  <div class="plus-box-title">Plus Kodunu Girin:</div>
+                  <input id="plusCodeInput" class="plus-input" type="password" placeholder="Plus kodu" autocomplete="one-time-code" />
+                  <button id="plusActivateBtn" class="btn" type="button">Plus Aktifleştir</button>
+                  <div id="plusMsg" class="msg"></div>
+                  <div class="plus-note" style="color:var(--muted);font-size:13px;line-height:1.45;">Kod girince Plus açılır.</div>
+                </div>
+
+                <div class="plus-box">
+                  <div class="plus-box-title">Plus özellikleri</div>
+                  <div class="plus-feature">Daha hızlı yazma</div>
+                  <div class="plus-feature">Gelişmiş Video oluşturma</div>
+                  <div class="plus-feature">Gelişmiş zeka</div>
+                  <div class="plus-feature">Gelişmiş Kodlama becerileri</div>
+                  <div class="plus-feature">Gelişmiş fotoğraf oluşturma</div>
+                </div>
+              </div>
+
+              <div id="adminPlusSection" class="plus-admin hidden">
+                <div class="plus-admin-title">Admin Plus Takibi</div>
+                <div class="plus-admin-note">Kimde Plus var ve ne kadar süre kaldığı burada görünür.</div>
+
+                <div class="plus-admin-create">
+                  <div class="plus-admin-subtitle">Kod ekleme</div>
+                  <div class="plus-admin-create-grid">
+                    <input id="plusCreateCodeInput" class="plus-input" type="text" placeholder="Yeni kod" autocomplete="off" />
+                    <input id="plusCreateDaysInput" class="plus-input" type="number" min="1" step="1" value="1" placeholder="Gün sayısı" />
+                    <button id="plusCreateBtn" class="btn" type="button">Kod Oluştur</button>
+                  </div>
+                  <div id="plusCreateMsg" class="msg"></div>
+                </div>
+
+                <div class="plus-admin-subtitle">Aktif kullanıcılar</div>
+                <div id="plusAdminList" class="plus-admin-list"></div>
+
+                <div class="plus-admin-subtitle">Oluşturulan kodlar</div>
+                <div id="plusCodeAdminList" class="plus-admin-list"></div>
+              </div>
+            </div>
+          </section>
+
 
           <div id="messages" class="messages">
             <div class="empty">Bir mesaj seç ya da yaz.</div>
@@ -931,6 +1212,7 @@
       getDoc,
       setDoc,
       updateDoc,
+      runTransaction,
       serverTimestamp,
       Timestamp,
       deleteDoc
@@ -952,6 +1234,7 @@
     const ADMIN_USER = "GloGeGo";
     const ADMIN_PASS = "9119";
     const DAY_MS = 24 * 60 * 60 * 1000;
+    const DEFAULT_PLUS_DAYS = 1;
     const IMAGE_EXPIRE_MS = 12 * 60 * 60 * 1000;
     const MAX_TEXT = 500000;
     const MAX_IMAGE_SIDE = 1400;
@@ -982,6 +1265,21 @@
     const scrollBottomBtn = document.getElementById("scrollBottomBtn");
     const statusToggleBtn = document.getElementById("statusToggleBtn");
     const statusLine = document.getElementById("statusLine");
+    const plusBtn = document.getElementById("plusBtn");
+    const plusPanel = document.getElementById("plusPanel");
+    const plusCloseBtn = document.getElementById("plusCloseBtn");
+    const plusCodeInput = document.getElementById("plusCodeInput");
+    const plusActivateBtn = document.getElementById("plusActivateBtn");
+    const plusMsg = document.getElementById("plusMsg");
+    const plusStatusText = document.getElementById("plusStatusText");
+    const adminPlusSection = document.getElementById("adminPlusSection");
+    const plusCreateCodeInput = document.getElementById("plusCreateCodeInput");
+    const plusCreateDaysInput = document.getElementById("plusCreateDaysInput");
+    const plusCreateBtn = document.getElementById("plusCreateBtn");
+    const plusCreateMsg = document.getElementById("plusCreateMsg");
+    const plusAdminList = document.getElementById("plusAdminList");
+    const plusCodeAdminList = document.getElementById("plusCodeAdminList");
+    const plusPill = document.getElementById("plusPill");
 
     const usernameInput = document.getElementById("username");
     const passwordInput = document.getElementById("password");
@@ -1010,6 +1308,9 @@
 
     const sessionKey = "glogego_session";
     const statusDocRef = doc(db, "settings", "chatStatus");
+    const PLUS_SECRET_CODE = "9119";
+    const plusCollectionRef = collection(db, "plusMembers");
+    const plusCodeCollectionRef = collection(db, "plusCodes");
 
     let currentUser = null;
     let isAdmin = false;
@@ -1021,6 +1322,9 @@
     let unsubscribeStatus = null;
     let unsubscribePresence = null;
     let unsubscribeLiveDoc = null;
+    let unsubscribePlusSelf = null;
+    let unsubscribePlusAdmin = null;
+    let unsubscribePlusCodesAdmin = null;
     let unsubscribeCallerCandidates = null;
     let unsubscribeCalleeCandidates = null;
 
@@ -1030,6 +1334,11 @@
     let currentModalImageName = "";
     let lastThreadsCache = [];
     let presenceMap = new Map();
+    let plusMap = new Map();
+    let plusCodeMap = new Map();
+    let currentPlus = null;
+    let plusPanelOpen = false;
+    let livePanelBaseHidden = true;
 
     let messagesHydrated = false;
     let seenMessageIds = new Set();
@@ -1126,6 +1435,51 @@
       sessionStorage.removeItem(sessionKey);
     }
 
+    function plusDocId(username = "") {
+      return safeDocId(username);
+    }
+
+    function getPlusRemainingMs(data) {
+      const raw = data?.plusUntil;
+      const d = raw?.toDate ? raw.toDate() : (raw ? new Date(raw) : null);
+      if (!d || isNaN(d.getTime())) return 0;
+      return d.getTime() - Date.now();
+    }
+
+    function isPlusActive(data) {
+      return getPlusRemainingMs(data) > 0;
+    }
+
+    function formatDaysLeft(ms) {
+      if (ms <= 0) return "Bitti";
+      const days = Math.ceil(ms / DAY_MS);
+      return `${days} gün`;
+    }
+
+    function clearPlusMsg() {
+      if (plusMsg) plusMsg.textContent = "";
+    }
+
+    function setPlusMsg(text, ok = false) {
+      if (!plusMsg) return;
+      plusMsg.textContent = text || "";
+      plusMsg.style.color = ok ? "#d7ffe0" : "#ffb4b4";
+    }
+
+    function clearPlusCreateMsg() {
+      if (plusCreateMsg) plusCreateMsg.textContent = "";
+    }
+
+    function setPlusCreateMsg(text, ok = false) {
+      if (!plusCreateMsg) return;
+      plusCreateMsg.textContent = text || "";
+      plusCreateMsg.style.color = ok ? "#d7ffe0" : "#ffb4b4";
+    }
+
+    function normalizePlusCode(value = "") {
+      return String(value || "").trim();
+    }
+
     function loadVoiceSetting() {
       try {
         const raw = sessionStorage.getItem(voiceSettingKey);
@@ -1164,6 +1518,8 @@
     function updateComposerState() {
       statusToggleBtn.classList.toggle("hidden", !isAdmin);
       updateVoiceToggleUI();
+      updatePlusPill();
+      updatePlusStatusText();
 
       if (isAdmin) {
         statusToggleBtn.classList.remove("open", "closed");
@@ -1838,6 +2194,7 @@
       appScreen.style.display = "grid";
       sidebar.classList.toggle("hidden", !isAdmin);
       userPill.textContent = isAdmin ? "Admin" : currentUser;
+      adminPlusSection.classList.toggle("hidden", !isAdmin);
 
       if (!isAdmin) {
         selectedThread = currentUser;
@@ -1847,7 +2204,10 @@
       listenStatus();
       listenMessages();
       listenPresence();
+      listenPlusStatus();
       if (isAdmin) listenThreads();
+      if (isAdmin) listenPlusAdmin();
+      if (isAdmin) listenPlusCodesAdmin();
 
       startPresenceTracking();
       cleanupExpiredMessages();
@@ -1859,6 +2219,7 @@
     function showLogin() {
       loginScreen.style.display = "flex";
       appScreen.style.display = "none";
+      setPlusPanelOpen(false);
     }
 
     async function login() {
@@ -1890,6 +2251,9 @@
       if (unsubscribeThreads) unsubscribeThreads();
       if (unsubscribeStatus) unsubscribeStatus();
       if (unsubscribePresence) unsubscribePresence();
+      if (unsubscribePlusSelf) unsubscribePlusSelf();
+      if (unsubscribePlusAdmin) unsubscribePlusAdmin();
+      if (unsubscribePlusCodesAdmin) unsubscribePlusCodesAdmin();
 
       currentUser = null;
       isAdmin = false;
@@ -1913,6 +2277,287 @@
 
     function renderEmpty(text) {
       messagesEl.innerHTML = `<div class="empty">${escapeHtml(text)}</div>`;
+    }
+
+    function setPlusPanelOpen(open) {
+      plusPanelOpen = !!open;
+      plusPanel.classList.toggle("hidden", !plusPanelOpen);
+      const composerEl = document.querySelector(".composer");
+      if (plusPanelOpen) {
+        livePanelBaseHidden = livePanel.classList.contains("hidden");
+        messagesEl.classList.add("hidden");
+        if (composerEl) composerEl.classList.add("hidden");
+        livePanel.classList.add("hidden");
+      } else {
+        messagesEl.classList.remove("hidden");
+        if (composerEl) composerEl.classList.remove("hidden");
+        if (!livePanelBaseHidden) livePanel.classList.remove("hidden");
+      }
+    }
+
+    function updatePlusPill() {
+      if (!plusPill) return;
+      if (currentUser && !isAdmin && isPlusActive(currentPlus)) {
+        plusPill.textContent = "Plus Aktif";
+        plusPill.className = "pill plus-active-tag";
+        plusPill.classList.remove("hidden");
+      } else if (currentUser && !isAdmin) {
+        plusPill.textContent = "Plus Yok";
+        plusPill.className = "pill";
+        plusPill.classList.remove("hidden");
+      } else {
+        plusPill.classList.add("hidden");
+        plusPill.textContent = "";
+      }
+    }
+
+    function updatePlusStatusText() {
+      if (!plusStatusText) return;
+      if (isAdmin) {
+        plusStatusText.textContent = "Admin olarak kod oluşturabilir ve Plus listesini görebilirsin.";
+        return;
+      }
+      const ms = getPlusRemainingMs(currentPlus);
+      if (ms > 0) {
+        plusStatusText.textContent = `Plus aktif. Kalan süre: ${formatDaysLeft(ms)}.`;
+      } else {
+        plusStatusText.textContent = "Sadece kod girmen yeterli.";
+      }
+    }
+
+    async function ensureDefaultPlusCode() {
+      try {
+        const ref = doc(db, "plusCodes", PLUS_SECRET_CODE);
+        const snap = await getDoc(ref);
+        if (!snap.exists()) {
+          await setDoc(ref, {
+            code: PLUS_SECRET_CODE,
+            daysGranted: DEFAULT_PLUS_DAYS,
+            used: false,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+          }, { merge: true });
+        }
+      } catch (err) {
+        console.warn("Plus kodu hazırlanamadı:", err);
+      }
+    }
+
+    function renderPlusAdminList() {
+      if (!plusAdminList || !isAdmin) return;
+      const rows = Array.from(plusMap.values())
+        .sort((a, b) => getPlusRemainingMs(b) - getPlusRemainingMs(a))
+        .map((data) => {
+          const ms = getPlusRemainingMs(data);
+          const name = data.username || data.usernameKey || "Bilinmeyen";
+          const active = ms > 0;
+          const until = data.plusUntil?.toDate ? data.plusUntil.toDate().toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" }) : "";
+          return `
+            <div class="plus-row">
+              <div>
+                <strong>${escapeHtml(name)}</strong>
+                <div class="muted">${active ? "Aktif" : "Süresi bitmiş"}</div>
+              </div>
+              <div style="text-align:right">
+                <div><strong>${escapeHtml(formatDaysLeft(ms))}</strong></div>
+                <div class="muted">${until ? `Bitiş: ${escapeHtml(until)}` : "Bitiş yok"}</div>
+              </div>
+            </div>
+          `;
+        });
+      plusAdminList.innerHTML = rows.length ? rows.join("") : '<div class="empty" style="padding:18px;">Henüz Plus kaydı yok.</div>';
+    }
+
+    function renderPlusCodeAdminList() {
+      if (!plusCodeAdminList || !isAdmin) return;
+      const rows = Array.from(plusCodeMap.values())
+        .sort((a, b) => (Number(b.createdAtClient || 0) - Number(a.createdAtClient || 0)))
+        .map((data) => {
+          const code = data.code || data.id || "";
+          const days = Number.parseInt(String(data.daysGranted ?? DEFAULT_PLUS_DAYS), 10);
+          const used = !!data.used;
+          const created = data.createdAt?.toDate ? data.createdAt.toDate().toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" }) : (data.createdAtClient ? new Date(Number(data.createdAtClient)).toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" }) : "");
+          const usedAt = data.usedAt?.toDate ? data.usedAt.toDate().toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" }) : "";
+          return `
+            <div class="plus-row">
+              <div>
+                <strong>${escapeHtml(code)}</strong>
+                <div class="muted">${escapeHtml(String(Number.isFinite(days) && days > 0 ? days : DEFAULT_PLUS_DAYS))} gün · ${used ? "Kullanıldı" : "Kullanılmadı"}</div>
+              </div>
+              <div style="text-align:right">
+                <div><strong>${used ? "Tek kullanımlık" : "Hazır"}</strong></div>
+                <div class="muted">${used ? `Kullanan: ${escapeHtml(data.usedBy || "Bilinmiyor")}` : "Bekliyor"}</div>
+                <div class="muted">${usedAt ? `Kullanım: ${escapeHtml(usedAt)}` : `Oluşum: ${escapeHtml(created || "Bilinmiyor")}`}</div>
+              </div>
+            </div>
+          `;
+        });
+
+      plusCodeAdminList.innerHTML = rows.length ? rows.join("") : '<div class="empty" style="padding:18px;">Henüz kod yok.</div>';
+    }
+
+    function listenPlusCodesAdmin() {
+      if (unsubscribePlusCodesAdmin) unsubscribePlusCodesAdmin();
+      if (!isAdmin) {
+        plusCodeMap = new Map();
+        renderPlusCodeAdminList();
+        return;
+      }
+
+      unsubscribePlusCodesAdmin = onSnapshot(plusCodeCollectionRef, (snap) => {
+        const map = new Map();
+        snap.forEach((d) => map.set(d.id, { id: d.id, ...d.data() }));
+        plusCodeMap = map;
+        renderPlusCodeAdminList();
+      }, () => {
+        plusCodeMap = new Map();
+        renderPlusCodeAdminList();
+      });
+    }
+
+    async function createPlusCode() {
+      if (!isAdmin) return;
+
+      const code = normalizePlusCode(plusCreateCodeInput?.value);
+      const daysRaw = String(plusCreateDaysInput?.value || "").trim();
+      const days = Number.parseInt(daysRaw, 10);
+
+      if (!code) {
+        setPlusCreateMsg("Kod yaz.");
+        return;
+      }
+      if (!Number.isFinite(days) || days < 1) {
+        setPlusCreateMsg("Gün sayısı en az 1 olmalı.");
+        return;
+      }
+
+      plusCreateBtn.disabled = true;
+      plusCreateBtn.textContent = "Oluşturuluyor...";
+
+      try {
+        await runTransaction(db, async (tx) => {
+          const codeRef = doc(db, "plusCodes", code);
+          const snap = await tx.get(codeRef);
+          if (snap.exists()) {
+            throw new Error("Bu kod zaten var.");
+          }
+
+          tx.set(codeRef, {
+            code,
+            daysGranted: days,
+            used: false,
+            createdBy: currentUser,
+            createdAt: serverTimestamp(),
+            createdAtClient: Date.now(),
+            updatedAt: serverTimestamp(),
+            updatedAtClient: Date.now()
+          });
+        });
+
+        setPlusCreateMsg(`Kod oluşturuldu: ${code}`, true);
+        if (plusCreateCodeInput) plusCreateCodeInput.value = "";
+        if (plusCreateDaysInput) plusCreateDaysInput.value = "1";
+      } catch (err) {
+        console.error(err);
+        setPlusCreateMsg(err?.message || "Kod oluşturulamadı.");
+      } finally {
+        plusCreateBtn.disabled = false;
+        plusCreateBtn.textContent = "Kod Oluştur";
+        renderPlusCodeAdminList();
+      }
+    }
+
+    async function activatePlus() {
+      if (!currentUser) return;
+      const code = normalizePlusCode(plusCodeInput.value || "");
+
+      if (!code) {
+        setPlusMsg("Kod gir.");
+        return;
+      }
+
+      plusActivateBtn.disabled = true;
+      plusActivateBtn.textContent = "Kontrol ediliyor...";
+
+      try {
+        const result = await runTransaction(db, async (tx) => {
+          const codeRef = doc(db, "plusCodes", code);
+          const codeSnap = await tx.get(codeRef);
+          const codeData = codeSnap.exists() ? codeSnap.data() : null;
+
+          if (!codeData) {
+            throw new Error("Kod bulunamadı.");
+          }
+          if (codeData?.used) {
+            throw new Error("Bu kod daha önce kullanılmış.");
+          }
+
+          const daysFromCode = Number.parseInt(String(codeData?.daysGranted ?? DEFAULT_PLUS_DAYS), 10);
+          const days = Number.isFinite(daysFromCode) && daysFromCode > 0 ? daysFromCode : DEFAULT_PLUS_DAYS;
+
+          const memberRef = doc(db, "plusMembers", plusDocId(currentUser));
+          const memberSnap = await tx.get(memberRef);
+          const currentUntil = memberSnap.exists()
+            ? (memberSnap.data()?.plusUntil?.toDate ? memberSnap.data().plusUntil.toDate() : (memberSnap.data()?.plusUntil ? new Date(memberSnap.data().plusUntil) : null))
+            : (currentPlus?.plusUntil?.toDate ? currentPlus.plusUntil.toDate() : (currentPlus?.plusUntil ? new Date(currentPlus.plusUntil) : null));
+          const base = currentUntil && !isNaN(currentUntil.getTime()) ? Math.max(Date.now(), currentUntil.getTime()) : Date.now();
+          const plusUntil = new Date(base + days * DAY_MS);
+
+          tx.set(codeRef, {
+            ...codeData,
+            used: true,
+            usedBy: currentUser,
+            usedAt: serverTimestamp(),
+            usedAtClient: Date.now(),
+            updatedAt: serverTimestamp(),
+            updatedAtClient: Date.now()
+          }, { merge: true });
+
+          tx.set(memberRef, {
+            username: currentUser,
+            usernameKey: normalizeKey(currentUser),
+            plusUntil: Timestamp.fromDate(plusUntil),
+            isActive: true,
+            activatedAt: serverTimestamp(),
+            activatedAtClient: Date.now(),
+            activatedBy: currentUser,
+            updatedAt: serverTimestamp(),
+            updatedAtClient: Date.now(),
+            daysGranted: days,
+            lastCode: code
+          }, { merge: true });
+
+          return { days, plusUntil };
+        });
+
+        setPlusMsg(`Plus aktif edildi. (${result.days} gün)`, true);
+        if (plusCodeInput) plusCodeInput.value = "";
+      } catch (err) {
+        console.error(err);
+        setPlusMsg(err?.message || "Plus etkinleştirilemedi.");
+      } finally {
+        plusActivateBtn.disabled = false;
+        plusActivateBtn.textContent = "Plus Aktifleştir";
+        updatePlusStatusText();
+      }
+    }
+
+    async function openPlusPanel() {
+      setPlusPanelOpen(true);
+      clearPlusMsg();
+      clearPlusCreateMsg();
+      updatePlusStatusText();
+      plusPanel.scrollTop = 0;
+      const card = plusPanel.querySelector('.plus-card');
+      if (card) card.scrollTop = 0;
+      if (isAdmin) {
+        renderPlusAdminList();
+        renderPlusCodeAdminList();
+      }
+    }
+
+    function closePlusPanel() {
+      setPlusPanelOpen(false);
     }
 
     async function markPresence(isOnline = true) {
@@ -2599,6 +3244,41 @@
       });
     }
 
+    function listenPlusStatus() {
+      if (unsubscribePlusSelf) unsubscribePlusSelf();
+      if (!currentUser || isAdmin) {
+        currentPlus = null;
+        updatePlusStatusText();
+        updatePlusPill();
+        return;
+      }
+
+      unsubscribePlusSelf = onSnapshot(doc(db, "plusMembers", plusDocId(currentUser)), (snap) => {
+        currentPlus = snap.exists() ? { id: snap.id, ...snap.data() } : null;
+        updatePlusStatusText();
+        updatePlusPill();
+      }, () => {
+        currentPlus = null;
+        updatePlusStatusText();
+        updatePlusPill();
+      });
+    }
+
+    function listenPlusAdmin() {
+      if (unsubscribePlusAdmin) unsubscribePlusAdmin();
+      if (!isAdmin) return;
+
+      unsubscribePlusAdmin = onSnapshot(plusCollectionRef, (snap) => {
+        const map = new Map();
+        snap.forEach((d) => map.set(d.id, { id: d.id, ...d.data() }));
+        plusMap = map;
+        renderPlusAdminList();
+      }, () => {
+        plusMap = new Map();
+        renderPlusAdminList();
+      });
+    }
+
     function listenPresence() {
       if (unsubscribePresence) unsubscribePresence();
 
@@ -2635,6 +3315,21 @@
     passwordInput.addEventListener("keydown", (e) => { if (e.key === "Enter") login(); });
     usernameInput.addEventListener("keydown", (e) => { if (e.key === "Enter") login(); });
     logoutBtn.addEventListener("click", logout);
+
+    plusBtn.addEventListener("click", openPlusPanel);
+    plusCloseBtn.addEventListener("click", closePlusPanel);
+    plusActivateBtn.addEventListener("click", activatePlus);
+    if (plusCreateBtn) plusCreateBtn.addEventListener("click", createPlusCode);
+    if (plusCreateCodeInput) {
+      plusCreateCodeInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") createPlusCode();
+      });
+    }
+    if (plusCreateDaysInput) {
+      plusCreateDaysInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") createPlusCode();
+      });
+    }
 
     sendBtn.addEventListener("click", sendMessage);
     if (voiceToggleBtn) {
@@ -2718,6 +3413,7 @@
     });
 
     loadVoiceSetting();
+    void ensureDefaultPlusCode();
 
     if (loadSession()) {
       showApp();
