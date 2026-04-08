@@ -17,21 +17,20 @@
       --bubble:#202636;
       --bubble2:#26304a;
       --shadow:0 16px 50px rgba(0,0,0,.35);
+      --good:#4ade80;
+      --bad:#f87171;
     }
 
     *{box-sizing:border-box}
-
     html, body{
       height:100%;
       overflow:hidden;
     }
-
     body{
       margin:0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:radial-gradient(circle at top, #1b2140 0, var(--bg) 45%);
       color:var(--text);
-      min-height:100vh;
     }
 
     .wrap{
@@ -42,7 +41,7 @@
     }
 
     .card{
-      width:min(1360px,100%);
+      width:min(1400px,100%);
       height:100vh;
       background:rgba(17,20,29,.92);
       border:1px solid rgba(255,255,255,.06);
@@ -66,7 +65,6 @@
     .title{
       font-size:34px;
       margin:0 0 8px;
-      letter-spacing:.2px;
       text-align:center;
     }
 
@@ -100,7 +98,7 @@
       outline:none;
     }
 
-    .field input:focus, .field textarea:focus{
+    .field input:focus, .field textarea:focus, textarea:focus{
       border-color:#5165a7;
       box-shadow:0 0 0 3px rgba(110,168,254,.12);
     }
@@ -144,7 +142,6 @@
       border-right:1px solid var(--line);
       display:flex;
       flex-direction:column;
-      height:100vh;
       min-height:0;
     }
 
@@ -169,7 +166,7 @@
     }
 
     .thread{
-      padding:16px 16px;
+      padding:16px;
       margin-bottom:10px;
       border-radius:16px;
       background:#151a26;
@@ -179,7 +176,6 @@
     }
 
     .thread:hover{border-color:#2f3750}
-
     .thread.active{
       border-color:#5472d6;
       background:#182038;
@@ -187,7 +183,7 @@
 
     .thread .name{
       font-weight:700;
-      font-size:15px
+      font-size:15px;
     }
 
     .thread .last{
@@ -215,19 +211,12 @@
       display:inline-block;
       background:#94a3b8;
     }
-
-    .status-dot.online{
-      background:#4ade80;
-    }
-
-    .status-dot.offline{
-      background:#f87171;
-    }
+    .status-dot.online{background:var(--good)}
+    .status-dot.offline{background:var(--bad)}
 
     .chat{
       display:flex;
       flex-direction:column;
-      height:100vh;
       min-height:0;
       background:linear-gradient(180deg, rgba(255,255,255,.02), transparent);
     }
@@ -266,20 +255,18 @@
       padding:6px 10px;
       border-radius:999px;
     }
-
     .pill.online{
       background:#16341f;
       border-color:#2b6a3e;
       color:#d7ffe0;
     }
-
     .pill.offline{
       background:#3a1a1a;
       border-color:#7b3434;
       color:#ffd7d7;
     }
 
-    .status-btn{
+    .status-btn, .scroll-bottom-btn, .img-action-btn, .live-btn{
       border:none;
       cursor:pointer;
       border:1px solid #2c3560;
@@ -291,32 +278,80 @@
       background:#18223b;
     }
 
-    .status-btn.open{
+    .status-btn.open, .live-btn.open{
       background:#16341f;
       border-color:#2b6a3e;
       color:#d7ffe0;
     }
-
-    .status-btn.closed{
+    .status-btn.closed, .live-btn.closed{
       background:#3a1a1a;
       border-color:#7b3434;
       color:#ffd7d7;
     }
 
-    .scroll-bottom-btn{
-      border:none;
-      cursor:pointer;
-      background:#18223b;
-      color:#dbe5ff;
-      border:1px solid #2c3560;
-      border-radius:12px;
-      padding:10px 14px;
-      font-size:13px;
-      font-weight:700;
+    .scroll-bottom-btn:hover, .status-btn:hover, .img-action-btn:hover, .live-btn:hover{
+      filter:brightness(1.08);
     }
 
-    .scroll-bottom-btn:hover{
-      filter:brightness(1.08);
+    .live-panel{
+      border-bottom:1px solid var(--line);
+      background:#101521;
+      padding:14px 18px;
+      display:grid;
+      gap:12px;
+      flex-shrink:0;
+    }
+
+    .live-panel.hidden{display:none}
+    .live-top{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .live-title{
+      font-size:15px;
+      font-weight:900;
+      margin-bottom:4px;
+    }
+
+    .live-info{
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .live-grid{
+      display:grid;
+      grid-template-columns:1fr 320px;
+      gap:12px;
+    }
+
+    .video-card{
+      background:#0c1018;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      overflow:hidden;
+      min-height:220px;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .video-label{
+      padding:10px 12px;
+      font-size:13px;
+      color:#cfd7e8;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background:#111727;
+    }
+
+    video{
+      width:100%;
+      height:100%;
+      max-height:48vh;
+      object-fit:contain;
+      background:#05070c;
     }
 
     .messages{
@@ -328,13 +363,12 @@
       gap:12px;
       align-items:center;
       min-height:0;
-      scroll-behavior:auto;
       width:100%;
       max-width:100%;
     }
 
     .bubble{
-      width:min(1260px, 100%);
+      width:min(1260px,100%);
       background:var(--bubble);
       border:1px solid rgba(255,255,255,.06);
       border-radius:18px;
@@ -375,7 +409,6 @@
     .message-image{
       display:block;
       width:100%;
-      max-width:100%;
       max-height:640px;
       object-fit:contain;
       border-radius:16px;
@@ -390,22 +423,6 @@
       flex-wrap:wrap;
     }
 
-    .img-action-btn{
-      border:none;
-      cursor:pointer;
-      border-radius:12px;
-      padding:10px 14px;
-      font-size:13px;
-      font-weight:800;
-      background:#18223b;
-      color:#dbe5ff;
-      border:1px solid #2c3560;
-    }
-
-    .img-action-btn:hover{
-      filter:brightness(1.08);
-    }
-
     .copy-btn{
       position:absolute;
       top:12px;
@@ -418,10 +435,6 @@
       color:#dbe5ff;
       font-size:12px;
       border:1px solid rgba(255,255,255,.08);
-    }
-
-    .copy-btn:hover{
-      filter:brightness(1.08);
     }
 
     .copy-btn.done{
@@ -476,11 +489,6 @@
       line-height:1.45;
     }
 
-    textarea:focus{
-      border-color:#5165a7;
-      box-shadow:0 0 0 3px rgba(110,168,254,.12);
-    }
-
     .send-btn{
       min-width:150px;
       min-height:110px;
@@ -498,7 +506,7 @@
       font-size:15px;
     }
 
-    .send-btn:disabled{
+    .send-btn:disabled, .img-action-btn:disabled, .live-btn:disabled{
       cursor:not-allowed;
       filter:grayscale(.2) brightness(.85);
       opacity:.8;
@@ -525,7 +533,6 @@
     }
 
     .hidden{display:none !important}
-
     .empty{
       color:var(--muted);
       margin:auto;
@@ -541,18 +548,13 @@
       place-items:center;
       padding:18px;
     }
-
-    .image-modal.hidden{
-      display:none !important;
-    }
-
+    .image-modal.hidden{display:none !important}
     .image-modal-backdrop{
       position:absolute;
       inset:0;
       background:rgba(0,0,0,.72);
       backdrop-filter:blur(6px);
     }
-
     .image-modal-panel{
       position:relative;
       z-index:1;
@@ -566,7 +568,6 @@
       display:grid;
       gap:12px;
     }
-
     .image-modal-top{
       display:flex;
       justify-content:space-between;
@@ -576,7 +577,6 @@
       border-bottom:1px solid rgba(255,255,255,.08);
       padding-bottom:12px;
     }
-
     .image-modal-title{
       font-size:16px;
       font-weight:800;
@@ -586,7 +586,6 @@
       white-space:nowrap;
       max-width:70vw;
     }
-
     .image-modal-close{
       border:none;
       cursor:pointer;
@@ -600,7 +599,6 @@
       line-height:1;
       flex-shrink:0;
     }
-
     .image-modal-image{
       width:100%;
       max-height:calc(92vh - 120px);
@@ -609,7 +607,6 @@
       background:#0b0f18;
       border:1px solid rgba(255,255,255,.08);
     }
-
     .image-modal-actions{
       display:flex;
       gap:10px;
@@ -620,13 +617,10 @@
     @media (max-width: 900px){
       .app{grid-template-columns:1fr}
       .sidebar{
-        min-height:auto;
         border-right:none;
         border-bottom:1px solid var(--line);
         height:auto;
       }
-      .chat{min-height:auto}
-      .bubble{width:96%}
       .composer-top{grid-template-columns:1fr}
       .send-btn{min-height:56px; width:100%}
       .messages{padding:14px}
@@ -642,6 +636,9 @@
       .top-actions{
         width:100%;
         justify-content:flex-start;
+      }
+      .live-grid{
+        grid-template-columns:1fr;
       }
       .image-modal-panel{
         width:100%;
@@ -687,11 +684,35 @@
             <div class="top-actions">
               <span id="userPill" class="pill"></span>
               <span id="threadStatusPill" class="pill hidden"></span>
+              <span id="livePill" class="pill hidden"></span>
+              <button id="liveBtn" class="live-btn hidden">Live</button>
+              <button id="liveAcceptBtn" class="live-btn hidden">Kabul</button>
+              <button id="liveEndBtn" class="live-btn hidden">Bitir</button>
               <button id="statusToggleBtn" class="status-btn hidden">Durum</button>
               <button id="scrollBottomBtn" class="scroll-bottom-btn">En Alta İn</button>
               <button id="logoutBtn" class="btn secondary" style="width:auto;padding:10px 14px;">Çıkış</button>
             </div>
           </div>
+
+          <section id="livePanel" class="live-panel hidden">
+            <div class="live-top">
+              <div>
+                <div class="live-title">Canlı bağlantı</div>
+                <div id="liveInfo" class="live-info">Hazır.</div>
+              </div>
+              <div id="liveControlHint" class="live-info"></div>
+            </div>
+            <div class="live-grid">
+              <div class="video-card">
+                <div class="video-label">Karşı taraf</div>
+                <video id="remoteVideo" autoplay playsinline></video>
+              </div>
+              <div class="video-card">
+                <div class="video-label">Benim kameram</div>
+                <video id="localVideo" autoplay playsinline muted></video>
+              </div>
+            </div>
+          </section>
 
           <div id="messages" class="messages">
             <div class="empty">Bir mesaj seç ya da yaz.</div>
@@ -701,7 +722,6 @@
             <div class="composer-box">
               <div class="composer-top">
                 <textarea id="messageInput" maxlength="500000" placeholder="Mesaj yaz..."></textarea>
-
                 <div class="button-stack">
                   <button id="sendBtn" class="send-btn">Gönder</button>
                   <button id="imageBtn" class="send-btn small">Resim</button>
@@ -723,15 +743,12 @@
 
   <div id="imageModal" class="image-modal hidden" aria-hidden="true">
     <div id="imageModalBackdrop" class="image-modal-backdrop"></div>
-
     <div class="image-modal-panel" role="dialog" aria-modal="true" aria-label="Resim görüntüleyici">
       <div class="image-modal-top">
         <div id="imageModalTitle" class="image-modal-title">Resim</div>
         <button id="imageModalClose" class="image-modal-close" type="button">×</button>
       </div>
-
       <img id="imageModalImg" class="image-modal-image" alt="Büyütülmüş resim" />
-
       <div class="image-modal-actions">
         <button id="imageModalOpenNewTab" class="img-action-btn" type="button">Yeni Sekmede Aç</button>
         <button id="imageModalDownload" class="img-action-btn" type="button">İndir</button>
@@ -751,7 +768,9 @@
       onSnapshot,
       doc,
       getDocs,
+      getDoc,
       setDoc,
+      updateDoc,
       serverTimestamp,
       Timestamp,
       deleteDoc
@@ -775,12 +794,12 @@
     const DAY_MS = 24 * 60 * 60 * 1000;
     const IMAGE_EXPIRE_MS = 12 * 60 * 60 * 1000;
     const MAX_TEXT = 500000;
-
     const MAX_IMAGE_SIDE = 1400;
     const START_JPEG_QUALITY = 0.82;
     const MAX_DATAURL_LENGTH = 850000;
     const PRESENCE_ONLINE_MS = 20 * 1000;
     const PRESENCE_HEARTBEAT_MS = 10 * 1000;
+    const STUN_SERVERS = [{ urls: "stun:stun.l.google.com:19302" }];
 
     const loginScreen = document.getElementById("loginScreen");
     const appScreen = document.getElementById("appScreen");
@@ -789,6 +808,13 @@
     const messagesEl = document.getElementById("messages");
     const userPill = document.getElementById("userPill");
     const threadStatusPill = document.getElementById("threadStatusPill");
+    const livePill = document.getElementById("livePill");
+    const livePanel = document.getElementById("livePanel");
+    const liveInfo = document.getElementById("liveInfo");
+    const liveControlHint = document.getElementById("liveControlHint");
+    const liveBtn = document.getElementById("liveBtn");
+    const liveAcceptBtn = document.getElementById("liveAcceptBtn");
+    const liveEndBtn = document.getElementById("liveEndBtn");
     const scrollBottomBtn = document.getElementById("scrollBottomBtn");
     const statusToggleBtn = document.getElementById("statusToggleBtn");
     const statusLine = document.getElementById("statusLine");
@@ -805,6 +831,9 @@
     const imageInput = document.getElementById("imageInput");
     const charCount = document.getElementById("charCount");
 
+    const remoteVideo = document.getElementById("remoteVideo");
+    const localVideo = document.getElementById("localVideo");
+
     const imageModal = document.getElementById("imageModal");
     const imageModalBackdrop = document.getElementById("imageModalBackdrop");
     const imageModalClose = document.getElementById("imageModalClose");
@@ -820,17 +849,35 @@
     let isAdmin = false;
     let selectedThread = null;
     let chatOpen = true;
+
     let unsubscribeMessages = null;
     let unsubscribeThreads = null;
     let unsubscribeStatus = null;
     let unsubscribePresence = null;
+    let unsubscribeLiveDoc = null;
+    let unsubscribeCallerCandidates = null;
+    let unsubscribeCalleeCandidates = null;
+
     let cleanupTimer = null;
     let presenceTimer = null;
-    let presencePingTimer = null;
-    let lastThreadsCache = [];
-    let presenceMap = new Map();
     let currentModalImageUrl = "";
     let currentModalImageName = "";
+    let lastThreadsCache = [];
+    let presenceMap = new Map();
+
+    let messagesHydrated = false;
+    let seenMessageIds = new Set();
+
+    let liveState = "idle"; // idle | requesting | active
+    let liveSessionId = "";
+    let pc = null;
+    let localStream = null;
+    let pendingRemoteCandidates = [];
+    let pendingLocalCandidates = [];
+
+    let utteranceVoice = null;
+    let voiceReady = false;
+    let voiceWarmupTimer = null;
 
     function escapeHtml(str = "") {
       return String(str)
@@ -860,22 +907,21 @@
       }
     }
 
+    function isUserOnline(data) {
+      const last = Number(data?.lastSeenClient || 0);
+      const age = Date.now() - last;
+      return data?.isOnline !== false && last > 0 && age < PRESENCE_ONLINE_MS;
+    }
+
     function formatRelativeSeen(data) {
       const last = Number(data?.lastSeenClient || 0);
       if (!last) return "çevrimdışı";
-
       const diff = Date.now() - last;
       if (isUserOnline(data)) return "çevrimiçi";
       if (diff < 60 * 1000) return "son görülme az önce";
       if (diff < 60 * 60 * 1000) return `son görülme ${Math.max(1, Math.floor(diff / 60000))} dk önce`;
       if (diff < 24 * 60 * 60 * 1000) return `son görülme ${Math.max(1, Math.floor(diff / 3600000))} saat önce`;
       return `son görülme ${new Date(last).toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" })}`;
-    }
-
-    function isUserOnline(data) {
-      const last = Number(data?.lastSeenClient || 0);
-      const age = Date.now() - last;
-      return data?.isOnline !== false && last > 0 && age < PRESENCE_ONLINE_MS;
     }
 
     function getPresenceData(username = "") {
@@ -912,6 +958,53 @@
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
+    function updateLiveUI() {
+      const hasThread = !!selectedThread;
+      const userMode = !isAdmin;
+
+      liveBtn.classList.toggle("hidden", !userMode);
+      liveAcceptBtn.classList.toggle("hidden", !(isAdmin && liveState === "requesting"));
+      liveEndBtn.classList.toggle("hidden", liveState === "idle");
+
+      if (userMode) {
+        liveBtn.textContent = liveState === "idle" ? "Live" : "Live Kapat";
+        liveBtn.classList.toggle("open", liveState !== "idle");
+        liveBtn.classList.toggle("closed", liveState === "idle");
+      } else {
+        liveBtn.classList.remove("open", "closed");
+      }
+
+      livePill.classList.toggle("hidden", liveState === "idle");
+      if (liveState === "requesting") {
+        livePill.textContent = "Canlı istek";
+        livePill.className = "pill";
+        livePill.classList.remove("hidden");
+      } else if (liveState === "active") {
+        livePill.textContent = "Canlı açık";
+        livePill.className = "pill online";
+        livePill.classList.remove("hidden");
+      }
+
+      livePanel.classList.toggle("hidden", liveState === "idle");
+
+      if (liveState === "requesting") {
+        liveInfo.textContent = isAdmin
+          ? `İstek geldi: ${selectedThread || "seçili sohbet"}`
+          : "İstek gönderildi. Admin onaylayınca görüntü açılacak.";
+        liveControlHint.textContent = isAdmin ? "Kabul edebilirsin." : "Kamera izni açık kalmalı.";
+      } else if (liveState === "active") {
+        liveInfo.textContent = "Canlı bağlantı aktif.";
+        liveControlHint.textContent = isAdmin ? "Görüşme açık." : "Görüntü ve ses akıyor.";
+      } else {
+        liveInfo.textContent = "Hazır.";
+        liveControlHint.textContent = "";
+      }
+
+      if (!hasThread && isAdmin) {
+        liveInfo.textContent = "Bir kullanıcı seç.";
+      }
+    }
+
     function updateComposerState() {
       statusToggleBtn.classList.toggle("hidden", !isAdmin);
 
@@ -942,6 +1035,8 @@
           statusLine.textContent = "GloGeGo müsait değil";
         }
       }
+
+      updateLiveUI();
     }
 
     function updateThreadStatusPill() {
@@ -960,7 +1055,6 @@
 
       const data = getPresenceData(selectedThread);
       const online = isUserOnline(data);
-
       threadStatusPill.textContent = online ? "Aktif" : formatRelativeSeen(data);
       threadStatusPill.className = `pill ${online ? "online" : "offline"}`;
       threadStatusPill.classList.remove("hidden");
@@ -970,7 +1064,6 @@
       if (!isAdmin) return;
 
       const list = lastThreadsCache;
-
       if (!list.length) {
         threadList.innerHTML = `<div class="empty" style="padding:18px;">Henüz mesaj yok.</div>`;
         updateThreadStatusPill();
@@ -997,7 +1090,9 @@
       threadList.querySelectorAll(".thread").forEach((el) => {
         el.addEventListener("click", () => {
           selectedThread = el.dataset.thread;
+          stopLiveListenersOnly();
           listenMessages();
+          listenLiveSession();
           renderThreadList();
           updateThreadStatusPill();
         });
@@ -1006,61 +1101,181 @@
       updateThreadStatusPill();
     }
 
-    async function markPresence(isOnline = true) {
-      if (!currentUser) return;
+    function openImageModal(url, name = "resim") {
+      if (!url) return;
+      currentModalImageUrl = url;
+      currentModalImageName = name || "resim";
+      imageModalImg.src = url;
+      imageModalTitle.textContent = currentModalImageName;
+      imageModal.classList.remove("hidden");
+      imageModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
 
+    function closeImageModal() {
+      imageModal.classList.add("hidden");
+      imageModal.setAttribute("aria-hidden", "true");
+      imageModalImg.src = "";
+      currentModalImageUrl = "";
+      currentModalImageName = "";
+      document.body.style.overflow = "";
+    }
+
+    async function downloadDataUrl(dataUrl, filename) {
       try {
-        await setDoc(doc(db, "presence", safeDocId(currentUser)), {
-          username: currentUser,
-          usernameKey: normalizeKey(currentUser),
-          isAdmin,
-          isOnline,
-          lastSeen: serverTimestamp(),
-          lastSeenClient: Date.now(),
-          updatedAt: serverTimestamp()
-        }, { merge: true });
+        const a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = filename || `resim_${Date.now()}.jpg`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } catch {
+        alert("Resim indirilemedi.");
+      }
+    }
+
+    function dataUrlSizeOk(dataUrl) {
+      return typeof dataUrl === "string" && dataUrl.length <= MAX_DATAURL_LENGTH;
+    }
+
+    async function fileToImageElement(file) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          resolve(img);
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error("Resim yüklenemedi."));
+        };
+        img.src = url;
+      });
+    }
+
+    async function compressImageToDataUrl(file) {
+      const img = await fileToImageElement(file);
+      let width = img.naturalWidth || img.width;
+      let height = img.naturalHeight || img.height;
+      if (!width || !height) throw new Error("Resim boyutu okunamadı.");
+
+      const scale = Math.min(1, MAX_IMAGE_SIDE / Math.max(width, height));
+      width = Math.max(1, Math.round(width * scale));
+      height = Math.max(1, Math.round(height * scale));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("Canvas açılamadı.");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      let quality = START_JPEG_QUALITY;
+      let dataUrl = "";
+      for (let i = 0; i < 4; i++) {
+        dataUrl = canvas.toDataURL("image/jpeg", quality);
+        if (dataUrl.length <= MAX_DATAURL_LENGTH) break;
+        quality -= 0.09;
+      }
+      if (dataUrl.length > MAX_DATAURL_LENGTH) {
+        throw new Error("Resim hâlâ çok büyük. Daha küçük bir resim yükle.");
+      }
+
+      return { dataUrl, width, height, mime: "image/jpeg" };
+    }
+
+    function renderMessage(docData) {
+      const mine = docData.sender === currentUser;
+      const textValue = docData.text || "";
+      const imageDataUrl = docData.imageDataUrl || "";
+      const imageName = docData.imageName || "resim";
+      const safeName = escapeHtml(imageName);
+      const safeUrl = escapeHtml(imageDataUrl);
+
+      return `
+        <div class="bubble ${mine ? "me" : ""}" data-message-id="${escapeHtml(docData.id || "")}">
+          <div class="meta">
+            <span>${escapeHtml(docData.sender || "")}</span>
+            <span>${formatTime(docData.createdAt)}</span>
+          </div>
+
+          ${textValue ? `<div class="text">${escapeHtml(textValue)}</div>` : ""}
+
+          ${imageDataUrl ? `
+            <div class="media-wrap">
+              <img
+                src="${safeUrl}"
+                class="message-image"
+                alt="${safeName}"
+                title="Resmi açmak için tıkla"
+                data-image-url="${safeUrl}"
+                data-image-name="${safeName}"
+              />
+              <div class="image-actions">
+                <button class="img-action-btn" type="button" data-open-image="${safeUrl}" data-image-name="${safeName}">Aç</button>
+                <button class="img-action-btn" type="button" data-download-image="${safeUrl}" data-image-name="${safeName}">İndir</button>
+              </div>
+            </div>
+          ` : ""}
+
+          ${textValue ? `<button class="copy-btn" data-copy="${encodeURIComponent(textValue)}">Kopyala</button>` : ""}
+        </div>
+      `;
+    }
+
+    function copyText(text, button) {
+      return navigator.clipboard.writeText(text || "").then(() => {
+        if (!button) return;
+        const old = button.textContent;
+        button.textContent = "Kopyalandı";
+        button.classList.add("done");
+        setTimeout(() => {
+          button.textContent = old;
+          button.classList.remove("done");
+        }, 1200);
+      }).catch(() => alert("Kopyalanamadı."));
+    }
+
+    function getVoice() {
+      const voices = speechSynthesis.getVoices?.() || [];
+      const tr = voices.find(v => (v.lang || "").toLowerCase().startsWith("tr"));
+      return tr || voices[0] || null;
+    }
+
+    function initVoice() {
+      if (voiceReady) return;
+      voiceReady = true;
+      const warm = () => { utteranceVoice = getVoice(); };
+      warm();
+      window.speechSynthesis?.addEventListener?.("voiceschanged", warm);
+      voiceWarmupTimer = setInterval(() => { utteranceVoice = getVoice(); }, 5000);
+      setTimeout(() => {
+        if (voiceWarmupTimer) clearInterval(voiceWarmupTimer);
+        voiceWarmupTimer = null;
+      }, 30000);
+    }
+
+    function speakRobot(text) {
+      if (isAdmin) return;
+      if (!text) return;
+      try {
+        initVoice();
+        speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = "tr-TR";
+        utter.voice = utteranceVoice || getVoice();
+        utter.rate = 0.95;
+        utter.pitch = 0.65;
+        utter.volume = 1;
+        speechSynthesis.speak(utter);
       } catch (err) {
-        console.warn("Presence update skipped:", err);
+        console.warn("Seslendirme çalışmadı:", err);
       }
     }
 
-    function startPresenceTracking() {
-      stopPresenceTracking();
-      void markPresence(true);
-
-      presenceTimer = setInterval(() => {
-        if (document.visibilityState === "visible") {
-          void markPresence(true);
-        }
-      }, PRESENCE_HEARTBEAT_MS);
-
-      window.addEventListener("beforeunload", handleLeave, { once: true });
-      window.addEventListener("pagehide", handleLeave, { once: true });
-      document.addEventListener("visibilitychange", handleVisibility);
-    }
-
-    function stopPresenceTracking() {
-      if (presenceTimer) clearInterval(presenceTimer);
-      presenceTimer = null;
-
-      if (presencePingTimer) clearInterval(presencePingTimer);
-      presencePingTimer = null;
-
-      document.removeEventListener("visibilitychange", handleVisibility);
-    }
-
-    function handleVisibility() {
-      if (!currentUser) return;
-
-      if (document.visibilityState === "visible") {
-        void markPresence(true);
-      } else {
-        void markPresence(false);
-      }
-    }
-
-    function handleLeave() {
-      void markPresence(false);
+    function stopSpeech() {
+      try { speechSynthesis.cancel(); } catch {}
     }
 
     function showApp() {
@@ -1076,13 +1291,14 @@
       listenStatus();
       listenMessages();
       listenPresence();
+      listenLiveSession();
       if (isAdmin) listenThreads();
 
       startPresenceTracking();
-
       cleanupExpiredMessages();
       if (cleanupTimer) clearInterval(cleanupTimer);
       cleanupTimer = setInterval(cleanupExpiredMessages, 10 * 60 * 1000);
+      updateComposerState();
     }
 
     function showLogin() {
@@ -1113,12 +1329,12 @@
     }
 
     async function logout() {
+      await endLiveSession(true);
+
       if (unsubscribeMessages) unsubscribeMessages();
       if (unsubscribeThreads) unsubscribeThreads();
       if (unsubscribeStatus) unsubscribeStatus();
       if (unsubscribePresence) unsubscribePresence();
-
-      void markPresence(false);
 
       currentUser = null;
       isAdmin = false;
@@ -1126,6 +1342,7 @@
       chatOpen = true;
 
       stopPresenceTracking();
+      stopSpeech();
 
       messageInput.value = "";
       charCount.textContent = "0";
@@ -1137,308 +1354,408 @@
       messagesEl.innerHTML = `<div class="empty">${escapeHtml(text)}</div>`;
     }
 
-    async function copyText(text, button) {
+    async function markPresence(isOnline = true) {
+      if (!currentUser) return;
       try {
-        await navigator.clipboard.writeText(text || "");
-        if (button) {
-          const old = button.textContent;
-          button.textContent = "Kopyalandı";
-          button.classList.add("done");
-          setTimeout(() => {
-            button.textContent = old;
-            button.classList.remove("done");
-          }, 1200);
-        }
-      } catch (e) {
-        console.error(e);
-        alert("Kopyalanamadı.");
-      }
-    }
-
-    function openImageModal(url, name = "resim") {
-      if (!url) return;
-
-      currentModalImageUrl = url;
-      currentModalImageName = name || "resim";
-
-      imageModalImg.src = url;
-      imageModalTitle.textContent = name || "Resim";
-      imageModal.classList.remove("hidden");
-      imageModal.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeImageModal() {
-      imageModal.classList.add("hidden");
-      imageModal.setAttribute("aria-hidden", "true");
-      imageModalImg.src = "";
-      currentModalImageUrl = "";
-      currentModalImageName = "";
-      document.body.style.overflow = "";
-    }
-
-    async function downloadDataUrl(dataUrl, filename) {
-      try {
-        const a = document.createElement("a");
-        a.href = dataUrl;
-        a.download = filename || `resim_${Date.now()}.jpg`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        await setDoc(doc(db, "presence", safeDocId(currentUser)), {
+          username: currentUser,
+          usernameKey: normalizeKey(currentUser),
+          isAdmin,
+          isOnline,
+          lastSeen: serverTimestamp(),
+          lastSeenClient: Date.now(),
+          updatedAt: serverTimestamp()
+        }, { merge: true });
       } catch (err) {
-        console.error(err);
-        alert("Resim indirilemedi.");
+        console.warn("Presence update skipped:", err);
       }
     }
 
-    function dataUrlSizeOk(dataUrl) {
-      return typeof dataUrl === "string" && dataUrl.length <= MAX_DATAURL_LENGTH;
+    function startPresenceTracking() {
+      stopPresenceTracking();
+      void markPresence(true);
+      presenceTimer = setInterval(() => {
+        if (document.visibilityState === "visible") {
+          void markPresence(true);
+        }
+      }, PRESENCE_HEARTBEAT_MS);
+      window.addEventListener("beforeunload", handleLeave, { once: true });
+      window.addEventListener("pagehide", handleLeave, { once: true });
+      document.addEventListener("visibilitychange", handleVisibility);
     }
 
-    async function fileToImageElement(file) {
-      return new Promise((resolve, reject) => {
-        const url = URL.createObjectURL(file);
-        const img = new Image();
-        img.onload = () => {
-          URL.revokeObjectURL(url);
-          resolve(img);
-        };
-        img.onerror = () => {
-          URL.revokeObjectURL(url);
-          reject(new Error("Resim yüklenemedi."));
-        };
-        img.src = url;
-      });
+    function stopPresenceTracking() {
+      if (presenceTimer) clearInterval(presenceTimer);
+      presenceTimer = null;
+      document.removeEventListener("visibilitychange", handleVisibility);
     }
 
-    async function compressImageToDataUrl(file) {
-      const img = await fileToImageElement(file);
+    function handleVisibility() {
+      if (!currentUser) return;
+      if (document.visibilityState === "visible") void markPresence(true);
+      else void markPresence(false);
+    }
 
-      let width = img.naturalWidth || img.width;
-      let height = img.naturalHeight || img.height;
+    function handleLeave() {
+      void markPresence(false);
+    }
 
-      if (!width || !height) {
-        throw new Error("Resim boyutu okunamadı.");
+    function setLiveState(next) {
+      liveState = next;
+      updateComposerState();
+    }
+
+    function stopLiveListenersOnly() {
+      if (unsubscribeLiveDoc) unsubscribeLiveDoc();
+      if (unsubscribeCallerCandidates) unsubscribeCallerCandidates();
+      if (unsubscribeCalleeCandidates) unsubscribeCalleeCandidates();
+      unsubscribeLiveDoc = null;
+      unsubscribeCallerCandidates = null;
+      unsubscribeCalleeCandidates = null;
+    }
+
+    async function endLiveSession(silent = false) {
+      try {
+        stopLiveListenersOnly();
+
+        if (pc) {
+          try { pc.ontrack = null; pc.onicecandidate = null; pc.onconnectionstatechange = null; pc.close(); } catch {}
+        }
+        pc = null;
+
+        if (localStream) {
+          localStream.getTracks().forEach(t => t.stop());
+        }
+        localStream = null;
+
+        remoteVideo.srcObject = null;
+        localVideo.srcObject = null;
+
+        if (liveSessionId) {
+          try {
+            await updateDoc(doc(db, "liveSessions", liveSessionId), {
+              status: "ended",
+              endedAt: serverTimestamp(),
+              endedBy: currentUser || "system",
+              updatedAt: serverTimestamp()
+            });
+          } catch {}
+        }
+      } finally {
+        liveSessionId = "";
+        pendingRemoteCandidates = [];
+        pendingLocalCandidates = [];
+        if (liveState !== "idle") setLiveState("idle");
+        if (!silent) updateLiveUI();
       }
+    }
 
-      const scale = Math.min(1, MAX_IMAGE_SIDE / Math.max(width, height));
-      width = Math.max(1, Math.round(width * scale));
-      height = Math.max(1, Math.round(height * scale));
+    async function preparePeer(isCaller) {
+      pc = new RTCPeerConnection({ iceServers: STUN_SERVERS });
+      pendingRemoteCandidates = [];
+      pendingLocalCandidates = [];
 
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
+      pc.ontrack = (event) => {
+        const [stream] = event.streams;
+        if (stream) remoteVideo.srcObject = stream;
+      };
 
-      const ctx = canvas.getContext("2d");
-      if (!ctx) throw new Error("Canvas açılamadı.");
+      pc.onconnectionstatechange = async () => {
+        const state = pc?.connectionState || "";
+        if (state === "failed" || state === "disconnected" || state === "closed") {
+          if (liveState !== "idle") await endLiveSession();
+        }
+      };
 
-      ctx.drawImage(img, 0, 0, width, height);
-
-      let quality = START_JPEG_QUALITY;
-      let dataUrl = "";
-
-      for (let i = 0; i < 4; i++) {
-        dataUrl = canvas.toDataURL("image/jpeg", quality);
-        if (dataUrl.length <= MAX_DATAURL_LENGTH) break;
-        quality -= 0.09;
-      }
-
-      if (dataUrl.length > MAX_DATAURL_LENGTH) {
-        throw new Error("Resim hâlâ çok büyük. Daha küçük bir resim yükle.");
-      }
-
-      return {
-        dataUrl,
-        width,
-        height,
-        mime: "image/jpeg"
+      pc.onicecandidate = async (event) => {
+        if (!event.candidate || !liveSessionId) return;
+        try {
+          const candidateData = event.candidate.toJSON();
+          const targetCollection = isCaller ? "callerCandidates" : "calleeCandidates";
+          await addDoc(collection(db, "liveSessions", liveSessionId, targetCollection), candidateData);
+        } catch (err) {
+          console.warn("ICE kaydedilemedi:", err);
+        }
       };
     }
 
-    function renderMessage(docData) {
-      const mine = docData.sender === currentUser;
-      const textValue = docData.text || "";
-      const imageDataUrl = docData.imageDataUrl || "";
-      const imageName = docData.imageName || "resim";
-      const safeName = escapeHtml(imageName);
-      const safeUrl = escapeHtml(imageDataUrl);
-
-      return `
-        <div class="bubble ${mine ? "me" : ""}">
-          <div class="meta">
-            <span>${escapeHtml(docData.sender || "")}</span>
-            <span>${formatTime(docData.createdAt)}</span>
-          </div>
-
-          ${textValue ? `<div class="text">${escapeHtml(textValue)}</div>` : ""}
-
-          ${imageDataUrl ? `
-            <div class="media-wrap">
-              <img
-                src="${safeUrl}"
-                class="message-image"
-                alt="${safeName}"
-                title="Resmi açmak için tıkla"
-                data-image-url="${safeUrl}"
-                data-image-name="${safeName}"
-              />
-              <div class="image-actions">
-                <button
-                  class="img-action-btn"
-                  type="button"
-                  data-open-image="${safeUrl}"
-                  data-image-name="${safeName}"
-                >Aç</button>
-                <button
-                  class="img-action-btn"
-                  type="button"
-                  data-download-image="${safeUrl}"
-                  data-image-name="${safeName}"
-                >İndir</button>
-              </div>
-            </div>
-          ` : ""}
-
-          ${textValue ? `<button class="copy-btn" data-copy="${encodeURIComponent(textValue)}">Kopyala</button>` : ""}
-        </div>
-      `;
-    }
-
-    function listenMessages() {
-      if (unsubscribeMessages) unsubscribeMessages();
-      messagesEl.innerHTML = `<div class="empty">Yükleniyor...</div>`;
-
-      const threadId = isAdmin ? selectedThread : currentUser;
-      if (!threadId) {
-        renderEmpty("Bir sohbet seç.");
-        return;
-      }
-
-      const q = query(collection(db, "messages"), where("threadId", "==", threadId));
-
-      unsubscribeMessages = onSnapshot(q, (snap) => {
-        const items = [];
-        snap.forEach((d) => items.push({ id: d.id, ...d.data() }));
-        items.sort((a, b) => (a.createdAtClient || 0) - (b.createdAtClient || 0));
-
-        if (!items.length) {
-          renderEmpty("Henüz mesaj yok.");
-          return;
+    async function flushQueuedCandidates() {
+      if (!pc || !pc.remoteDescription) return;
+      const queue = pendingRemoteCandidates.splice(0);
+      for (const cand of queue) {
+        try {
+          await pc.addIceCandidate(new RTCIceCandidate(cand));
+        } catch (err) {
+          console.warn("ICE eklenemedi:", err);
         }
-
-        messagesEl.innerHTML = items.map(renderMessage).join("");
-
-        messagesEl.querySelectorAll(".copy-btn").forEach((btn) => {
-          btn.addEventListener("click", async () => {
-            const text = decodeURIComponent(btn.dataset.copy || "");
-            await copyText(text, btn);
-          });
-        });
-
-        messagesEl.querySelectorAll("[data-open-image]").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            openImageModal(btn.dataset.openImage || "", btn.dataset.imageName || "Resim");
-          });
-        });
-
-        messagesEl.querySelectorAll("[data-download-image]").forEach((btn) => {
-          btn.addEventListener("click", async () => {
-            await downloadDataUrl(btn.dataset.downloadImage || "", btn.dataset.imageName || "resim.jpg");
-          });
-        });
-
-        messagesEl.querySelectorAll(".message-image").forEach((img) => {
-          img.addEventListener("click", () => {
-            openImageModal(img.dataset.imageUrl || "", img.dataset.imageName || "Resim");
-          });
-        });
-
-        requestAnimationFrame(scrollToBottomFast);
-      }, () => {
-        renderEmpty("Mesajlar yüklenemedi.");
-      });
+      }
     }
 
-    function listenThreads() {
-      if (unsubscribeThreads) unsubscribeThreads();
+    async function startLiveAsCaller() {
+      if (!currentUser || isAdmin) return;
+      if (!selectedThread) selectedThread = currentUser;
 
-      const q = query(collection(db, "messages"), orderBy("createdAtClient", "desc"));
-      unsubscribeThreads = onSnapshot(q, (snap) => {
-        const latestByUser = new Map();
+      await endLiveSession(true);
+      liveSessionId = safeDocId(`live_${selectedThread}`);
+      setLiveState("requesting");
+      updateLiveUI();
 
-        snap.forEach((d) => {
-          const data = d.data();
-          if (!data.threadId) return;
-          if (data.sender === ADMIN_USER) return;
-          if (!latestByUser.has(data.threadId)) {
-            latestByUser.set(data.threadId, data);
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localVideo.srcObject = localStream;
+        remoteVideo.srcObject = null;
+
+        await preparePeer(true);
+        localStream.getTracks().forEach((track) => pc.addTrack(track, localStream));
+
+        const sessionRef = doc(db, "liveSessions", liveSessionId);
+        const callerCandidatesRef = collection(db, "liveSessions", liveSessionId, "callerCandidates");
+        const calleeCandidatesRef = collection(db, "liveSessions", liveSessionId, "calleeCandidates");
+
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+
+        await setDoc(sessionRef, {
+          threadId: selectedThread,
+          caller: currentUser,
+          callee: ADMIN_USER,
+          status: "requesting",
+          offer: {
+            type: offer.type,
+            sdp: offer.sdp
+          },
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+
+        if (unsubscribeLiveDoc) unsubscribeLiveDoc();
+        unsubscribeLiveDoc = onSnapshot(sessionRef, async (snap) => {
+          if (!snap.exists()) {
+            return;
+          }
+          const data = snap.data() || {};
+          if (data.status === "active" && liveState !== "active") {
+            setLiveState("active");
+            liveInfo.textContent = "Canlı bağlantı aktif.";
+          }
+          if (data.answer && pc && !pc.currentRemoteDescription) {
+            try {
+              await pc.setRemoteDescription(new RTCSessionDescription(data.answer));
+              await flushQueuedCandidates();
+            } catch (err) {
+              console.warn("Answer işlenemedi:", err);
+            }
+          }
+          if (data.status === "ended") {
+            await endLiveSession();
           }
         });
 
-        lastThreadsCache = Array.from(latestByUser.entries()).map(([thread, data]) => ({
-          thread,
-          data
-        }));
-
-        if (!selectedThread && lastThreadsCache.length) {
-          selectedThread = lastThreadsCache[0].thread;
-          listenMessages();
-        }
-
-        renderThreadList();
-      });
+        if (unsubscribeCalleeCandidates) unsubscribeCalleeCandidates();
+        unsubscribeCalleeCandidates = onSnapshot(calleeCandidatesRef, async (snap) => {
+          snap.docChanges().forEach(async (change) => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              if (!pc || !pc.remoteDescription) {
+                pendingRemoteCandidates.push(data);
+              } else {
+                try {
+                  await pc.addIceCandidate(new RTCIceCandidate(data));
+                } catch (err) {
+                  console.warn("ICE eklenemedi:", err);
+                }
+              }
+            }
+          });
+          await flushQueuedCandidates();
+        });
+      } catch (err) {
+        console.error(err);
+        alert(err?.message || "Live başlatılamadı.");
+        await endLiveSession();
+      } finally {
+        updateLiveUI();
+      }
     }
 
-    function listenPresence() {
-      if (unsubscribePresence) unsubscribePresence();
+    async function acceptLiveAsAdmin(sessionData) {
+      if (!isAdmin || !selectedThread) return;
+      if (!sessionData?.offer) return;
 
-      unsubscribePresence = onSnapshot(collection(db, "presence"), (snap) => {
-        const map = new Map();
+      await endLiveSession(true);
+      liveSessionId = safeDocId(`live_${selectedThread}`);
+      setLiveState("active");
+      updateLiveUI();
 
-        snap.forEach((d) => {
-          const data = d.data() || {};
-          const key = normalizeKey(data.username || data.usernameKey || d.id);
-          map.set(key, { ...data, _id: d.id });
+      try {
+        await preparePeer(false);
+
+        const sessionRef = doc(db, "liveSessions", liveSessionId);
+        const callerCandidatesRef = collection(db, "liveSessions", liveSessionId, "callerCandidates");
+        const calleeCandidatesRef = collection(db, "liveSessions", liveSessionId, "calleeCandidates");
+
+        if (unsubscribeCallerCandidates) unsubscribeCallerCandidates();
+        unsubscribeCallerCandidates = onSnapshot(callerCandidatesRef, async (snap) => {
+          snap.docChanges().forEach(async (change) => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              if (!pc || !pc.remoteDescription) {
+                pendingRemoteCandidates.push(data);
+              } else {
+                try {
+                  await pc.addIceCandidate(new RTCIceCandidate(data));
+                } catch (err) {
+                  console.warn("ICE eklenemedi:", err);
+                }
+              }
+            }
+          });
+          await flushQueuedCandidates();
         });
 
-        presenceMap = map;
-        renderThreadList();
-        updateThreadStatusPill();
-      }, () => {
-        presenceMap = new Map();
-        renderThreadList();
-        updateThreadStatusPill();
-      });
+        if (unsubscribeCalleeCandidates) unsubscribeCalleeCandidates();
+        unsubscribeCalleeCandidates = onSnapshot(calleeCandidatesRef, async (snap) => {
+          snap.docChanges().forEach(async (change) => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              if (!pc || !pc.remoteDescription) {
+                pendingLocalCandidates.push(data);
+              } else {
+                try {
+                  await pc.addIceCandidate(new RTCIceCandidate(data));
+                } catch (err) {
+                  console.warn("ICE eklenemedi:", err);
+                }
+              }
+            }
+          });
+          if (pc?.remoteDescription) {
+            for (const c of pendingLocalCandidates.splice(0)) {
+              try { await pc.addIceCandidate(new RTCIceCandidate(c)); } catch {}
+            }
+          }
+        });
+
+        await pc.setRemoteDescription(new RTCSessionDescription(sessionData.offer));
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+
+        await setDoc(sessionRef, {
+          threadId: selectedThread,
+          caller: sessionData.caller || selectedThread,
+          callee: ADMIN_USER,
+          status: "active",
+          answer: {
+            type: answer.type,
+            sdp: answer.sdp
+          },
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+
+        if (unsubscribeLiveDoc) unsubscribeLiveDoc();
+        unsubscribeLiveDoc = onSnapshot(sessionRef, async (snap) => {
+          if (!snap.exists()) return;
+          const data = snap.data() || {};
+          if (data.status === "ended") {
+            await endLiveSession();
+          }
+        });
+
+        await flushQueuedCandidates();
+      } catch (err) {
+        console.error(err);
+        alert(err?.message || "Canlı kabul edilemedi.");
+        await endLiveSession();
+      } finally {
+        updateLiveUI();
+      }
     }
 
-    function listenStatus() {
-      if (unsubscribeStatus) unsubscribeStatus();
+    function listenLiveSession() {
+      stopLiveListenersOnly();
 
-      unsubscribeStatus = onSnapshot(statusDocRef, async (snap) => {
-        if (snap.exists()) {
-          const data = snap.data() || {};
-          chatOpen = data.open !== false;
-        } else {
-          chatOpen = true;
+      if (!selectedThread) {
+        setLiveState("idle");
+        updateLiveUI();
+        return;
+      }
+
+      const sessionRef = doc(db, "liveSessions", safeDocId(`live_${selectedThread}`));
+      unsubscribeLiveDoc = onSnapshot(sessionRef, async (snap) => {
+        if (!snap.exists()) {
+          if (liveState !== "idle") {
+            await endLiveSession(true);
+          } else {
+            updateLiveUI();
+          }
+          return;
         }
 
-        updateComposerState();
-      }, async () => {
-        chatOpen = true;
-        updateComposerState();
+        const data = snap.data() || {};
+        liveSessionId = safeDocId(`live_${selectedThread}`);
+
+        if (!isAdmin) {
+          if (data.status === "requesting" && liveState !== "requesting") {
+            setLiveState("requesting");
+            liveInfo.textContent = "Bekleniyor...";
+          }
+          if (data.answer && pc && !pc.currentRemoteDescription) {
+            try {
+              await pc.setRemoteDescription(new RTCSessionDescription(data.answer));
+              setLiveState("active");
+              await flushQueuedCandidates();
+            } catch (err) {
+              console.warn("Remote answer alınamadı:", err);
+            }
+          }
+          if (data.status === "ended") {
+            await endLiveSession();
+          }
+        } else {
+          if (data.status === "requesting") {
+            setLiveState("requesting");
+            liveInfo.textContent = `Canlı isteği: ${selectedThread}`;
+          } else if (data.status === "active") {
+            setLiveState("active");
+            liveInfo.textContent = "Canlı bağlantı aktif.";
+          } else if (data.status === "ended") {
+            await endLiveSession();
+          }
+        }
+
+        updateLiveUI();
       });
+
+      if (isAdmin) {
+        const callerCandidatesRef = collection(db, "liveSessions", safeDocId(`live_${selectedThread}`), "callerCandidates");
+        unsubscribeCallerCandidates = onSnapshot(callerCandidatesRef, async (snap) => {
+          snap.docChanges().forEach(async (change) => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              if (!pc || !pc.remoteDescription) {
+                pendingRemoteCandidates.push(data);
+              } else {
+                try {
+                  await pc.addIceCandidate(new RTCIceCandidate(data));
+                } catch (err) {
+                  console.warn("ICE eklenemedi:", err);
+                }
+              }
+            }
+          });
+          await flushQueuedCandidates();
+        });
+      }
     }
 
     async function toggleChatStatus() {
       if (!isAdmin) return;
-
       try {
         await setDoc(statusDocRef, {
           open: !chatOpen,
           updatedAt: serverTimestamp()
         }, { merge: true });
-      } catch (err) {
-        console.error(err);
+      } catch {
         alert("Durum değiştirilemedi.");
       }
     }
@@ -1458,7 +1775,6 @@
       }
 
       if (!text) return;
-
       if (text.length > MAX_TEXT) {
         alert("Mesaj çok uzun.");
         return;
@@ -1507,12 +1823,10 @@
       }
 
       if (!file) return;
-
       if (!file.type.startsWith("image/")) {
         alert("Sadece resim yükleyebilirsin.");
         return;
       }
-
       if (file.size > 15 * 1024 * 1024) {
         alert("Resim çok büyük. Daha küçük bir resim seç.");
         return;
@@ -1523,7 +1837,6 @@
 
       try {
         const compressed = await compressImageToDataUrl(file);
-
         if (!dataUrlSizeOk(compressed.dataUrl)) {
           throw new Error("Resim çok büyük. Daha küçük bir resim seç.");
         }
@@ -1558,13 +1871,141 @@
         const now = Timestamp.now();
         const q = query(collection(db, "messages"), where("expiresAt", "<=", now));
         const snap = await getDocs(q);
-
         for (const d of snap.docs) {
           await deleteDoc(doc(db, "messages", d.id));
         }
       } catch (err) {
         console.warn("Cleanup skipped:", err);
       }
+    }
+
+    function listenMessages() {
+      if (unsubscribeMessages) unsubscribeMessages();
+      messagesHydrated = false;
+      seenMessageIds = new Set();
+      messagesEl.innerHTML = `<div class="empty">Yükleniyor...</div>`;
+
+      const threadId = isAdmin ? selectedThread : currentUser;
+      if (!threadId) {
+        renderEmpty("Bir sohbet seç.");
+        return;
+      }
+
+      const q = query(collection(db, "messages"), where("threadId", "==", threadId));
+      unsubscribeMessages = onSnapshot(q, (snap) => {
+        const items = [];
+        snap.forEach((d) => items.push({ id: d.id, ...d.data() }));
+        items.sort((a, b) => (a.createdAtClient || 0) - (b.createdAtClient || 0));
+
+        if (!items.length) {
+          renderEmpty("Henüz mesaj yok.");
+          return;
+        }
+
+        if (!messagesHydrated) {
+          items.forEach(item => seenMessageIds.add(item.id));
+          messagesHydrated = true;
+        } else if (!isAdmin) {
+          for (const item of items) {
+            const isNew = !seenMessageIds.has(item.id);
+            if (isNew) {
+              seenMessageIds.add(item.id);
+              if (item.sender === ADMIN_USER && item.text) {
+                speakRobot(item.text);
+              }
+            }
+          }
+        }
+
+        messagesEl.innerHTML = items.map(renderMessage).join("");
+
+        messagesEl.querySelectorAll(".copy-btn").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const text = decodeURIComponent(btn.dataset.copy || "");
+            await copyText(text, btn);
+          });
+        });
+
+        messagesEl.querySelectorAll("[data-open-image]").forEach((btn) => {
+          btn.addEventListener("click", () => openImageModal(btn.dataset.openImage || "", btn.dataset.imageName || "Resim"));
+        });
+
+        messagesEl.querySelectorAll("[data-download-image]").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            await downloadDataUrl(btn.dataset.downloadImage || "", btn.dataset.imageName || "resim.jpg");
+          });
+        });
+
+        messagesEl.querySelectorAll(".message-image").forEach((img) => {
+          img.addEventListener("click", () => {
+            openImageModal(img.dataset.imageUrl || "", img.dataset.imageName || "Resim");
+          });
+        });
+
+        requestAnimationFrame(scrollToBottomFast);
+      }, () => {
+        renderEmpty("Mesajlar yüklenemedi.");
+      });
+    }
+
+    function listenThreads() {
+      if (unsubscribeThreads) unsubscribeThreads();
+
+      const q = query(collection(db, "messages"), orderBy("createdAtClient", "desc"));
+      unsubscribeThreads = onSnapshot(q, (snap) => {
+        const latestByUser = new Map();
+        snap.forEach((d) => {
+          const data = d.data();
+          if (!data.threadId) return;
+          if (data.sender === ADMIN_USER) return;
+          if (!latestByUser.has(data.threadId)) {
+            latestByUser.set(data.threadId, data);
+          }
+        });
+
+        lastThreadsCache = Array.from(latestByUser.entries()).map(([thread, data]) => ({ thread, data }));
+
+        if (!selectedThread && lastThreadsCache.length) {
+          selectedThread = lastThreadsCache[0].thread;
+          listenMessages();
+          listenLiveSession();
+        }
+
+        renderThreadList();
+        updateThreadStatusPill();
+      });
+    }
+
+    function listenPresence() {
+      if (unsubscribePresence) unsubscribePresence();
+
+      unsubscribePresence = onSnapshot(collection(db, "presence"), (snap) => {
+        const map = new Map();
+        snap.forEach((d) => {
+          const data = d.data() || {};
+          const key = normalizeKey(data.username || data.usernameKey || d.id);
+          map.set(key, { ...data, _id: d.id });
+        });
+        presenceMap = map;
+        renderThreadList();
+        updateThreadStatusPill();
+      }, () => {
+        presenceMap = new Map();
+        renderThreadList();
+        updateThreadStatusPill();
+      });
+    }
+
+    function listenStatus() {
+      if (unsubscribeStatus) unsubscribeStatus();
+
+      unsubscribeStatus = onSnapshot(statusDocRef, async (snap) => {
+        chatOpen = snap.exists() ? (snap.data()?.open !== false) : true;
+        updateComposerState();
+      }, async () => {
+        chatOpen = true;
+        updateComposerState();
+      });
     }
 
     loginBtn.addEventListener("click", login);
@@ -1575,6 +2016,27 @@
     sendBtn.addEventListener("click", sendMessage);
     scrollBottomBtn.addEventListener("click", scrollToBottomFast);
     statusToggleBtn.addEventListener("click", toggleChatStatus);
+
+    liveBtn.addEventListener("click", async () => {
+      if (liveState === "idle") await startLiveAsCaller();
+      else await endLiveSession();
+    });
+
+    liveAcceptBtn.addEventListener("click", async () => {
+      if (!isAdmin || !selectedThread) return;
+      const sessionRef = doc(db, "liveSessions", safeDocId(`live_${selectedThread}`));
+      const snap = await getDoc(sessionRef);
+      const data = snap.exists() ? snap.data() : null;
+      if (data?.offer) {
+        await acceptLiveAsAdmin(data);
+      } else {
+        alert("Canlı isteği bulunamadı.");
+      }
+    });
+
+    liveEndBtn.addEventListener("click", async () => {
+      await endLiveSession();
+    });
 
     imageBtn.addEventListener("click", () => {
       if (imageBtn.disabled) return;
@@ -1622,6 +2084,9 @@
     } else {
       showLogin();
     }
+
+    // Make sure UI reflects selected role immediately.
+    updateComposerState();
   </script>
 </body>
 </html>
